@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            
+        }
+
+        .profile {
+            display: flex;
+            justify-content: flex-end;
+            background-color:rgb(0, 123, 255);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 3s ease;
+        }
+
+        .profile div {
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 28px;
+            color: rgb(9, 11, 11);
+            transition: transform 0.3s ease;
+        }
+
+        .profile div:hover {
+            transform: scale(1.1);
+        }
+
+        .profile a {
+            color: rgb(20, 23, 23);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: flex-end;
+            margin: 20px 0;
+        }
+
+        .nav .item1, .nav .item2, .nav .item3, .nav .item4, .nav .item5 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-left: 20px;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        .item2 {
+            color: rgb(0, 123, 255);
+            border-bottom: 3px solid rgb(0, 123, 255);
+            padding-bottom: 10px;
+        }
+
+        .nav .item1:hover, .nav .item2:hover, .nav .item3:hover, .nav .item4:hover, .nav .item5:hover {
+            color: rgb(0, 123, 255);
+            border-bottom: 3px solid rgb(0, 123, 255);
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            min-width: 160px;
+        }
+        i{
+            font-size: 20px;
+        }
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+   
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.post {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.post h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+ul li {
+    font-size: 18px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+p i {
+    color: #0066cc;
+    margin-right: 8px;
+}
+
+p span {
+    font-weight: bold;
+}
+
+.icon-location {
+    color: #e74c3c;
+}
+
+.icon-phone {
+    color: #27ae60;
+}
+
+.icon-gender {
+    color: #8e44ad;
+}
+
+.icon-wifi {
+    color: #3498db;
+}
+
+.icon-message {
+    color: #f39c12;
+}
+
+@media (max-width: 768px) {
+    .post {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    p, ul li {
+        font-size: 16px;
+    }
+}
+.coin-btn {
+  background-color: #4CAF50; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding */
+  text-align: center; /* Centered text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make the link block-level */
+  font-size: 16px; /* Increase font size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer/hand icon on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+.coin-btn:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.coin-btn a {
+  color: white; /* Ensure the link text is white */
+  text-decoration: none; /* Remove underline on the link */
+  display: block; /* Make the link fill the button */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+}
+
+    </style>
+   
+</head>
+<body>
+    <div class="profile">
+        <h2 style="position: absolute; left: 100px; font-weight: bold; color: #f4f4f4; font-size: 36px;">Learnersleaf</h2>
+        <div><i class="fa-solid fa-envelope" style="font-size: 40px;"></i> <a href="/teacher_inbox/{{account.email}}">Message</a></div>
+        <div class="dropdown"><div class="btn  dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-badge" style="font-size: 40px;"></i> <span style="font-size: 20px;">{{account.name|title}}</span></div>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/"> <i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+            <li><a class="dropdown-item" href="#"> <i class="fa-solid fa-gear"></i>Settings</a></li>
+           
+        </ul>
+    </div>
+    </div> 
+    <div class="nav">
+        <div class="item1" style="text-decoration: none;"> <a href="" style="color: black; text-decoration: none;text-decoration: none;">Dasboad</a></div>
+        <div class="item2">
+            <div class="dropdown">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
+                    Jobs
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/tutor_job/{{account.email}}">All Job</a></li>
+                    <li><a class="dropdown-item" href="/tutor_online_job/{{account.email}}">Online Job</a></li>
+                    <li><a class="dropdown-item" href="/tutor_job/{{account.email}}">Home Teaching</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="item3"> <a href="/t_wallet/{{account.email}}">Wallet</a></div>
+        <div class="item4"><div class="dropdown">
+            <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
+                Edit
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
+                <li><a class="dropdown-item" href="/t_basic/{{account.email}}">Detail</a></li>
+                <li><a class="dropdown-item" href="/t_photo/{{account.email}}">Photo</a></li>
+                <li><a class="dropdown-item" href="/t_subject/{{account.email}}">subject</a></li>
+                <li><a class="dropdown-item" href="/t_contact/{{account.email}}">contact</a></li>
+                <li><a class="dropdown-item" href="/t_teaching/{{account.email}}">Teaching Details</a></li>
+                <li><a class="dropdown-item" href="/t_experience/{{account.email}}">Employ Details</a></li>
+            </ul>
+        </div></div>
+      
+    </div> 
+    <h1>Post</h1>
+    <div class="post">
+   
+    <h2>{{sp.meeting_option }} {{sp.subject}} teacher need in {{s.location}}</h2>
+    <ul>
+        {% if sp.subject %}
+        <li> {{sp.subject}}</li>
+        {% endif %}
+        {% if sp.two_subject %}
+        <li> {{sp.two_subject}}</li>
+        {% endif %}
+        {% if sp.three_subject %}
+        <li> {{sp.three_subject}}</li>
+        {% endif %}
+
+    </ul>
+  <p> <i class="fa-solid fa-location-dot" style="font-size: 20px;"></i> {{s.location}}  ₹{{sp.budget}} per /{{sp.budget_need}}</p> 
+  <p><i class="fa-solid fa-hourglass-start"></i> Posted:{{sp.dates}} <i class="fa-solid fa-arrow-up-right-dots"></i> Level:{{sp.level}} <i class="fa-solid fa-scale-unbalanced-flip"></i> Requires:{{sp.need}}</p>
+  <p><i class="fa-solid fa-user"></i> Posted by: {{s.name}}</p>
+  <p><i class="fa-solid fa-phone"></i> Contact: {{s.phone}}</p>
+  <p><i class="fa-solid fa-venus-mars"></i> Gender Preference: {{sp.gender}}</p>
+  <p><i class="fa-solid fa-wifi"></i>Available :{{sp.meeting_option}}</p>
+  <p><i class="fa-solid fa-paper-plane"></i>Can communicate in :{{sp.language }}</p>
+  <p>{{sp.message}}</p>
+  <p>{{sp.dyr}}</p>
+  <p>{{ sp.dates|timesince }} ago</p>
+  <button class="coin-btn">
+    <a href="/use_coin_teach/{{account.email}}/{{sp.email}}/{{sp.id}}">Use Coin</a>
+  </button>
+  
+
+    </div>
+    </body>
+</html>

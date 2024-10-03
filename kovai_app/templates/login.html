@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Login Page</title>
+    
+   
+    <style>
+        body {
+            background: linear-gradient(135deg, #1E90FF, #87CEFA, #00008B, #00BFFF, #ADD8E6); 
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            margin: 0;
+            padding: 0;
+            font-family: "Roboto Mono", monospace;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Base container for form */
+        .container {
+            width: 90%;
+            max-width: 1200px; /* Max width for desktop */
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgb(59, 182, 207);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+            opacity: 0.95;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Buttons for toggling forms */
+        .btu {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        button {
+            font-family: "Roboto Mono", monospace;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 10px;
+            width: 45%;
+            background-color: transparent;
+            border: 1px solid #4CAF50;
+            border-radius: 10px;
+            color: rgb(207, 140, 59);
+            cursor: pointer;
+            transition: 0.3s;
+            background: linear-gradient(to top left, #33ccff 0%, #0000ff 100%);
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        /* Styling for both forms */
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        a.btn {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: #33ccff;
+            color: white;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        a.btn:hover {
+            background-color: #0000ff;
+        }
+
+        /* Titles */
+        h4 {
+            font-size: 20px;
+            font-weight: bold;
+            color: rgb(207, 140, 59);
+            border-bottom: 4px solid #4CAF50;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* Specific sections for student and teacher login */
+        .stu_login, .teacher_login {
+            width: 100%;
+            max-width: 500px;
+            margin: 10px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0.9;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stu_login, .teacher_login {
+                width: 80%;
+                max-width: 400px;
+            }
+
+            button {
+                font-size: 18px;
+                padding: 8px;
+            }
+
+            label {
+                font-size: 16px;
+            }
+
+            input[type="email"], input[type="password"], input[type="submit"] {
+                font-size: 16px;
+                padding: 8px;
+            }
+
+            a.btn {
+                font-size: 16px;
+            }
+
+            h4 {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            button {
+                font-size: 16px;
+                padding: 6px;
+            }
+
+            label {
+                font-size: 14px;
+            }
+
+            input[type="email"], input[type="password"], input[type="submit"] {
+                font-size: 14px;
+                padding: 6px;
+            }
+
+            a.btn {
+                font-size: 14px;
+            }
+
+            h4 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            button {
+                font-size: 14px;
+                padding: 5px;
+            }
+
+            label {
+                font-size: 12px;
+            }
+
+            input[type="email"], input[type="password"], input[type="submit"] {
+                font-size: 12px;
+                padding: 5px;
+            }
+
+            a.btn {
+                font-size: 12px;
+            }
+
+            h4 {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% if msg %}
+    <div class="error-message">
+        {{ msg }}
+    </div>
+    {% endif %}
+
+    <div class="container">
+        <!-- Toggle buttons -->
+        <div class="btu">
+            <button id="s"><span>Student</span></button>
+            <button id="t"><span>Teacher</span></button>
+        </div>
+
+        <!-- Student Login Form -->
+        <div class="stu_login">
+            <h4>Student Login</h4>
+            <form action="/stu_login" method="POST">
+                {% csrf_token %}
+                <label>Email</label>
+                <input type="email" name="email" id="stu_in" required>
+                <label>Password</label>
+                <input type="password" name="password" id="stu_in" required>
+                <input type="submit" value="Login">
+            </form>
+            <a href="/tutor_request" class="btn">Join as Student</a>
+        </div>
+
+        <!-- Teacher Login Form -->
+        <div class="teacher_login hidden">
+            <h4>Teacher Login</h4>
+            <form action="/teacher_login" method="POST">
+                {% csrf_token %}
+                <label>Email</label>
+                <input type="email" name="email" id="teacher_in" required>
+                <label>Password</label>
+                <input type="password" name="password" id="teacher_in" required>
+                <input type="submit" value="Login" style="background-color: rgb(110, 6, 29);">
+            </form>
+            <a href="/teacher_reg" class="btn">Join as Teacher</a>
+        </div>
+    </div>
+
+    <!-- Script to toggle between student and teacher forms -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const studentButton = document.getElementById("s");
+            const teacherButton = document.getElementById("t");
+            const studentLogin = document.querySelector(".stu_login");
+            const teacherLogin = document.querySelector(".teacher_login");
+
+            studentButton.addEventListener("click", function() {
+                studentLogin.classList.remove("hidden");
+                teacherLogin.classList.add("hidden");
+            });
+
+            teacherButton.addEventListener("click", function() {
+                teacherLogin.classList.remove("hidden");
+                studentLogin.classList.add("hidden");
+            });
+        });
+    </script>
+</body>
+</html>

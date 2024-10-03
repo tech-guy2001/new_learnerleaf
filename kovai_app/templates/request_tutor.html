@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Validation</title>
+    <script>
+        function validateForm() {
+            let email = document.forms["tutorForm"]["email"].value;
+            let location = document.forms["tutorForm"]["location"].value;
+            let phone = document.forms["tutorForm"]["phone"].value;
+            let dyr = document.forms["tutorForm"]["dyr"].value;
+            let subject = document.forms["tutorForm"]["subject"].value;
+            let budget = document.forms["tutorForm"]["budget"].value;
+            let language = document.forms["tutorForm"]["language"].value;
+            let message = document.forms["tutorForm"]["message"].value;
+            
+            if (email == "" || !validateEmail(email)) {
+                alert("Please enter a valid email.");
+                return false;
+            }
+            if (location == "") {
+                alert("Please enter your location.");
+                return false;
+            }
+            if (phone == "" || !validatePhone(phone)) {
+                alert("Please enter a valid phone number.");
+                return false;
+            }
+            if (dyr == "") {
+                alert("Please enter the details of your requirement.");
+                return false;
+            }
+            if (subject == "") {
+                alert("Please enter the subject.");
+                return false;
+            }
+            if (budget == "") {
+                alert("Please enter your budget.");
+                return false;
+            }
+            if (language == "") {
+                alert("Please enter your preferred language.");
+                return false;
+            }
+            if (message == "") {
+                alert("Please enter a message.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateEmail(email) {
+            let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePhone(phone) {
+            let re = /^\d{10}$/; // This regex validates a 10-digit phone number. Adjust if necessary.
+            return re.test(phone);
+        }
+    </script>
+
+    <style>
+     body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    max-width: 60%; /* Ensures full width on mobile */
+    margin: 40px;
+    margin-left: 200px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type=text], 
+input[type=email], 
+select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+input[type=text]:focus, 
+input[type=email]:focus, 
+select:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.2);
+    outline: none;
+}
+
+input[type=submit] {
+    background-color: #0066cc;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+}
+
+input[type=submit]:hover {
+    background-color: #005bb5;
+}
+
+.location {
+    background-color: #eef5ff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.res_box ul {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    list-style-type: none;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.res_box ul li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-bottom: 1px solid #eee;
+}
+
+.res_box ul li:last-child {
+    border-bottom: none;
+}
+
+.res_box ul li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    form {
+        margin: 10px;
+        padding: 10px;
+    }
+    
+    input[type=submit] {
+        font-size: 16px;
+        padding: 10px;
+    }
+    
+    .location {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 24px;
+        width: auto;
+        animation-duration: 1s; /* Faster animation on smaller devices */
+    }
+}
+
+/* Section Heading */
+.section-heading {
+    margin: 40px 0 20px;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    color: #007bff;
+    animation: fadeInDown 1s ease;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+    </style>
+</head>
+<body>
+    <h2 class="section-heading ">Join with Learnersleaf</h2>
+    <form name="tutorForm" action="tutor_request" method="POST" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <label >Name</label>
+        <input type="text" name="name" id="name">
+        <label>Email</label><br>
+        <input type="email" name="email" placeholder="ENTER EMAIL"><br><br>
+        <div class="location">
+            <label>Location</label>
+            <input type="text" placeholder="Enter the location" id="box" autocomplete="off" name="location">
+            <div class="res_box">
+                <!-- Results will appear here -->
+            </div>
+        </div>
+        <label>Phone</label><br>
+        <input type="text" name="phone" placeholder="ENTER PHONE"><br><br>
+        <label>WhatsApp Number</label><br>
+        <input type="text" name="w_number" placeholder="ENTER PHONE"><br><br>
+        <label>Gender Preference</label><br>
+        <select name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="both">Both</option>
+        </select><br><br>
+       
+        <input type="submit" value="submit">
+    </form>
+
+    <script>
+        window.onload = function() {
+            const key = [
+                "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
+                "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
+                "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
+                "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
+                "Dindigul, Tamil Nadu", "Ramanathapuram, Tamil Nadu", "Tuticorin, Tamil Nadu", "Cuddalore, Tamil Nadu",
+                "Vellore, Tamil Nadu", "Ariyalur, Tamil Nadu", "Perambalur, Tamil Nadu", "Nagercoil, Tamil Nadu",
+                "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
+                "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
+                "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
+                "Ramanathapuram, Tamil Nadu"
+            ];
+            const result_box = document.querySelector('.res_box');
+            const input_box = document.getElementById("box");
+           
+            input_box.onkeyup = function() {
+                let result = [];
+                let input = input_box.value;
+                if (input.length) {
+                    result = key.filter((keyword) => {
+                        return keyword.toLowerCase().includes(input.toLowerCase());
+                    });
+                }
+                display(result);
+            };
+
+            function display(result) {
+                const content = result.map((list) => {
+                    return `<li onclick="selectLocation(this)">${list}</li>`;
+                });
+                result_box.innerHTML = `<ul>${content.join('')}</ul>`;
+            }
+        };
+
+        function selectLocation(list) {
+            const input_box = document.getElementById("box");
+            input_box.value = list.innerHTML;
+            document.querySelector('.res_box').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

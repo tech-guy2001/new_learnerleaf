@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <script src="{% static 'js/post.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        form {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .autocomplete-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"]::placeholder {
+            color: #888;
+        }
+
+        .autocomplete-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .res_box, .two_res_box, .three_res_box {
+            position: absolute;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 4px;
+        }
+
+        .res_box ul, .two_res_box ul, .three_res_box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .res_box li, .two_res_box li, .three_res_box li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+
+        .res_box li:hover, .two_res_box li:hover, .three_res_box li:hover {
+            background-color: #f0f0f0;
+        }
+
+        #two, #three {
+            display: none;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .checkbox-label {
+            display: inline-block;
+            margin-right: 15px;
+            font-weight: normal;
+        }
+        h1{
+            text-align: center;
+            background-color: #007bff; 
+            color: #fff;
+            font-size: 30px;
+            padding: 10px;
+            width: 60%;
+            margin-left: 260px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function(){
+            $("#two_show").click(function(){
+                $("#two").toggle();
+            });
+
+            $("#three_show").click(function(){
+                $("#three").toggle();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Post a New Requirement</h1>
+    <form action="/add_post/{{email}}" method="POST">
+        {% csrf_token %}
+        <div class="autocomplete-container" id="one">
+            <label for="box">Subject</label>
+            <input type="text" id="box" placeholder="Search for a subject..." name="subject">
+            <div class="res_box"></div>
+        </div>
+
+        <p id="two_show" class="btn">Add Subject</p>
+
+        <div class="autocomplete-container" id="two">
+            <label for="two_box">Add another subject</label>
+            <input type="text" id="two_box" placeholder="Search for another subject..." name="two_subject">
+            <div class="two_res_box"></div>
+        </div>
+
+        <p id="three_show" class="btn">Add Subject</p>
+
+        <div class="autocomplete-container" id="three">
+            <label for="three_box">Add another subject</label>
+            <input type="text" id="three_box" placeholder="Search for a third subject..." name="three_subject">
+            <div class="three_res_box"></div>
+        </div>
+
+        <label for="dyr">Details of your requirement</label>
+<textarea id="dyr" name="dyr" style="width: 90%; height: 120px; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" placeholder="Example: I am looking for someone with experience in teaching IGCSE Maths online to young kids. My daughter is available from 4.30 pm EST to 8.30 pm EST on weekdays and flexible on Weekends. You should have a digital pen and good internet connection. My budget is a maximum of $35 per hour."></textarea> <br><br>
+        <label for="level">Level</label><br>
+        <select id="level" name="level">
+            <optgroup data-group-name="1" label="-- Skill Level --">
+                <option data-group-name="1" value="Beginner">Beginner</option>
+                <option data-group-name="1" value="Intermediate">Intermediate</option>
+                <option data-group-name="1" value="Expert">Expert</option>
+            </optgroup>
+            <optgroup data-group-name="2" label="-- Grades --">
+                <option data-group-name="2" value="school">Preschool, Kindergarten, KG, Nursery</option>
+                <option data-group-name="2" value="g2">Grade 2</option>
+                <option data-group-name="2" value="g1">Grade 1</option>
+                <option data-group-name="2" value="g3">Grade 3</option>
+                <option data-group-name="2" value="g4">Grade 4</option>
+                <option data-group-name="2" value="g5">Grade 5</option>
+                <option data-group-name="2" value="g6">Grade 6</option>
+                <option data-group-name="2" value="g7">Grade 7</option>
+                <option data-group-name="2" value="g8">Grade 8</option>
+                <option data-group-name="2" value="g9">Grade 9</option>
+                <option data-group-name="2" value="g10">Grade 10</option>
+                <option data-group-name="2" value="IGCSE">IGCSE</option>
+                <option data-group-name="2" value="GCSE">GCSE</option>
+                <option data-group-name="2" value="O_level">O level</option>
+                <option data-group-name="2" value="g11">Grade 11</option>
+                <option data-group-name="2" value="AS_level">AS level</option>
+                <option data-group-name="2" value="A2_level">A2 level</option>
+                <option data-group-name="2" value="A_level">A level</option>
+                <option data-group-name="2" value="g12">Grade 12</option>
+                <option data-group-name="2" value="Diploma">Diploma</option>
+                <option data-group-name="2" value="Bachelors/Undergraduate">Bachelors/Undergraduate</option>
+                <option data-group-name="2" value="Masters/Postgraduate">Masters/Postgraduate</option>
+                <option data-group-name="2" value="MPhil">MPhil</option>
+                <option data-group-name="2" value="Doctorate/PhD">Doctorate/PhD</option>
+            </optgroup>
+
+        
+
+        </select> <br><br>
+
+        <label for="i_want">I WANT</label> <br>
+        <select id="i_want" name="i_want">
+            <option value="tutoring">Tutoring</option>
+            <option value="assignment_help">Assignment Help</option>
+        </select> <br><br>
+
+        <label>Meeting option</label><br>
+        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="online"> Online (using Skype etc)</label>
+        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="my_place"> At my place (home/institute)</label>
+        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="tutors_place"> Travel to tutor</label> <br><br>
+
+        <label for="budget">Budget</label> <br>
+        <input type="text" id="budget" name="budget" placeholder="INR" style="width: 40%;"> 
+        <select name="budget_need" style="width: 40%;">
+            <option value="per_hour">per hour</option>
+            <option value="per_hour">per hour</option>
+            <option value="per_day">per day</option>
+            <option value="per_week">per week</option>
+            <option value="per_month">per month</option>
+
+         
+        </select> <br><br>
+
+        <label for="gender">Gender Preference</label><br>
+        <select id="gender" name="gender" style="width: 40%;">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="both">Both</option>
+        </select> <br><br>
+
+        <label for="language">Preferred Language</label> <br>
+        <input type="text" id="language" name="language" placeholder="I can communicate with the tutor in (languages)" style="width: 90%;"> <br><br>
+
+        <label for="tutor_want">Tutor Want</label><br>
+        <select id="tutor_want" name="tutor_want">
+            <option value="one">only one</option>
+            <option value="two">only two</option>
+            <option value="more">As many as possible</option>
+            <!-- Add remaining options here -->
+        </select> <br><br>
+
+        <label for="need">I need some</label> <br>
+        <select id="need" name="need">
+            <option value="part_time">Part time</option>
+            <option value="full_time">Full time</option>
+        </select> <br><br>
+
+        <label for="message">Message</label>
+        <input type="text" id="message" name="message" placeholder="ENTER MESSAGE" style="width: 90%;">
+
+        <input type="submit" value="POST" class="btn">
+    </form>
+    <script>
+        window.onload = function() {
+    const study_subjects = [
+        "Mathematics", "Physics", "Chemistry", "Biology", "Computer Science",
+        "English", "History", "Geography", "Economics", "Political Science",
+        // Add more subjects here
+    ];
+
+    function attachAutoComplete(input_box_id, result_box_class) {
+        const input_box = document.getElementById(input_box_id);
+        const result_box = document.querySelector(result_box_class);
+
+        input_box.onkeyup = function() {
+            let result = [];
+            let input = input_box.value;
+            if (input.length) {
+                result = study_subjects.filter((keyword) => {
+                    return keyword.toLowerCase().includes(input.toLowerCase());
+                });
+            }
+            display(result, result_box);
+        };
+
+        function display(result, result_box) {
+            const content = result.map((list) => {
+                return `<li onclick="selectItem('${input_box_id}', '${result_box_class}', this)">${list}</li>`;
+            });
+            result_box.innerHTML = `<ul>${content.join('')}</ul>`;
+        }
+    }
+
+    attachAutoComplete("box", ".res_box");
+    attachAutoComplete("two_box", ".two_res_box");
+    attachAutoComplete("three_box", ".three_res_box");
+};
+
+function selectItem(input_box_id, result_box_class, list) {
+    const input_box = document.getElementById(input_box_id);
+    input_box.value = list.innerHTML;
+    document.querySelector(result_box_class).innerHTML = '';
+}
+
+    </script>
+</body>
+</html>

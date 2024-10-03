@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        form {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+textarea {
+    height: 100px;
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.checkbox-label {
+    margin-bottom: 5px;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.budget-input,
+.language-input,
+.message-input {
+    width: 60%;
+    display: inline-block;
+}
+
+.budget-select {
+    width: 35%;
+    display: inline-block;
+    margin-left: 5%;
+}
+
+textarea.textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.autocomplete-container {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+    .btn {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .budget-input, 
+    .budget-select {
+        width: 100%;
+        margin: 0;
+    }
+}
+     /* Body and general settings */
+     body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar styles */
+.navbar-brand {
+    font-size: 26px;
+    font-weight: bold;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: #0056b3;
+}
+
+.nav-link {
+    font-size: 18px;
+    margin-right: 20px;
+    color: #333;
+    position: relative;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #007bff;
+    left: 0;
+    bottom: -5px;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #007bff;
+    transform: translateY(-2px);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Post button styles */
+.post-btn {
+    position: fixed;
+    right: 20px;
+    top: 80px;
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.post-btn:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
+}
+
+/* Section Heading */
+.section-heading {
+    margin: 40px 0 20px;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    color: #007bff;
+    animation: fadeInDown 1s ease;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Requirements list and item styling */
+.requirements-list {
+    padding: 20px;
+}
+
+.requirements-item {
+    background-color: #bdf1fb;
+    border-radius: 8px;
+    padding: 40px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.7s ease forwards;
+    opacity: 0;
+}
+
+.requirements-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.requirements-item h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.requirements-item p {
+    font-size: 16px;
+    color: #555;
+}
+
+.requirements-item i.fa-solid {
+    margin-right: 10px;
+    font-size: 22px;
+}
+
+.location-info {
+    padding-left: 50px;
+}
+
+.actions {
+    list-style: none;
+    padding-left: 0;
+    margin: 15px 0;
+    display: flex;
+    gap: 20px;
+}
+
+.actions li a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 16px;
+    position: relative;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.actions li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #007bff;
+    left: 0;
+    bottom: -2px;
+    transition: width 0.3s ease;
+}
+
+.actions li a:hover {
+    color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.actions li a:hover::after {
+    width: 100%;
+}
+
+.view-all {
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.view-all:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Fade-in animation for items */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .post-btn {
+        right: 10px;
+        top: 60px;
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    .section-heading {
+        font-size: 24px;
+    }
+
+    .requirements-item {
+        padding: 15px;
+    }
+
+    .requirements-item h3 {
+        font-size: 20px;
+    }
+
+    .requirements-item i.fa-solid {
+        font-size: 20px;
+    }
+
+    .location-info {
+        padding-left: 20px;
+    }
+
+    .actions li a {
+        font-size: 14px;
+    }
+}
+.footer{
+    background-color: #060606;
+    padding: 20px;
+    color: #fff;
+}
+
+        
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #bdf1fb;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Learnersleaf</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="/myposts/{{post.email}}/">My Post</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/s_wallet/{{post.email}}">Wallet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stu_settings/{{post.email}}" style="color: black;">Settings</a>
+                    </li>
+                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="/student_inbox/{{post.email}}">
+                            <i class="fa-solid fa-envelope"  style="font-size: 30px;"></i> Message
+                        </a>
+                    </li>
+                    <li class="nav-item"></li>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                Find tutor
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
+                                <li><a class="dropdown-item" href="/search_teachers/{{post.email}}">All Tutors</a></li>
+                                <li><a class="dropdown-item" href="/online_tutors/{{post.email}}">Online Tutors</a></li>
+                                <li><a class="dropdown-item" href="/home_tutors/{{post.email}}">Home Tutors</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    &nbsp;&nbsp;&nbsp;
+                    <li class="nav-item active">
+                        <div class="dropdown">
+                            <div class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-id-badge" style="font-size: 20px;"></i> {{post.name|title}}
+                            </div>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                                <li><a class="dropdown-item" href="/stu_settings/{{post.email}}"><i class="fa-solid fa-gear"></i> Settings</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h2 class="section-heading">Update your Post</h2>
+    <form action="/student_update/{{post.email}}/{{all.id}}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    
+        <!-- Subject Fields -->
+        <div class="autocomplete-container" id="one">
+            <label for="box">Subject</label>
+            <input type="text" id="box" placeholder="Search for a subject..." name="subject" value="{{ all.subject }}">
+            <div class="res_box"></div>
+        </div>
+    
+        
+    
+        <div class="autocomplete-container" id="two">
+            <label for="two_box">Add another subject</label>
+            <input type="text" id="two_box" placeholder="Search for another subject..." name="two_subject" value="{{ all.two_subject }}">
+            <div class="two_res_box"></div>
+        </div>
+    
+        
+    
+        <div class="autocomplete-container" id="three">
+            <label for="three_box">Add another subject</label>
+            <input type="text" id="three_box" placeholder="Search for a third subject..." name="three_subject" value="{{ all.three_subject }}">
+            <div class="three_res_box"></div>
+        </div>
+    
+        <!-- Details of your requirement -->
+        <label for="dyr">Details of your requirement</label>
+        <textarea id="dyr" name="dyr" style="width: 90%; height: 120px;" placeholder="Enter details...">{{ all.dyr }}</textarea>
+        <br><br>
+    
+        <!-- Level Selection -->
+        <label for="level">Level</label><br>
+        <select id="level" name="level">
+            <optgroup label="-- Skill Level --">
+                <option value="Beginner" {% if all.level == "Beginner" %}selected{% endif %}>Beginner</option>
+                <option value="Intermediate" {% if all.level == "Intermediate" %}selected{% endif %}>Intermediate</option>
+                <option value="Expert" {% if all.level == "Expert" %}selected{% endif %}>Expert</option>
+            </optgroup>
+            <optgroup label="-- Grades --">
+                <option value="school" {% if all.level == "school" %}selected{% endif %}>Preschool, Kindergarten, KG, Nursery</option>
+                <!-- Continue with other grades like Grade 1, Grade 2, etc. -->
+            </optgroup>
+        </select>
+        <br><br>
+    
+        <!-- I Want -->
+        <label for="i_want">I WANT</label><br>
+        <select id="i_want" name="i_want">
+            <option value="tutoring" {% if all.i_want == "tutoring" %}selected{% endif %}>Tutoring</option>
+            <option value="assignment_help" {% if all.i_want == "assignment_help" %}selected{% endif %}>Assignment Help</option>
+        </select>
+        <br><br>
+    
+        <!-- Meeting Options -->
+        <label>Meeting option</label><br>
+        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="online" {% if "online" in all.meeting_option %}checked{% endif %}> Online (using Skype etc)</label>
+        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="my_place" {% if "my_place" in all.meeting_option %}checked{% endif %}> At my place (home/institute)</label>
+        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="tutors_place" {% if "tutors_place" in all.meeting_option %}checked{% endif %}> Travel to tutor</label>
+        <br><br>
+    
+        <!-- Budget -->
+        <label for="budget">Budget</label><br>
+        <input type="text" id="budget" name="budget" placeholder="INR" style="width: 40%;" value="{{ all.budget }}">
+        <select name="budget_need" style="width: 40%;">
+            <option value="per_hour" {% if all.budget_need == "per_hour" %}selected{% endif %}>per hour</option>
+            <option value="per_day" {% if all.budget_need == "per_day" %}selected{% endif %}>per day</option>
+            <option value="per_week" {% if all.budget_need == "per_week" %}selected{% endif %}>per week</option>
+            <option value="per_month" {% if all.budget_need == "per_month" %}selected{% endif %}>per month</option>
+        </select>
+        <br><br>
+    
+        <!-- Gender Preference -->
+        <label for="gender">Gender Preference</label><br>
+        <select id="gender" name="gender" style="width: 40%;">
+            <option value="male" {% if all.gender == "male" %}selected{% endif %}>Male</option>
+            <option value="female" {% if all.gender == "female" %}selected{% endif %}>Female</option>
+            <option value="both" {% if all.gender == "both" %}selected{% endif %}>Both</option>
+        </select>
+        <br><br>
+    
+        <!-- Preferred Language -->
+        <label for="language">Preferred Language</label><br>
+        <input type="text" id="language" name="language" placeholder="Enter languages" style="width: 90%;" value="{{ all.language }}">
+        <br><br>
+    
+        <!-- Tutor Want -->
+        <label for="tutor_want">Tutor Want</label><br>
+        <select id="tutor_want" name="tutor_want">
+            <option value="one" {% if all.tutor_want == "one" %}selected{% endif %}>Only one</option>
+            <option value="two" {% if all.tutor_want == "two" %}selected{% endif %}>Only two</option>
+            <option value="more" {% if all.tutor_want == "more" %}selected{% endif %}>As many as possible</option>
+        </select>
+        <br><br>
+    
+        <!-- Need -->
+        <label for="need">I need some</label><br>
+        <select id="need" name="need">
+            <option value="part_time" {% if all.need == "part_time" %}selected{% endif %}>Part time</option>
+            <option value="full_time" {% if all.need == "full_time" %}selected{% endif %}>Full time</option>
+        </select>
+        <br><br>
+    
+        <!-- Message -->
+        <label for="message">Message</label>
+        <input type="text" id="message" name="message" placeholder="Enter message" style="width: 90%;" value="{{ all.message }}">
+    
+        <!-- Submit button -->
+        <input type="submit" value="POST" class="btn">
+    </form>
+    <div class="footer">
+        <p>&copy; 2023 All rights reserved | This website is made with <i
+            class="fa-solid fa-heart"></i> by <a href="#">Nk TECH</a>
+            </p>
+    </div>
+    
+</body>
+</html>
