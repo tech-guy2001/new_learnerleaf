@@ -1,0 +1,1 @@
+web:gunicorn kovai.wsgi--logo-file-
