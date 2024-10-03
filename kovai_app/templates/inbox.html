@@ -188,6 +188,9 @@ h1 {
     background-color: #060606;
     padding: 20px;
     color: #fff;
+    margin-top: 290px;
+    margin-right: 0;
+    margin-bottom: 0;
 
 }
 
@@ -204,18 +207,18 @@ h1 {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link  " href="/myposts/{{account.email}}/">My Post</a>
+                        <a class="nav-link  " href="/myposts/{{accounts.email}}/">My Post</a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link " href="/s_wallet/{{account.email}}">Wallet</a>
+                        <a class="nav-link " href="/s_wallet/{{accounts.email}}">Wallet</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="/stu_settings/{{account.email}}" >Settings</a>
+                        <a class="nav-link " href="/stu_settings/{{accounts.email}}" >Settings</a>
                     </li>
                    
                     <li class="nav-item">
-                        <a class="nav-link active" href="/student_inbox/{{account.email}}">
+                        <a class="nav-link active" href="/student_inbox/{{accounts.email}}">
                             <span > <i class="fa-solid fa-envelope"  style="font-size: 18px;"> </i>
                             Message</span>
                         </a>
@@ -227,9 +230,9 @@ h1 {
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
-                                <li><a class="dropdown-item" href="/search_teachers/{{account.email}}">All Tutors</a></li>
-                                <li><a class="dropdown-item" href="/online_tutors/{{account.email}}">Online Tutors</a></li>
-                                <li><a class="dropdown-item" href="/home_tutors/{{account.email}}">Home Tutors</a></li>
+                                <li><a class="dropdown-item" href="/search_teachers/{{accounts.email}}">All Tutors</a></li>
+                                <li><a class="dropdown-item" href="/online_tutors/{{accounts.email}}">Online Tutors</a></li>
+                                <li><a class="dropdown-item" href="/home_tutors/{{accounts.email}}">Home Tutors</a></li>
                             </ul>
                         </div>
                     </li>
@@ -241,7 +244,7 @@ h1 {
                             </div>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-                                <li><a class="dropdown-item" href="/stu_settings/{{account.email}}"><i class="fa-solid fa-gear"></i> Settings</a></li>
+                                <li><a class="dropdown-item" href="/stu_settings/{{accounts.email}}"><i class="fa-solid fa-gear"></i> Settings</a></li>
                             </ul>
                         </div>
                     </li>
@@ -263,6 +266,7 @@ h1 {
     {% endfor %}
 
     <br>
+
     <div class="footer">
         <p>&copy; 2023 All rights reserved | This website is made with <i
             class="fa-solid fa-heart"></i> by <a href="https://www.linkedin.com

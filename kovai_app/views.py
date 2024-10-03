@@ -665,12 +665,16 @@ def fliter_location(request,location,email):
 def  student_inbox(request,email):
     account=Requestpost.objects.filter(email=email).first()
     accounts=TutorRequest.objects.filter(email=email).first()
+
+    print("hee",accounts.email)
     if Message.objects.filter( receiver_email=email).exists():
+        account=Requestpost.objects.filter(email=email).first()
+        accounts=TutorRequest.objects.filter(email=email).first()
         sm=Message.objects.filter( receiver_email=email).values
      
         return render(request,"inbox.html",{"msg":sm,"account":account,"accounts":accounts})
     
-    return render(request,"inbox.html")
+    return render(request,"inbox.html",{"account":account,"accounts":accounts})
 
 def student_post(request,email,id):
     if TutorRequest.objects.filter(email=email).exists():
