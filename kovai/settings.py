@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*@8=l0x)_j)yvxy8%vwkb#1#wz6rl1b(-oq+eyo5zyp8#86%$i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 DEBUG = True
 EMAIL_HOST='smtp.gmail.com'
@@ -33,7 +33,7 @@ EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 
-ALLOWED_HOSTS = ['nandhank.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    
+     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -139,9 +139,7 @@ STATIC_URL = '/static/'  # This URL serves static files in development
 STATICFILES_DIRS = [BASE_DIR / "static"]  # These are your source directories
 
 # Define STATIC_ROOT for collected files in production
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATIC_DIRS=[os.path.join(BASE_DIR,'kovai_app/static')]
-STATIC_ROOT=os.path.join(BASE_DIR,'staticfiles')
+STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 

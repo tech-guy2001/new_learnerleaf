@@ -128,3 +128,6 @@ websocket-client==1.6.3
 Werkzeug==3.0.1
 whitenoise==6.7.0
 yarl==1.9.1
+django
+gunicorn
+whitenoise
