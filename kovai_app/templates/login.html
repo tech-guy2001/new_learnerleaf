@@ -1,14 +1,20 @@
-<!DOCTYPE html>
+{% load static %}
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Login Page</title>
-    
-   
-    <style>
+    <title> Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+   <style>
+        
         body {
-            background: linear-gradient(135deg, #1E90FF, #87CEFA, #00008B, #00BFFF, #ADD8E6); 
+            background: linear-gradient(135deg, #f4f6f8, #87CEFA, #b0b0e1, #00BFFF, #ADD8E6);
             background-size: 400% 400%;
             animation: gradientAnimation 10s ease infinite;
             margin: 0;
@@ -17,40 +23,28 @@
         }
 
         @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Base container for form */
         .container {
             width: 90%;
-            max-width: 1200px; /* Max width for desktop */
-            margin: 50px auto;
+            max-width: 1200px;
+            margin: 30px auto;
             padding: 20px;
-            background-color: rgb(59, 182, 207);
+            background-color: rgb(246, 247, 248);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
             opacity: 0.95;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
+            justify-content: center;
         }
 
-        .hidden {
-            display: none;
-        }
-
-        /* Buttons for toggling forms */
         .btu {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin-bottom: 20px;
             width: 100%;
         }
@@ -58,18 +52,18 @@
         button {
             font-family: "Roboto Mono", monospace;
             font-weight: bold;
-            font-size: 20px;
             padding: 10px;
             width: 45%;
+            max-width: 200px; /* Restricting max button size for smaller screens */
             background-color: transparent;
-            border: 1px solid #4CAF50;
+            border: none;
             border-radius: 10px;
-            color: rgb(207, 140, 59);
+            color: rgb(254, 254, 253);
             cursor: pointer;
             transition: 0.3s;
-            background: linear-gradient(to top left, #33ccff 0%, #0000ff 100%);
-            font-size: 30px;
-            font-weight: bold;
+            background-color: #3498db;
+            font-size: 20px;
+            margin-left: 10px;
         }
 
         button:hover {
@@ -77,13 +71,12 @@
             color: #fff;
         }
 
-        /* Styling for both forms */
         form {
             margin-top: 20px;
         }
 
         label {
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 5px;
             display: block;
         }
@@ -122,7 +115,7 @@
             border-radius: 5px;
             margin-top: 10px;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
             transition: background-color 0.3s ease;
         }
 
@@ -130,9 +123,8 @@
             background-color: #0000ff;
         }
 
-        /* Titles */
         h4 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: rgb(207, 140, 59);
             border-bottom: 4px solid #4CAF50;
@@ -140,10 +132,9 @@
             margin-bottom: 15px;
         }
 
-        /* Specific sections for student and teacher login */
         .stu_login, .teacher_login {
             width: 100%;
-            max-width: 500px;
+            max-width: 400px;
             margin: 10px;
             padding: 20px;
             background-color: white;
@@ -152,106 +143,33 @@
             opacity: 0.9;
         }
 
-        @media (max-width: 1024px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .stu_login, .teacher_login {
-                width: 80%;
-                max-width: 400px;
-            }
-
-            button {
-                font-size: 18px;
-                padding: 8px;
-            }
-
-            label {
-                font-size: 16px;
-            }
-
-            input[type="email"], input[type="password"], input[type="submit"] {
-                font-size: 16px;
-                padding: 8px;
-            }
-
-            a.btn {
-                font-size: 16px;
-            }
-
-            h4 {
-                font-size: 18px;
-            }
+        .hidden {
+            display: none;
         }
-
-        @media (max-width: 768px) {
-            button {
-                font-size: 16px;
-                padding: 6px;
-            }
-
-            label {
-                font-size: 14px;
-            }
-
-            input[type="email"], input[type="password"], input[type="submit"] {
-                font-size: 14px;
-                padding: 6px;
-            }
-
-            a.btn {
-                font-size: 14px;
-            }
-
-            h4 {
-                font-size: 16px;
-            }
+        .icon-style-t{
+            font-size: 30px;
+            position: relative;
+            top: 20px;
         }
-
-        @media (max-width: 480px) {
-            button {
-                font-size: 14px;
-                padding: 5px;
-            }
-
-            label {
-                font-size: 12px;
-            }
-
-            input[type="email"], input[type="password"], input[type="submit"] {
-                font-size: 12px;
-                padding: 5px;
-            }
-
-            a.btn {
-                font-size: 12px;
-            }
-
-            h4 {
-                font-size: 14px;
-            }
+        .icon-style-s{
+            font-size: 30px;
+            
         }
     </style>
 </head>
 <body>
-    {% if msg %}
-    <div class="error-message">
-        {{ msg }}
-    </div>
-    {% endif %}
-
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>{{msg}}</strong> 
+      </div>
     <div class="container">
-        <!-- Toggle buttons -->
         <div class="btu">
-            <button id="s"><span>Student</span></button>
-            <button id="t"><span>Teacher</span></button>
+            <button id="s"><i class="fas fa-user-graduate icon-style-s"></i>  <span>Student</span></button>
+            <button id="t"><i class="fas fa-user icon-style-t"></i>  <span>Teacher/</span><br>  <span>___Institute</span></button>
         </div>
 
-        <!-- Student Login Form -->
-        <div class="stu_login">
-            <h4>Student Login</h4>
+        <div class="stu_login" id="studentForm">
+            <h4><i class="fas fa-user-graduate icon-style-s"></i> Student Login</h4>
             <form action="/stu_login" method="POST">
                 {% csrf_token %}
                 <label>Email</label>
@@ -260,12 +178,13 @@
                 <input type="password" name="password" id="stu_in" required>
                 <input type="submit" value="Login">
             </form>
+            <a href="/s_forget_password">Forget Password</a>
             <a href="/tutor_request" class="btn">Join as Student</a>
         </div>
 
-        <!-- Teacher Login Form -->
-        <div class="teacher_login hidden">
-            <h4>Teacher Login</h4>
+        
+        <div class="teacher_login hidden" id="teacherForm">
+            <h4>  <i class="fas fa-user icon-style-s"></i> Teacher Login</h4>
             <form action="/teacher_login" method="POST">
                 {% csrf_token %}
                 <label>Email</label>
@@ -274,17 +193,21 @@
                 <input type="password" name="password" id="teacher_in" required>
                 <input type="submit" value="Login" style="background-color: rgb(110, 6, 29);">
             </form>
+            <a href="/t_forget_password">Forget Password</a>
             <a href="/teacher_reg" class="btn">Join as Teacher</a>
         </div>
     </div>
 
-    <!-- Script to toggle between student and teacher forms -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const studentButton = document.getElementById("s");
             const teacherButton = document.getElementById("t");
-            const studentLogin = document.querySelector(".stu_login");
-            const teacherLogin = document.querySelector(".teacher_login");
+            const studentLogin = document.getElementById("studentForm");
+            const teacherLogin = document.getElementById("teacherForm");
+
+            
+            studentLogin.classList.remove("hidden");
+            teacherLogin.classList.add("hidden");
 
             studentButton.addEventListener("click", function() {
                 studentLogin.classList.remove("hidden");
@@ -297,5 +220,222 @@
             });
         });
     </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Design</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: cadetblue;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .alert {
+            width: 90%;
+            background-color: #f44336;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .containers {
+            width: 90%;
+            max-width: 400px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0px 0px 15px 0px black;
+        }
+
+        .tops {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Adds spacing between the image and text */
+    width: 100%;
+    background-color: #ccc;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px 5px;
+    margin-bottom: 7px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 550;
+    padding: 10px;
+}
+
+button img {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+}
+
+        button:hover {
+            background-color: rgb(138, 156, 189);
+            color: whitesmoke;
+        }
+
+        .learnerbox, .tutorbox {
+            display: none;
+            flex-direction: column;
+        }
+
+        .learnerbox.active, .tutorbox.active {
+            display: flex;
+        }
+
+        label {
+            margin: 5px 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .low {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 4px;
+            background-color: rgb(79, 116, 185);
+            color: whitesmoke;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .low:hover {
+            background-color: rgb(42, 163, 42);
+        }
+
+        .h, .h2 {
+            text-align: center;
+            color: rgb(79, 116, 185);
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: rgb(79, 116, 185);
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        @media (max-width: 600px) {
+            .containers {
+                padding: 15px;
+                box-shadow: none;
+                border-radius: 8px;
+            }
+
+            button {
+                margin: 0 2px;
+                font-size: 14px;
+            }
+
+            input {
+                font-size: 14px;
+            }
+
+            .h, .h2 {
+                font-size: 16px;
+            }
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("#hide").click(function () {
+                $(".learnerbox").addClass("active");
+                $(".tutorbox").removeClass("active");
+            });
+
+            $("#show").click(function () {
+                $(".tutorbox").addClass("active");
+                $(".learnerbox").removeClass("active");
+            });
+        });
+
+        function bg() {
+            document.getElementById("hide").style.backgroundColor = "rgb(79, 116, 185)";
+            document.getElementById("hide").style.color = "whitesmoke";
+            document.getElementById("show").style.backgroundColor = "#ccc";
+            document.getElementById("show").style.color = "black";
+        }
+
+        function bg2() {
+            document.getElementById("show").style.backgroundColor = "rgb(79, 116, 185)";
+            document.getElementById("show").style.color = "whitesmoke";
+            document.getElementById("hide").style.backgroundColor = "#ccc";
+            document.getElementById("hide").style.color = "black";
+        }
+    </script>
+</head>
+<body>
+    <div class="containers">
+        <div class="tops">
+            <button id="hide" onclick="bg()">
+                <img src="{% static 'images/leaner.png' %}" alt="Learner Icon">
+                Learner
+            </button>
+            <button id="show" onclick="bg2()">
+                <img src="{% static 'images/tutor.png' %}" alt="Tutor Icon">
+                Tutor
+            </button>
+        </div>
+        
+        <div class="learnerbox active">
+            <form action="/stu_login" method="POST">
+                {% csrf_token %}
+                <h2 class="h">Learner</h2>
+                <label for="">Email or Mobile:</label>
+                <input type="text" name="email" placeholder="Enter your email or mobile">
+                <label for="">Password:</label>
+                <input type="password" name="password" placeholder="Enter your password">
+                <a href="/s_forget_password">Forgot Password?</a>
+                <button type="submit" class="low">Login</button>
+            </form>
+            <a href="/tutor_request"><button class="low">Signup</button></a>
+        </div>
+        <div class="tutorbox">
+            <form action="/teacher_login" method="POST">
+                {% csrf_token %}
+                <h2 class="h2">Tutor</h2>
+                <label for="">Email or Mobile:</label>
+                <input type="text" name="email" placeholder="Enter your email or mobile">
+                <label for="">Password:</label>
+                <input type="password" name="password" placeholder="Enter your password">
+                <a href="/t_forget_password">Forgot Password?</a>
+                <button type="submit" class="low">Login</button>
+            </form>
+            <a href="/teacher_reg"><button class="low">Signup</button></a>
+        </div>
+    </div>
 </body>
 </html>

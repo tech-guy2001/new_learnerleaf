@@ -10,214 +10,316 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
 
-    body {
-        background-color: #f8f9fa;
-        padding: 10px;
-        font-family: Arial, sans-serif;
-    }
-
-    .container {
-        max-width: 80%; /* Adjust for smaller screens */
-        margin: 0 auto;
-        padding: 10px;
-    }
-
-    .location {
-        background-color: aliceblue;
-        padding: 15px;
-        border-radius: 5px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        margin-top: 15px;
-    }
-
-    input[type=text] {
-        border: 1px solid #ccc;
-        outline: 0;
-        background-color: transparent;
-        padding: 8px;
-        width: 100%;
-        margin-bottom: 8px;
-        border-radius: 5px;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .res_box ul {
-        border: 1px solid silver;
-        padding: 8px;
-        list-style: none;
-        max-height: 150px;
-        overflow-y: auto;
-        background-color: white;
-        border-radius: 5px;
-        margin-top: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .res_box ul li {
-        padding: 10px;
-        border-radius: 3px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .res_box ul li:hover {
-        background-color: #f0f0f0;
-    }
-
-    h4 {
-        color: #4CAF50;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .alert {
-        margin-bottom: 15px;
-    }
-
-    form {
-        background-color: #fff;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin: 15px 0;
-    }
-
-    label {
-        font-weight: bold;
-        color: #555;
-        margin-top: 8px;
-        display: block;
-    }
-
-    input[type="text"],
-    input[type="date"],
-    select {
-        width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 14px;
-    }
-
-    input[type="submit"] {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        width: 100%;
-    }
-
-    input[type="submit"]:hover {
-        background-color: #0069d9;
-    }
-
-    .profile {
-        display: flex;
-        justify-content: flex-end;
-        background-color: #0069d9;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            padding: 10px;
-        }
-
-        form {
-            padding: 15px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        select {
-            font-size: 14px;
-            padding: 8px;
-        }
-
-        .profile {
-            padding: 10px;
-        }
-
-        input[type="submit"] {
-            padding: 10px;
-            font-size: 14px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        form {
-            padding: 10px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        select {
-            font-size: 12px;
-            padding: 6px;
-        }
-
-        input[type="submit"] {
-            font-size: 14px;
-            padding: 10px;
-        }
-
-        .location {
-            padding: 10px;
-        }
-
-        .res_box ul li {
-            padding: 8px;
-        }
-    }
-
-    /* Section Heading */
-.section-heading {
-    margin: 40px 0 20px;
-    font-size: 28px;
-    text-align: center;
-    font-weight: bold;
-    color: #007bff;
-    animation: fadeInDown 1s ease;
+   /* General Body Styling */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    padding: 20px;
 }
 
+/* Container */
+.container {
+    max-width: 80%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Heading */
+.section-heading {
+    text-align: center;
+    font-size: 28px;
+    color: #007bff;
+    font-weight: bold;
+    margin-bottom: 20px;
+    animation: fadeInDown 1s ease-in-out;
+}
+
+/* Skip Button */
+.skip-button {
+    background-color: #43a047;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.skip-button:hover {
+    background-color: #388e3c;
+}
+
+/* Form */
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+form label {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333333;
+    display: block;
+}
+
+form input[type="text"],
+form input[type="date"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Location and Language Suggestions */
+.res_box ul, .language-res-box ul {
+    border: 1px solid silver;
+    padding: 8px;
+    list-style: none;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.res_box ul li, .language-res-box ul li {
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.res_box ul li:hover, .language-res-box ul li:hover {
+    background-color: #f1f1f1;
+}
+
+/* Back Button */
+#back {
+    padding: 10px 20px;
+    background-color: #0069d9;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#back:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        max-width: 100%;
+    }
+  .check{
+    display: flex;
+    
+  }
+  .c{
+    margin-left: 5px;
+  }
+
+    form input[type="text"], form input[type="date"], form select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    form input[type="submit"] {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .res_box ul li, .language-res-box ul li {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    form input[type="text"], form input[type="date"], form select {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    form input[type="submit"] {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #back {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+/* Animation */
 @keyframes fadeInDown {
-    0% {
+    from {
         opacity: 0;
         transform: translateY(-20px);
     }
-    100% {
+    to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+/* Checkbox and Language Wrapper */
+.language-entry {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    gap: 20px; /* Space between language input and checkboxes */
+    margin-bottom: 15px; /* Space between rows */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+/* Language Input Styling */
+.language-entry .form-group {
+    flex: 1; /* Take up available space */
+    min-width: 250px; /* Ensure a minimum width */
+}
+
+.language-entry .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block; /* Ensure the label is above the input */
+}
+
+.language-entry .form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Checkbox Wrapper */
+.language-entry  div {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between checkbox and label */
+}
+
+/* Checkbox Styling */
+.language-entry input[type="checkbox"] {
+    transform: scale(1.2); /* Slightly enlarge checkboxes */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .language-entry  {
+        flex-direction: column; /* Stack items vertically */
+        gap: 10px;
+    }
+    form{
+        padding: 20px;
+    }
+}
+#add-language-btn{
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+}
+input[type=checkbox]
+{
+    margin-top: 8px;
+}
 </style>
 
-   
+<script>
+    function validateForm() {
+        // Get form elements
+        const type = document.getElementById("types").value;
+        const strength = document.getElementById("strength").value.trim();
+        const gender = document.getElementById("gender").value;
+        const language = document.getElementById("language-box").value.trim();
+        const location = document.getElementById("location-box").value.trim();
+        const dateOfBirth = document.getElementById("dates").value;
+        const postalCode = document.getElementById("post_code").value.trim();
+
+        // Define validation patterns
+        const postalCodePattern = /^[0-9]{5,6}$/;  // e.g., 5 or 6-digit postal code
+
+        // Check if each field is filled
+        if (type === "") {
+            alert("Please select your type (Individual Teaching or Teaching Company).");
+            return false;
+        }
+       
+        if (gender === "") {
+            alert("Please select your gender.");
+            return false;
+        }
+        if (language === "") {
+            alert("Please enter your preferred language.");
+            return false;
+        }
+        if (location === "") {
+            alert("Please enter your location.");
+            return false;
+        }
+        if (dateOfBirth === "") {
+            alert("Please enter your date of birth.");
+            return false;
+        }
+        if (postalCode === "") {
+            alert("Please enter your postal code.");
+            return false;
+        }
+        if (!postalCodePattern.test(postalCode)) {
+            alert("Please enter a valid postal code (5 or 6 digits).");
+            return false;
+        }
+
+        // If all validations pass
+        return true;
+    }
+</script>
+ 
 </head>
 
 <body>
-    <div class="profile">
-        
-       
-            <i class="fa-solid fa-id-badge" style="font-size: 40px; color: #fff;"></i> <span style="font-size: 20px; color: #fff;">{{name|title}}</span>
-      
-        
-    </div>
-     <br><br>
+   
+     <h3 style="margin-left: 200px;">Profile 1 of 6</h3>
     <div class="container">
        
         <div class="alert alert-info alert-dismissible fade show">
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            
             <strong>{{msg}}</strong> !!!!!!!
         </div>
         <h2 class="section-heading ">Personal Details</h2>
+        <a href="/subject/{{email}}" class="skip-button">Skip</a>
 
         <form action="details/{{email}}" method="POST" onsubmit="return validateForm()">
             {% csrf_token %}
@@ -228,7 +330,7 @@
                 <option value="teaching_company">Teaching Company</option>
             </select>
 
-            <label>Strength</label>
+            <label>Strength(Optional)</label>
             <input type="text" name="strength" id="strength" placeholder="e.g., Strength, Current role, or other relevant information">
 
             <label>Gender</label>
@@ -236,110 +338,299 @@
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
+                <option value="other">Other</option>
             </select>
-            <label>Your Language</label>
-            <input type="text" name="language" id="language" placeholder="e.g., tamil or english or hind">
+            <label for="language-box">Languages</label>
+<div id="languages-container">
+    <!-- Language Input Template -->
+    <div class="language-entry">
+        <div class="form-group">
+                  
+            <input type="text" placeholder="e.g., Tamil or English or Hindi" id="language-box" autocomplete="off" name="language">
+            <div class="language-res-box"></div>
+        </div>
+        <!-- Checkboxes -->
+        <div class="check">
+        <div class="c">
+            <input type="checkbox" id="speak" name="speak">
+            <label for="speak">Speak</label>
+        </div >
+        <div class="c">
+            <input type="checkbox" id="read" name="read">
+            <label for="read">Read</label>
+        </div>
+        <div class="c">
+            <input type="checkbox" id="write" name="write">
+            <label for="write">Write</label>
+        </div>
+        </div>
+    </div>
+</div>
 
-     
+            <button type="button" id="add-language-btn">Add Language</button>
+            
+            
 
+            <label>Location</label>
+            <input type="text" placeholder="Enter the location" id="location-box" autocomplete="off" name="location">
+            <div class="res_box"></div>
+            
             <label>Date of Birth</label>
-            <input type="date" name="dates" id="dates">
+            <input type="date" name="dates" id="dates"  >
 
-            <div class="location">
-                <label>Location</label>
-                <input type="text" placeholder="Enter the location" id="box" autocomplete="off" name="location">
-                <div class="res_box">
-                    <!-- Results will appear here -->
-                </div>
-            </div>
+         
 
             <label>Postal code</label>
             <input type="text" name="post_code" id="post_code">
 
             <input type="submit" value="Save">
         </form>
+        
     </div>
 
+
     <script>
-        function validateForm() {
-            let types = document.getElementById("types").value;
-            let strength = document.getElementById("strength").value;
-            let gender = document.getElementById("gender").value;
-            let dates = document.getElementById("dates").value;
-            let location = document.getElementById("box").value;
-            let postCode = document.getElementById("post_code").value;
+// JavaScript to dynamically add/remove language entries
+let languageCount = 1;
 
-            let errors = [];
+document.getElementById('add-language-btn').addEventListener('click', () => {
+    languageCount++;
 
-            if (types === "") {
-                errors.push("Please select your teaching type.");
-            }
+    const container = document.getElementById('languages-container');
 
-            if (gender === "") {
-                errors.push("Please select your gender.");
-            }
+    // Create a new language entry
+    const newLanguageEntry = document.createElement('div');
+    newLanguageEntry.classList.add('language-entry');
+    newLanguageEntry.innerHTML = `
+        <div class="form-group">
+            <input type="text" placeholder="e.g., Tamil or English or Hindi" id="language-box"  name="language_${languageCount}">
+            <div class="language-res-box"></div>
+        </div>
+           <div class="check">
+        <div>
+            <input type="checkbox" id="speak-${languageCount}" name="speak[]">
+            <label for="speak-${languageCount}">Speak</label>
+        </div>
+        <div>
+            <input type="checkbox" id="read-${languageCount}" name="read[]">
+            <label for="read-${languageCount}">Read</label>
+        </div>
+        <div>
+            <input type="checkbox" id="write-${languageCount}" name="write[]">
+            <label for="write-${languageCount}">Write</label>
+        </div>
+         </div>
+    `;
 
-            if (dates === "") {
-                errors.push("Please enter your date of birth.");
-            }
+    container.appendChild(newLanguageEntry);
+});
 
-            if (postCode !== "" && !/^\d+$/.test(postCode)) {
-                errors.push("Postal code should contain only digits.");
-            }
 
-            if (strength.length > 255) {
-                errors.push("Strength field exceeds the maximum length of 255 characters.");
-            }
+        window.onload = function () {
+            // Location auto-suggestion logic
+            const locations = [
+    // Andhra Pradesh
+    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
+    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
+    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
+    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
 
-            if (errors.length > 0) {
-                alert(errors.join("\n"));
-                return false;
-            }
+    // Arunachal Pradesh
+    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
+    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
 
-            return true;
-        }
+    // Assam
+    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
+    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
+    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
 
-        window.onload = function() {
-            const key = [
-                "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
-                "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
-                "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-                "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
-                "Dindigul, Tamil Nadu", "Ramanathapuram, Tamil Nadu", "Tuticorin, Tamil Nadu", "Cuddalore, Tamil Nadu",
-                "Vellore, Tamil Nadu", "Ariyalur, Tamil Nadu", "Perambalur, Tamil Nadu", "Nagercoil, Tamil Nadu",
-                "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
-                "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
-                "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu"
-            ];
-            const result_box = document.querySelector('.res_box');
-            const input_box = document.getElementById("box");
-           
-            input_box.onkeyup = function() {
+    // Bihar
+    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
+    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
+    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
+
+    // Chhattisgarh
+    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
+    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
+
+    // Goa
+    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
+    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
+
+    // Gujarat
+    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
+    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
+    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
+
+    // Haryana
+    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
+    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
+    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
+
+    // Himachal Pradesh
+    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
+    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
+
+    // Jharkhand
+    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
+    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
+
+    // Karnataka
+    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
+    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
+
+    // Kerala
+    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
+
+    // Madhya Pradesh
+    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
+    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
+
+    // Maharashtra
+    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
+    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
+
+    // Manipur
+    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
+
+    // Meghalaya
+    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
+
+    // Mizoram
+    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
+
+    // Nagaland
+    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
+
+    // Odisha
+    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
+
+    // Punjab
+    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
+
+    // Rajasthan
+    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
+
+    // Sikkim
+    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
+
+    // Tamil Nadu
+   
+    "Chennai, Tamil Nadu", "Madurai, Tamil Nadu", "Thanjavur, Tamil Nadu", "Kanchipuram, Tamil Nadu",
+    "Rameswaram, Tamil Nadu", "Chidambaram, Tamil Nadu", "Tiruvannamalai, Tamil Nadu",
+    "Velankanni, Tamil Nadu", "Mahabalipuram, Tamil Nadu",
+
+  
+    "Coimbatore, Tamil Nadu", "Tiruppur, Tamil Nadu", "Salem, Tamil Nadu", "Hosur, Tamil Nadu", "Erode, Tamil Nadu",
+
+ 
+    "Ooty (Udhagamandalam), Tamil Nadu", "Kodaikanal, Tamil Nadu", "Yercaud, Tamil Nadu",
+
+  
+    "Marina Beach, Chennai, Tamil Nadu", "Kanyakumari, Tamil Nadu", "Pondicherry (Puducherry)", 
+    "Tuticorin, Tamil Nadu", "Nagapattinam, Tamil Nadu",
+
+  
+    "The Nilgiris, Tamil Nadu", "Mudumalai National Park, Tamil Nadu", "Hogenakkal, Tamil Nadu",
+    "Kalakkad Mundanthurai Tiger Reserve, Tamil Nadu",
+
+   
+    "Palani, Tamil Nadu", "Tiruvarur, Tamil Nadu", "Srirangam, Tamil Nadu",
+
+    "Cuddalore, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Kumbakonam, Tamil Nadu", "Vellore, Tamil Nadu",
+    "Pollachi, Tamil Nadu", "Dindigul, Tamil Nadu",
+
+    // Telangana
+    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
+
+    // Tripura
+    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
+
+    // Uttar Pradesh
+    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
+
+    // Uttarakhand
+    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
+
+    // West Bengal
+    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
+]
+
+          
+            const locationResultBox = document.querySelector('.res_box');
+            const locationInputBox = document.getElementById("location-box");
+
+            locationInputBox.onkeyup = function () {
                 let result = [];
-                let input = input_box.value;
-                if (input.length) {
-                    result = key.filter((keyword) => {
-                        return keyword.toLowerCase().includes(input.toLowerCase());
-                    });
+                let input = locationInputBox.value.trim();
+                if (input.length > 0) {
+                    result = locations.filter((location) => location.toLowerCase().includes(input.toLowerCase()));
                 }
-                display(result);
+                displayLocations(result);
             };
 
-            function display(result) {
-                const content = result.map((list) => {
-                    return `<li onclick="selectLocation(this)">${list}</li>`;
-                });
-                result_box.innerHTML = `<ul>${content.join('')}</ul>`;
+            function displayLocations(result) {
+                locationResultBox.innerHTML = result.length ? `<ul>${result.map(location => `<li onclick="selectLocation(this)">${location}</li>`).join('')}</ul>` : '';
             }
-        };
 
-        function selectLocation(list) {
-            const input_box = document.getElementById("box");
-            input_box.value = list.innerHTML;
-            document.querySelector('.res_box').innerHTML = '';
-        }
+            window.selectLocation = function (listItem) {
+                locationInputBox.value = listItem.textContent;
+                locationResultBox.innerHTML = '';
+            };
+
+            // Language auto-suggestion logic
+            const languages = [
+    "English", "Mandarin Chinese", "Spanish", "Hindi", "Arabic", "Portuguese", "Bengali", 
+    "Russian", "Japanese", "Punjabi", "German", "Javanese", "Korean", "French", "Telugu", 
+    "Vietnamese", "Marathi", "Tamil", "Urdu", "Turkish", "Italian", "Persian", "Gujarati", 
+    "Polish", "Ukrainian", "Malay/Indonesian", "Kannada", "Odia", "Bhojpuri", "Maithili", 
+    "Hausa", "Swahili", "Yoruba", "Tagalog", "Romanian", "Dutch", "Greek", "Hungarian", 
+    "Czech", "Serbo-Croatian", "Finnish", "Slovak", "Hebrew", "Amharic", "Nepali", "Sinhala", 
+    "Zulu", "Xhosa", "Igbo", "Pashto", "Farsi", "Kurdish", "Azerbaijani", "Bulgarian", 
+    "Croatian", "Albanian", "Armenian", "Georgian", "Lithuanian", "Latvian", "Estonian", 
+    "Bosnian", "Mongolian", "Kazakh", "Uzbek", "Turkmen", "Tajik", "Kyrgyz", "Khmer", 
+    "Lao", "Burmese", "Thai", "Filipino", "Malayalam", "Sinhala", "Assamese", "Sundanese", 
+    "Madurese", "Acehnese", "Hokkien", "Hakka", "Wu (Shanghainese)", "Min Nan", "Cantonese", 
+    "Mandinka", "Wolof", "Tswana", "Sesotho", "Shona", "Sango", "Chichewa", "Luganda", 
+    "Tigrinya", "Somali", "Danish", "Swedish", "Norwegian", "Icelandic", "Latvian", "Finnish", 
+    "Slovenian", "Macedonian", "Belarusian", "Luxembourgish", "Galician", "Basque", "Catalan", 
+    "Breton", "Welsh", "Scottish Gaelic", "Irish", "Cornish", "Manx", "Esperanto"
+];
+
+            const languageResultBox = document.querySelector('.language-res-box');
+            const languageInputBox = document.getElementById("language-box");
+
+            languageInputBox.onkeyup = function () {
+                let result = [];
+                let input = languageInputBox.value.trim();
+                if (input.length > 0) {
+                    result = languages.filter((language) => language.toLowerCase().includes(input.toLowerCase()));
+                    displayLanguages(result);
+                } else {
+                    languageResultBox.style.display = 'none';
+                }
+            };
+
+            function displayLanguages(result) {
+                if (result.length > 0) {
+                    const content = result.map(language => `<li onclick="selectLanguage(this)">${language}</li>`).join('');
+                    languageResultBox.innerHTML = `<ul>${content}</ul>`;
+                    languageResultBox.style.display = 'block';
+                } else {
+                    languageResultBox.style.display = 'none';
+                }
+            }
+
+            window.selectLanguage = function (languageItem) {
+                languageInputBox.value = languageItem.textContent;
+                languageResultBox.innerHTML = '';
+                languageResultBox.style.display = 'none';
+            };
+        };
     </script>
+    
+
+    
 </body>
 
 </html>

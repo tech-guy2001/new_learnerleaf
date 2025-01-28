@@ -55,6 +55,7 @@ ul li {
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
+    margin-left: 50px;
 }
 
 p {
@@ -110,10 +111,12 @@ p span {
    
 </head>
 <body>
-    <h1>post</h1>
+    <h1>Post</h1>
     <div class="post">
    
-    <h2>{{sp.meeting_option }} {{sp.subject}} teacher need in {{s.location}}</h2>
+    <h2>{{sp.meeting_option }} {{sp.subject}} Teacher needed in {{s.location}}</h2>
+    <p> <i class="fa-solid fa-chalkboard-teacher class-icon"></i> Class {{sp.classes}} {{sp.curriculam}}</p>
+    <p><i class="fa-solid fa-graduation-cap"></i> Subject: </p>
     <ul>
         {% if sp.subject %}
         <li> {{sp.subject}}</li>
@@ -126,15 +129,24 @@ p span {
         {% endif %}
 
     </ul>
-  <p> <i class="fa-solid fa-location-dot" style="font-size: 20px;"></i> {{s.location}}  ₹{{sp.budget}} per /{{sp.budget_need}}</p> 
-  <p><i class="fa-solid fa-hourglass-start"></i> Posted:{{sp.dates}} <i class="fa-solid fa-arrow-up-right-dots"></i> Level:{{sp.level}} <i class="fa-solid fa-scale-unbalanced-flip"></i> Requires:{{sp.need}}</p>
+  <p> <i class="fa-solid fa-location-dot" style="font-size: 20px;"></i> {{s.location}}  </p> 
+  <p><i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px;"></i> {{sp.budget}} /{{sp.budget_need}}</p>
+  <p><i class="fa-solid fa-hourglass-start"></i> Posted:{{ sp.dates|timesince }} ago  <i class="fa-solid fa-scale-unbalanced-flip"></i> Requires:{{sp.need}}</p>
   <p><i class="fa-solid fa-user"></i> Posted by: {{s.name}}</p>
-  <p><i class="fa-solid fa-phone"></i> Contact: {{s.phone}}</p>
-  <p><i class="fa-solid fa-venus-mars"></i> Gender Preference: {{sp.gender}}</p>
+  <p><i class="fa-solid fa-phone"></i>Contact: {{s.phone}}</p>
+  <p><i class="fa-solid fa-venus-mars"></i>Gender Preference: {{sp.gender}}</p>
   <p><i class="fa-solid fa-wifi"></i>Available :{{sp.meeting_option}}</p>
-  <p><i class="fa-solid fa-paper-plane"></i>Can communicate in :{{sp.language }}</p>
+  <p><i class="fa-solid fa-paper-plane"></i> Can communicate in :{{sp.language }}</p>
   <p>{{sp.message}}</p>
+  {% if sp.imagess %}
+  <p><i class="fa-solid fa-file-arrow-up"></i> <a href="{{ sp.imagess.url }}" target="_blank">View File</a></p>
+{% else %}
+  <p>No file uploaded.</p>
+{% endif %}
+
   <p>{{sp.dyr}}</p>
+
+
 
 
     </div>

@@ -11,82 +11,50 @@
 
 
     <style>
-          body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-           
+        .navbar{
+		background-color: white;
+		}
+        .navbar-brand h2 {
+            font-weight: bold;
+            color: #007BFF;
+            font-size: 36px;
+        }
+		.section-heading {
+    margin: 40px 0 20px;
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    color: #f7fafd;
+    animation: fadeInDown 1s ease;
+}
+
+        .navbar-nav .nav-item .nav-link {
+            font-weight: bold;
+            color: #555;
+        }
+       
+        .dropdown-menu .dropdown-item {
+            color: #0a0606;
         }
 
-     
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #f1f1f1;
+        }
 
-              /* Navbar styles */
-.navbar-brand {
-    font-size: 30px;
-    font-weight: bold;
-    color: #007bff;
-    transition: color 0.3s ease;
-}
+        .navbar-nav .btn {
+            font-weight: bold;
+            
+        }
 
-.navbar-brand:hover {
-    color: #0056b3;
-}
-.active{
-    background-color: #f3f5f7;
-    font-weight: bold;
-    height: 40px;
-    border-radius: 4px;
-    
-}
-.nav-link {
-    font-size: 18px;
-    margin-right: 20px;
-    color: #0e0e0e;
-    position: relative;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
+        .btn-info {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    background: #007bff;
-    left: 0;
-    bottom: -5px;
-    transition: width 0.3s ease;
-}
-
-.nav-link:hover {
-    color: #007bff;
-    transform: translateY(-2px);
-}
-
-.nav-link:hover::after {
-    width: 100%;
-}
-
-
-
-/* Post button styles */
-.post-btn {
-    position: fixed;
-    right: 20px;
-    top: 80px;
-    font-size: 18px;
-    padding: 10px 20px;
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.post-btn:hover {
-    background-color: #5a6268;
-    transform: scale(1.05);
-}
-
+        .btn-info:hover {
+            background-color: #0056b3;
+        }
+       
 /* Section Heading */
 .section-heading {
     margin: 40px 0 20px;
@@ -107,47 +75,7 @@
         transform: translateY(0);
     }
 }
-      body {
-    background-color: #f5f5f5;
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-}
-
-h2 {
-    color: #0a0606;
-    font-weight: bold;
-}
-
-nav{
-    background: linear-gradient(45deg, #0048ff, #7ed6df);
-    background-size: 400% 400%;
-    animation: gradientAnimation 10s ease infinite;
     
-    
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-@keyframes gradientAnimation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-.nav-item:hover {
-    color: #0048ff;
-    border-bottom: 3px solid #0048ff;
-    cursor: pointer;
-}
-        .dropdown-menu {
-            min-width: 160px;
-        }
- 
-
         .footer{
     background-color: #060606;
     padding: 20px;
@@ -225,43 +153,89 @@ nav{
 .requirements h1 {
     font-size: 24px;
     color: #333;
+    margin-bottom: 10px;
 }
 
 .requirements ul {
     list-style: none;
     padding: 0;
+    margin: 10px 0;
+    display: flex; /* Arrange list items in a single row */
+    flex-wrap: wrap; /* Allow items to wrap if necessary */
+    gap: 15px; /* Add spacing between list items */
 }
 
 .requirements ul li {
+    display: flex; /* Use flexbox to align icon and text */
+    align-items: center; /* Vertically align icon and text */
     font-size: 18px;
-    margin: 5px 0;
+    margin: 0;
+    padding: 5px 10px;
+    background-color: #fff; /* Optional background for list items */
+    border-radius: 5px; /* Rounded edges for better aesthetics */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.requirements ul li i {
+    margin-right: 8px; /* Add spacing between icon and text */
+    color: #1e8303;
+    font-size: 20px; /* Ensure icon size matches text size */
+}
+
+.requirements ul li span {
+    font-size: 18px; /* Text size */
+    color: #333; /* Text color */
 }
 
 .requirements p {
     font-size: 16px;
     color: #555;
+    margin: 10px 0;
 }
 
 .requirements i {
-    color: #ff5733;
+    color: #1e8303;
+    margin-right: 5px;
 }
-#b{
-    background-color:#ff5733;
+
+@media screen and (max-width: 600px) {
+    .requirements ul li {
+        flex-basis: 100%; /* Each item takes the full width on very small screens */
+        justify-content: flex-start; /* Align items to the left */
+    }
+
+    .requirements ul li i {
+        font-size: 16px; /* Reduce icon size for smaller screens */
+    }
+
+    .requirements ul li span {
+        font-size: 14px; /* Adjust text size further for very small screens */
+    }
+}
+#b {
+    background-color: #1e8303;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 300px;
+    width: 100%; /* Make the button span the container width */
+    text-align: center;
 }
-#b:hover{
+.s{
+    color: #1e8303;
+    font-weight: bold;
+}
+
+#b:hover {
     background-color: #ff8c00;
-    }
-#b a{
+}
+
+#b a {
     text-decoration: none;
     color: white;
-     font-weight: bold;
+    font-weight: bold;
 }
 
 @keyframes fadeIn {
@@ -299,7 +273,7 @@ nav{
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light " >
+    <!-- <nav class="navbar navbar-expand-lg navbar-light " >
         <div class="container-fluid">
             <a class="navbar-brand " href="#"><h2 style="font-weight: bold; color: #f9f5f5; font-size: 36px;">Learnersleaf</h2>
             </a>
@@ -365,13 +339,72 @@ nav{
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> -->
+
+    <nav class="navbar navbar-expand-lg navbar-light  fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand " href="#">
+                <h2>LearnersLeaf</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="/teacher_dashboard/{{account.email}}">Dasboad</a>
+                   </li>
+
+                   <li class="nav-item active">
+                    <a class="nav-link  " href="/t_wallet/{{account.email}}">Wallet</a>
+                </li>
+
+
+                    <!-- <li class="nav-item dropdown">
+                        <button class="btn dropdown-toggle" style="color: #555" data-bs-toggle="dropdown">
+                            Find Tutor
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
+                            <li><a class="dropdown-item" href="/h_all_teachers">All Tutors</a></li>
+                            <li><a class="dropdown-item" href="/h_online_tutor">Online Tutors</a></li>
+                            <li><a class="dropdown-item" href="/h_home_tutor">Home Tutors</a></li>
+                        </ul>
+                    </li> -->
+
+                    <li class="nav-item dropdown">
+                        <button class="btn dropdown-toggle" style="color: #555" data-bs-toggle="dropdown">
+                            Find Job
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/tutor_job/{{account.email}}">All Job</a></li>
+                            <li><a class="dropdown-item" href="/tutor_online_job/{{account.email}}">Online Job</a></li>
+                            <li><a class="dropdown-item" href="/tutor_job/{{account.email}}">Home Teaching</a></li>
+                                    
+                        </ul>
+                    </li>
+
+                    <li class="nav-item ">
+                        <div class="dropdown" style="color: #555">
+                            <div class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-user" style="font-size: 18px;"></i> {{account.name|title}}
+                            </div>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                                <li><a class="dropdown-item" href="/#"><i class="fa-solid fa-gear"></i> Settings</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> <br><br>
     
-                  
+    <h2 class="section-heading">{{t}}</h2>             
 
     <div class="container mt-5">
         <div class="form">
-        <form action="{% url 'search_job' %}" method="POST" class="row mb-4">
+        <form action="/search_jobs/{{account.email}}" method="POST" class="row mb-4">
             {% csrf_token %}
             <div class="col-md-5">
                 <input type="text" name="subject" class="form-control" placeholder="Subject/Skill">
@@ -390,25 +423,39 @@ nav{
             </div>
         </form>
     </div>
-    <h2 class=".section-heading">{{t}}</h2> <br>
+     <br>
+
+     {% if msg %}
+     <h1>{{msg}}</h1>
+     {% endif %}
 
     {% for i in all %}
     <div class="requirements">
-        <h1>{{i.meeting_option}}  {{i.subject}} Teacher in {{i.location}}</h1><br>
+        <h1>{{i.meeting_option}}  {{i.subject}} Teacher in {{i.location}}</h1>
+        <p class="s">Subject:</p>
         <ul>
+          
             {% if i.subject %}
-            <li> {{i.subject}}</li>
+            <li>   <i class="fa-solid fa-book"></i>{{i.subject}}</li>
             {% endif %}
             {% if i.two_subject %}
-            <li> {{i.two_subject}}</li>
+            <li> <i class="fa-solid fa-book"></i> {{i.two_subject}}</li>
             {% endif %}
             {% if i.three_subject %}
-            <li> {{i.three_subject}}</li>
+            <li> <i class="fa-solid fa-book"></i> {{i.three_subject}}</li>
             {% endif %}
+            {% if i.four_subject %}
+            <li> <i class="fa-solid fa-book"></i> {{i.four_subject}}</li>
+            {% endif %}
+
+            {% if i.five_subject %}
+            <li> <i class="fa-solid fa-book"></i> {{i.five_subject}}</li>
+            {% endif %}
+
     
         </ul>
-        <p>{{ i.dates|timesince }} ago</p>
-        <p>{{i.dyr}} </p><br> <br>
+        <p><i class="fa-solid fa-hourglass-start"></i> {{ i.dates|timesince }} ago</p>
+        <p>{{i.dyr}} </p>
         <p><span><i class="fa-solid fa-indian-rupee-sign" style="font-size: 26px;"></i>{{i.budget}}</span> ({{i.budget_need}}) <span style="padding-left: 70px;"><i class="fa-solid fa-location-dot" style="font-size: 26px;"></i> Location {{i.location}}</p> </span><br>
         <button id="b"><a href="/view_post_teach/{{account.email}}/{{i.email}}/{{i.id}}"> View Post</a></button>
 
@@ -416,26 +463,137 @@ nav{
 
     {% endfor %} 
 
-    <div class="footer ">
-        <p>&copy; 2023 All rights reserved | This website is made with <i
-            class="fa-solid fa-heart"></i> by <a href="https://www.linkedin.com
-            /in/krishnachandra-9a8a3a1a5/"> call me</a>
-            </p>
-    </div>
+   
 
     <script>
         window.onload = function() {
            const key = [
-               "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
-               "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
-               "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-               "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
-               "Dindigul, Tamil Nadu", "Ramanathapuram, Tamil Nadu", "Tuticorin, Tamil Nadu", "Cuddalore, Tamil Nadu",
-               "Vellore, Tamil Nadu", "Ariyalur, Tamil Nadu", "Perambalur, Tamil Nadu", "Nagercoil, Tamil Nadu",
-               "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
-               "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
-               "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-               "Ramanathapuram, Tamil Nadu"
+              // Andhra Pradesh
+    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
+    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
+    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
+    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
+
+    // Arunachal Pradesh
+    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
+    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
+
+    // Assam
+    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
+    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
+    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
+
+    // Bihar
+    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
+    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
+    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
+
+    // Chhattisgarh
+    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
+    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
+
+    // Goa
+    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
+    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
+
+    // Gujarat
+    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
+    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
+    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
+
+    // Haryana
+    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
+    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
+    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
+
+    // Himachal Pradesh
+    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
+    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
+
+    // Jharkhand
+    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
+    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
+
+    // Karnataka
+    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
+    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
+
+    // Kerala
+    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
+
+    // Madhya Pradesh
+    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
+    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
+
+    // Maharashtra
+    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
+    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
+
+    // Manipur
+    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
+
+    // Meghalaya
+    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
+
+    // Mizoram
+    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
+
+    // Nagaland
+    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
+
+    // Odisha
+    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
+
+    // Punjab
+    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
+
+    // Rajasthan
+    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
+
+    // Sikkim
+    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
+
+    // Tamil Nadu
+   
+    "Chennai, Tamil Nadu", "Madurai, Tamil Nadu", "Thanjavur, Tamil Nadu", "Kanchipuram, Tamil Nadu",
+    "Rameswaram, Tamil Nadu", "Chidambaram, Tamil Nadu", "Tiruvannamalai, Tamil Nadu",
+    "Velankanni, Tamil Nadu", "Mahabalipuram, Tamil Nadu",
+
+  
+    "Coimbatore, Tamil Nadu", "Tiruppur, Tamil Nadu", "Salem, Tamil Nadu", "Hosur, Tamil Nadu", "Erode, Tamil Nadu",
+
+ 
+    "Ooty (Udhagamandalam), Tamil Nadu", "Kodaikanal, Tamil Nadu", "Yercaud, Tamil Nadu",
+
+  
+    "Marina Beach, Chennai, Tamil Nadu", "Kanyakumari, Tamil Nadu", "Pondicherry (Puducherry)", 
+    "Tuticorin, Tamil Nadu", "Nagapattinam, Tamil Nadu",
+
+  
+    "The Nilgiris, Tamil Nadu", "Mudumalai National Park, Tamil Nadu", "Hogenakkal, Tamil Nadu",
+    "Kalakkad Mundanthurai Tiger Reserve, Tamil Nadu",
+
+   
+    "Palani, Tamil Nadu", "Tiruvarur, Tamil Nadu", "Srirangam, Tamil Nadu",
+
+    "Cuddalore, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Kumbakonam, Tamil Nadu", "Vellore, Tamil Nadu",
+    "Pollachi, Tamil Nadu", "Dindigul, Tamil Nadu",
+
+    // Telangana
+    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
+
+    // Tripura
+    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
+
+    // Uttar Pradesh
+    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
+
+    // Uttarakhand
+    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
+
+    // West Bengal
+    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
+
            ];
            const result_box = document.querySelector('.res_box');
            const input_box = document.getElementById("box");

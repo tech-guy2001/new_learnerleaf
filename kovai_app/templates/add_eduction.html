@@ -11,7 +11,7 @@
    
 <style>
     body {
-    background: linear-gradient(135deg, #e0eafc, #cfdef3);
+    
     font-family: Arial, sans-serif;
     color: #333;
 }
@@ -125,15 +125,22 @@ input[type="submit"]:hover {
                 margin-left: 0;
             }
         }
+        #back{
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #16472f;
+            color: white;
+        border-radius: 5px;
+        border: none;
+        margin: 20px;
+        }
+
 
 </style>
 </head>
 
 <body>
-    <div class="profile">
-        <i class="fa-solid fa-id-badge"></i> 
-        <span>{{name|title}}</span>
-    </div>
+    
 
     
    
@@ -156,8 +163,16 @@ input[type="submit"]:hover {
         <label>Degree Type</label>
         <select name="degree_type">
             <option value="">Please select</option>
-            <option value="primary">Primary</option>
-            <option value="Secondary">Secondary</option>
+            <option value="">Please select</option>
+            <option value="Diploma">Diploma</option>
+            <option value="Doctorate">Doctorate</option>
+            <option value="Mphil">Mphil</option>
+            <option value="MEd">MEd</option>
+            <option value="MBA">MBA</option>
+            <option value="MSc">MSc</option>
+            <option value="MA">MA</option>
+            <option value="Postgraduate">Postgraduate</option>
+            <option value="Undergraduate">Undergraduate</option>
             <!-- Additional degree options here -->
         </select><br>
 
@@ -180,5 +195,6 @@ input[type="submit"]:hover {
         <input type="submit" value="Save">
     </form>
 </body>
+<button type="button" id="back" onclick="history.back()">Back</button>
 
 </html>

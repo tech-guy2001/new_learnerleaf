@@ -7,45 +7,66 @@ from django.template.loader import render_to_string
 import random
 from twilio.rest import Client
 from urllib.parse import parse_qs
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 
 # Create your views here.
 def mains(request):
-    return render(request,"main.html")
+    return render(request,"new_home.html")
 def tutor_request(request):
     if request.method=="POST":
         name = request.POST.get("name")
         email = request.POST.get("email")
         location = request.POST.get("location")
         phone = request.POST.get("phone")
-        w_number = request.POST.get("w_number")
+        password=request.POST.get("password")
+        gender=request.POST.get("gender")
+        
         if TutorRequest.objects.filter(email=email).exists():
             return HttpResponse("Email already exists")
         else:
-            c=random.randint(100, 1000)
-            password=f'{name}@{c}'
-            TutorRequest.objects.create(
-                name=name,
-                email=email,
-                location=location,
-                phone=phone,
-                w_number=w_number,
-            
-                password=password
-            )
-            login={"name":name,"email":email,"password":password}
-            html_template="email_verify.html"
+    
+
+# Generate a random 6-digit OTP
+            otp = random.randint(100000, 999999)
+
+
+            login={"otp":otp}
+            html_template="otp.html"
             html_message=render_to_string(html_template,login)
         
             email_from=settings.EMAIL_HOST_USER
             r_list=[email]
-            subject="Action required: Please confirm to post requirement"
+            subject="Verification Otp"
             message=EmailMessage(subject,html_message,email_from,r_list)
             message.content_subtype='html'
             message.send()
 
 
+            TutorRequest.objects.create(
+                name=name,
+                email=email,
+                location=location,
+                phone=phone,
+               
+                mobile_otp=otp,
+                password=password,
+                gender=gender
+            )
+            login={"name":name,"email":email,"password":password,"msg":"Otp sented to your Register Mobile Number to verify your Account"}
+            # html_template="a_email_verify.html"
+            # html_message=render_to_string(html_template,login)
+        
+            # email_from=settings.EMAIL_HOST_USER
+            # r_list=[email]
+            # subject="Action required: Please confirm to post requirement"
+            # message=EmailMessage(subject,html_message,email_from,r_list)
+            # message.content_subtype='html'
+            # message.send()
+
+
             
-            return render(request, 'mailceck.html')
+            return render(request, 'otp_verfication_student.html',login)
         
 
 
@@ -58,32 +79,55 @@ def tutor_request(request):
     
     return render(request, 'request_tutor.html')
 
+def otp_verify(request,email):
+    if request.method=="POST":
+        otp=request.POST.get("otp")
+        print(type(otp),otp)
+        s=TutorRequest.objects.filter(email=email).first()
+        print("m",type(s.mobile_otp),s.mobile_otp)
+        print(s.mobile_otp==int(otp))
+        if int(s.mobile_otp)==int(otp):
+            return render(request,"addpost.html",{"name":s.name,"email":email})
+        else:
+            return render(request, 'otp_verfication_student.html',{"name":s.name,"email":email,"msg":"Otp is incorrect"})
+            
+
 def addpost(request,email):
     student = TutorRequest.objects.filter(email=email).first()
     if request.method=="POST":
+        classes=request.POST.get("classes")
+        cariculam=request.POST.get("curriculum")
         dyr = request.POST.get("dyr")
-        level = request.POST.get("level")
+       
         subject = request.POST.get("subject")
         two_subject = request.POST.get("two_subject")
         three_subject = request.POST.get("three_subject")
+        four_subject=request.POST.get("four_subject")
+        five_subject=request.POST.get("five_subject")
         i_want = request.POST.get("i_want")
         meeting_option= request.POST.get("meeting_option")
         budget = request.POST.get("budget")
         budget_need = request.POST.get("budget_need")
         
         language = request.POST.get("language")
-        tutor_want = request.POST.get("tutor_want")
+        
         need = request.POST.get("need")
-        message = request.POST.get("message")
+        
         gender = request.POST.get("gender")
+        image = request.FILES.get('image')
         l=TutorRequest.objects.filter(email=email).first()
-        r=Requestpost.objects.create( 
+        if image:
+            Requestpost.objects.create( 
             email=email,
+            curriculum=cariculam,
+            classes=classes,
             dyr=dyr,
-            level=level,
+            
             subject=subject,
             two_subject=two_subject,
             three_subject=three_subject,
+            four_subject=four_subject,
+            five_subject=five_subject,
             i_want=i_want,
             meeting_option=meeting_option,
          
@@ -91,14 +135,77 @@ def addpost(request,email):
             budget_need=budget_need,
             gender=gender,
             language=language,
-            tutor_want=tutor_want,
+           
             need=need,
-            message=message,
+
+            imagess=image,
+           
             location=l.location
             )
- 
+        else:
+             Requestpost.objects.create( 
+            email=email,
+            curriculum=cariculam,
+            classes=classes,
+            dyr=dyr,
+            
+            subject=subject,
+            two_subject=two_subject,
+            three_subject=three_subject,
+            four_subject=four_subject,
+            five_subject=five_subject,
+            i_want=i_want,
+            meeting_option=meeting_option,
+         
+            budget=budget,
+            budget_need=budget_need,
+            gender=gender,
+            language=language,
+           
+            need=need,
+
+            imagess=image,
+           
+            location=l.location
+            )
+
         post = Requestpost.objects.filter(email=email).values
         student = TutorRequest.objects.filter(email=email).first()
+        html_template="wellcome_mail.html"
+        html_message=render_to_string(html_template,{"all":post,"post":student})
+        email_from=settings.EMAIL_HOST_USER
+        r_list=[email]
+        subject="Action required: Please confirm to post requirement"
+        message=EmailMessage(subject,html_message,email_from,r_list)
+        message.content_subtype='html'
+        message.send()
+        #---
+        tutor_list=[]
+        tutor=TutorRegistration.objects.all()
+        need_subject="none"
+        for i in tutor:
+            if i.subject and subject.capitalize() in i.subject:
+                need_subject=subject
+            elif i.subject and two_subject.capitalize() in i.subject:
+                tutor_list.append(i.email)
+                need_subject=two_subject
+    
+            elif i.subject and three_subject.capitalize() in i.subject:
+                need_subject=three_subject
+                tutor_list.append(i.email)
+            elif i.subject and four_subject.capitalize() in i.subject:
+                need_subject=four_subject
+                tutor_list.append(i.email)
+            elif i.subject and five_subject.capitalize() in i.subject:
+                need_subject=five_subject
+                tutor_list.append(i.email)
+            print(i.email)
+            print(subject)
+            print(meeting_option)
+          
+        
+
+       
         return render(request,"mypost.html",{"all":post,"post":student})
 
     return render(request,"addpost.html",{"name":student.name,"email":email})
@@ -125,25 +232,56 @@ def delete_posst(request,id):
     return redirect(myposts, email=email)
    
 
+def mypost(request,email):
+    post = Requestpost.objects.filter(email=email).order_by('-id')
+    student = TutorRequest.objects.filter(email=email).first()
+    return render(request,"mypost.html",{"all":post,"post":student})
 
 
 
+
+# def stu_login(request):
+#     if request.method=="POST":
+#         email=request.POST.get('email')
+#         password=request.POST.get('password')
+#         student = TutorRequest.objects.filter(email=email).first()
+#         print(student.password)
+#         if TutorRequest.objects.filter(email=email,password=password).exists():
+#             # post = Requestpost.objects.filter(email=email).values
+#             # student = TutorRequest.objects.filter(email=email).first()
+#             # return render(request,"mypost.html",{"all":post,"post":student})
+#             return redirect("mypost", email=email)
+           
+#         else:
+#             return render(request,"login.html",{"msg":"your login detail is wong"})
+        
+
+
+
+#     return render(request,"login.html")
+
+
+import re  # For validating email
 
 def stu_login(request):
-    if request.method=="POST":
-        email=request.POST.get('email')
-        password=request.POST.get('password')
-      
-        if TutorRequest.objects.filter(email=email,password=password).exists():
-            post = Requestpost.objects.filter(email=email).values
-            student = TutorRequest.objects.filter(email=email).first()
-            return render(request,"mypost.html",{"all":post,"post":student})
-           
+    if request.method == "POST":
+        identifier = request.POST.get('email')  # Could be email or phone number
+        password = request.POST.get('password')
+
+        # Check if identifier is an email or a phone number
+        if re.match(r'^\S+@\S+\.\S+$', identifier):  # Simple regex for email validation
+            # Login with email
+            student = TutorRequest.objects.filter(email=identifier, password=password).first()
         else:
-            return render(request,"login.html",{"msg":"your login detail is wong"})
+            # Login with phone number
+            student = TutorRequest.objects.filter(phone=identifier, password=password).first()
 
+        if student:
+            return redirect("mypost", email=student.email)  # Redirect using the student's email
+        else:
+            return render(request, "login.html", {"msg": "Your login details are incorrect."})
 
-    return render(request,"login.html")
+    return render(request, "login.html")
 
 
 def teacher_reg(request):
@@ -162,7 +300,7 @@ def teacher_reg(request):
                 password=password,
                 confirm_password=confirm_password,
             )
-           ds={"name":name,"email":email,"msg":"successfully registered  your account in learnersleaf"}
+           ds={"name":name,"email":email,"msg":"Account created! Just a few more details to finalize your tutor profile."}
 
            return render(request, 'details.html', ds)
     
@@ -176,6 +314,11 @@ def details(request,email):
         date_of_birth = request.POST.get('dates')
         location = request.POST.get('location')
         language = request.POST.get('lanquage')
+        language_two = request.POST.get('lanquage_2')
+        language_three = request.POST.get('lanquage_3')
+        language_four = request.POST.get('lanquage_4')
+        language_five = request.POST.get('lanquage_5')
+
         post_code = request.POST.get('post_code')
 
         #  # Example: using session to get the tutor id
@@ -188,6 +331,14 @@ def details(request,email):
         tutor.date_of_birth = date_of_birth
         tutor.location = location
         tutor.language=language
+        if language_two:
+            tutor.language_two=language_two
+        if language_three:
+            tutor.language_three=language_three
+        if language_four:
+            tutor.language_four=language_four
+        if language_five:
+            tutor.language_five=language_five
         tutor.post_code = post_code
         tutor.save()
         msg="you personal detail has saved"
@@ -201,52 +352,29 @@ def details(request,email):
 
 def subject(request,email):
     if request.method == "POST":
-        subject = request.POST.get('subject')
-        level = request.POST.get('level')
-        to_level = request.POST.get('to_level')
-        #two
-        two_subject = request.POST.get('two_subject')
-        two_level = request.POST.get('two_level')
-        two_to_level = request.POST.get('to_level')
-        #three
-        three_subject = request.POST.get('three_subject')
-        three_level = request.POST.get('three_level')
-        three_to_level = request.POST.get('three_to_level')
-        #four
-        four_subject = request.POST.get('four_subject')
-        four_level = request.POST.get('four_level')
-        four_to_level = request.POST.get('four_to_level')
-
-        #five
-        five_subject = request.POST.get('five_subject')
-        five_level = request.POST.get('five_level')
-        five_to_level = request.POST.get('five_to_level')
+        lsubject = request.POST.get('subjects')
+        llevel = request.POST.get('level')
+        level=""
+        print(lsubject,"this is subject")
+        if lsubject :
+            subject=lsubject.split(",")
+            #level=llevel.split(",")
+            print(subject,level)
         tutor = TutorRegistration.objects.filter(email=email).first()
         if tutor:
             # Update the tutor details from the POST data
             tutor.subject = subject
             tutor.from_level=level
-            tutor.to_level=to_level
-            tutor.two_subject = two_subject
-            tutor.two_from_level=two_level
-            tutor.two_to_level=two_to_level
-            tutor.three_subject = three_subject
-            tutor.three_from_level=three_level
-            tutor.three_to_level=three_to_level
-            tutor.four_subject=four_subject
-            tutor.four_from_level=four_level
-            tutor.four_to_level=four_to_level
-            tutor.five_subject=five_subject
-            tutor.five_from_level=five_level
-            tutor.five_to_level=five_to_level
+           
            
 
             # Save the updated details
             tutor.save()
 
             # Prepare the data to be passed to the next template
-            ds = {"name": tutor.name, "email": tutor.email}
+            ds = {"name": tutor.name, "email": tutor.email,"msg":"successfully save your subject"}
             return render(request, 'eduction.html',ds)
+    return render(request, 'subject.html',{"email":email})
 # add ....subject
 
 def addsubject(request,email):
@@ -259,7 +387,7 @@ def addsubject(request,email):
         email = tutor.email
         password = tutor.password
         TutorRegistration.objects.create(name=name,email=email,password=password,subject=subject,from_level=level,to_level=to_level)
-        ds={"name":name,"email":email}
+        ds={"name":name,"email":email,"msg":"successfully saved your "}
         return render(request,"eduction.html",ds)
     
 
@@ -274,9 +402,25 @@ def certificate(request, email):
         institution_name = request.POST.get('institution_name')
         degree_type = request.POST.get('degree_type')
         degree_name = request.POST.get('degree_name')
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-        association = request.POST.get('association')
+        specialisation= request.POST.get('specialisation')
+        institution_name_two = request.POST.get('institution_name_two')
+        degree_type_two = request.POST.get('degree_type_two')
+        degree_name_two = request.POST.get('degree_name_two')
+        institution_name_three = request.POST.get('institution_name_three')
+        degree_type_three = request.POST.get('degree_type_three')
+        degree_name_three = request.POST.get('degree_name_three')
+        institution_name_four = request.POST.get('institution_name_four')
+        degree_type_four = request.POST.get('degree_type_four')
+        degree_name_four = request.POST.get('degree_name_four')
+        institution_name_five = request.POST.get('institution_name_five')
+        degree_type_five = request.POST.get('degree_type_five')
+        degree_name_five= request.POST.get('degree_name_five')
+
+        specialisation_two= request.POST.get('specialisation_two')
+        specialisation_three= request.POST.get('specialisation_three')
+        specialisation_four= request.POST.get('specialisation_four')
+        specialisation_five= request.POST.get('specialisation_five')
+       
 
         # Fetch the tutor based on the email
         tutor = TutorRegistration.objects.filter(email=email).first()
@@ -286,15 +430,32 @@ def certificate(request, email):
             tutor.institution_name = institution_name
             tutor.degree_type = degree_type
             tutor.degree_name = degree_name
-            tutor.start_date = start_date
-            tutor.end_date = end_date
-            tutor.association = association
+            tutor.institution_name_two=institution_name_two
+            tutor.degree_type_two=degree_type_two
+            tutor.degree_name_two=degree_name_two
+            tutor.institution_name_three=institution_name_three
+            tutor.degree_type_three=degree_type_three
+            tutor.degree_name_three=degree_name_three
+            tutor.institution_name_four=institution_name_four
+            tutor.degree_type_four=degree_type_four
+            tutor.degree_name_four=degree_name_four
+            tutor.institution_name_five=institution_name_five
+            tutor.degree_type_five=degree_type_five
+            tutor.degree_name_five=degree_name_five
+            tutor.specialisation=specialisation
+            tutor.specialisation_two=specialisation_two
+            tutor.specialisation_three=specialisation_three
+            tutor.specialisation_four=specialisation_four
+            tutor.specialisation_five=specialisation_five
+
+
+
             tutor.save()
 
             ds={"name":tutor.name,"email":tutor.email,"msg":"your  Education saves"}
 
             # Redirect to a success page or another step
-            return render(request, 'add_eduction.html', ds)
+            return render(request, 'company_emp.html', ds)
     return render(request,"eduction.html",ds)
 
 
@@ -340,16 +501,52 @@ def company_emp(request,email):
     if request.method=="POST":
           company_name=request.POST.get('company_name')
           job_roll=request.POST.get('job_roll')
-          start_date=request.POST.get('start_date')
-          end_date=request.POST.get('end_date')
-          job_description=request.POST.get('job_description')
+          
+          year_of_experience=request.POST.get('year_of_experience')
+
+          company_name_two=request.POST.get('company_name_two')
+          job_roll_two=request.POST.get('job_roll_two')
+          
+          year_of_experience_two=request.POST.get('year_of_experience_two')
+
+          company_name_three=request.POST.get('company_name_three')
+          job_roll_three=request.POST.get('job_roll_three')
+          year_of_experience_three=request.POST.get('year_of_experience_three')
+
+          company_name_four=request.POST.get('company_name_four')
+          job_roll_four=request.POST.get('job_roll_four')
+          
+          year_of_experience_four=request.POST.get('year_of_experience_four')
+
+          company_name_five=request.POST.get('company_name_five')
+          job_roll_five=request.POST.get('job_roll_five')
+          
+          year_of_experience_five=request.POST.get('year_of_experience_five')
 
           tutor = TutorRegistration.objects.filter(email=email).first()
           tutor.company_name=company_name
           tutor.job_roll=job_roll
-          tutor.job_start_date=start_date
-          if end_date:
-              tutor.job_end_date=end_date
+          tutor.year_of_experience=year_of_experience
+
+          tutor.company_name_two=company_name_two
+          tutor.job_roll_two=job_roll_two
+          tutor.year_of_experience_two=year_of_experience_two
+
+          tutor.company_name_three=company_name_three
+          tutor.job_roll_three=job_roll_three
+          tutor.year_of_experience_three=year_of_experience_three
+
+          tutor.company_name_four=company_name_four
+          tutor.job_roll_four=job_roll_four
+          tutor.year_of_experience_four=year_of_experience_four
+
+          tutor.company_name_five=company_name_five
+          tutor.job_roll_five=job_roll_five
+          tutor.year_of_experience_five=year_of_experience_five
+
+        #   tutor.job_start_date=start_date
+        #   if end_date:
+        #       tutor.job_end_date=end_date
           tutor.save()
           ds={"name":tutor.name,"email":tutor.email}
           return render(request,'teaching_detail.html',ds)
@@ -361,9 +558,10 @@ def teaching_detail(request, email):
         i_charge = request.POST.get('i_charge')
         min_fee = request.POST.get('min_fee')
         max_fee = request.POST.get('max_fee')
-        total_experience = request.POST.get('total_experience')
-        teaching_experience = request.POST.get('teaching_experience')
-        online_experience = request.POST.get('online_experience')
+        classes = request.POST.get('classes')
+        other_subject = request.POST.get('other_subject')
+        curriculum = request.POST.get('curriculum')
+        language_subject=request.POST.get('language_subject')
         travel = request.POST.get('travel')
         online_teach = request.POST.get('online_teach')
         homework = request.POST.get('homework')
@@ -378,9 +576,10 @@ def teaching_detail(request, email):
             tutor.i_charge = i_charge
             tutor.min_fee = min_fee
             tutor.max_fee = max_fee
-            tutor.total_experience = total_experience
-            tutor.teaching_experience = teaching_experience
-            tutor.online_experience = online_experience
+            tutor.classes = classes
+            tutor.curriculum = curriculum
+            tutor.language_subject = language_subject
+            tutor.other_subject=other_subject
             tutor.willing_to_travel = travel
             tutor.available_for_online_teaching = online_teach
             tutor.help_with_homework  = homework
@@ -398,6 +597,7 @@ def teaching_detail(request, email):
 
 def personal_detail(request,email):
     if request.method == "POST":
+        s_profile_description=request.POST.get('s_profile_description')
         profile_description = request.POST.get('profile_description')
         
         
@@ -408,27 +608,50 @@ def personal_detail(request,email):
         
         tutor = TutorRegistration.objects.filter(email=email).first()
         if tutor:
+            otp = random.randint(100000, 999999)
+            login={"otp":otp}
+            html_template="otp.html"
+            html_message=render_to_string(html_template,login)
+        
+            email_from=settings.EMAIL_HOST_USER
+            r_list=[email]
+            subject="Verification Otp"
+            message=EmailMessage(subject,html_message,email_from,r_list)
+            message.content_subtype='html'
+            message.send()
+            tutor.s_profile_description=s_profile_description
             tutor.profile_description = profile_description
             tutor.id_proof=id_proof
             tutor.profile_photo=profile_photo
             tutor.phone=number
             tutor.filename=f'images/{profile_photo}'
+            tutor.email_otp=otp
             print(tutor.filename)
             tutor.save()
             ds={"name":tutor.name,"email":tutor.email,"password":tutor.password,"number":tutor.phone,}
-            html_template="teac_email_verfiy.html"
-            html_message=render_to_string(html_template,ds)
-       
-            email_from=settings.EMAIL_HOST_USER
-            r_list=[tutor.email]
-            subject="Action required: Please confirm to account contact details"
-            message=EmailMessage(subject,html_message,email_from,r_list)
-            message.content_subtype='html'
-            message.send()
+            
 
-            return render(request,"tech_email_sented.html",ds)
+
+
+            return render(request,"otp_verfication_teachet.html",ds)
         return render(request,"personal_detail.html")
     return render(request,"personal_detail.html")
+
+def otp_verify_teacher(request,email):
+    if request.method=="POST":
+        otp=request.POST.get("otp")
+        print(type(otp),otp)
+        t=TutorRegistration.objects.filter(email=email).first()
+        if int(t.email_otp)==int(otp):
+             return render( request,"teacher_dasboad.html",
+                {
+                    "all": TutorRegistration.objects.filter(email=t.email).values(),
+                    "name": t.name,
+                    "email": t.email,
+                },
+            )
+        else:
+            return render(request, 'otp_verfication_teachet.html',{"name":t.name,"email":email,"msg":"Otp is incorrect"})
     
 def teacher_email_verifed(request,email):
      tutor = TutorRegistration.objects.filter(email=email).first()
@@ -436,22 +659,53 @@ def teacher_email_verifed(request,email):
      return render(request,"teacher_email_verifed.html",ds)
 
 #teacher login
-def teach_login(request):
-    if request.method=="POST":
-        email=request.POST.get('email')
-        password=request.POST.get('password')
+# def teach_login(request):
+#     if request.method=="POST":
+#         email=request.POST.get('email')
+#         password=request.POST.get('password')
 
-        student = TutorRegistration.objects.filter(email=email,password=password).values
-        print(student)
-        if TutorRegistration.objects.filter(email=email,password=password).exists():
-            name=TutorRegistration.objects.filter(password=password).first()
-            return render(request,"teacher_dasboad.html",{"all":student,"name":name.name,"email":email})
-        else:
-            return render(request,"login.html",{"msg":"your login detail is wong"})
+#         student = TutorRegistration.objects.filter(email=email,password=password).values
+#         print(student)
+#         if TutorRegistration.objects.filter(email=email,password=password).exists():
+#             name=TutorRegistration.objects.filter(password=password).first()
+#             return render(request,"teacher_dasboad.html",{"all":student,"name":name.name,"email":email})
+#         else:
+#             return render(request,"login.html",{"msg":"your login detail is Incorrect"})
    
 
 
-    return render(request,"login.html")
+#     return render(request,"login.html")
+
+import re  # For email validation
+
+def teach_login(request):
+    if request.method == "POST":
+        identifier = request.POST.get('email')  # Can be email or phone number
+        password = request.POST.get('password')
+
+        # Determine if the identifier is an email or a phone number
+        if re.match(r'^\S+@\S+\.\S+$', identifier):  # Regex to validate email
+            # Login with email
+            teacher = TutorRegistration.objects.filter(email=identifier, password=password).first()
+        else:
+            # Login with phone number
+            teacher = TutorRegistration.objects.filter(phone=identifier, password=password).first()
+
+        if teacher:
+            return render(
+                request,
+                "teacher_dasboad.html",
+                {
+                    "all": TutorRegistration.objects.filter(email=teacher.email).values(),
+                    "name": teacher.name,
+                    "email": teacher.email,
+                },
+            )
+        else:
+            return render(request, "login.html", {"msg": "Your login details are incorrect."})
+
+    return render(request, "login.html")
+
 
 def teacher_dashboard(request,email):
     tutor = TutorRegistration.objects.filter(email=email).values()
@@ -464,11 +718,97 @@ def myprofile(request,email):
     tutor = TutorRegistration.objects.filter(email=email).values()
     first=TutorRegistration.objects.filter(email=email).first()
     p={"all":tutor,"name":first.name,"roll":first.job_roll,"first":first}
-    return render(request,"myprofile.html",p)
+    return render(request,"h_myprofile.html",p)
 
-def search_teacher(request):
+def search_teacher(request,email):
     l=[
-                "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
+                       # Andhra Pradesh
+    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
+    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
+    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
+    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
+
+    # Arunachal Pradesh
+    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
+    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
+
+    # Assam
+    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
+    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
+    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
+
+    # Bihar
+    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
+    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
+    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
+
+    # Chhattisgarh
+    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
+    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
+
+    # Goa
+    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
+    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
+
+    # Gujarat
+    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
+    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
+    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
+
+    # Haryana
+    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
+    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
+    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
+
+    # Himachal Pradesh
+    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
+    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
+
+    # Jharkhand
+    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
+    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
+
+    # Karnataka
+    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
+    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
+
+    # Kerala
+    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
+
+    # Madhya Pradesh
+    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
+    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
+
+    # Maharashtra
+    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
+    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
+
+    # Manipur
+    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
+
+    # Meghalaya
+    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
+
+    # Mizoram
+    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
+
+    # Nagaland
+    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
+
+    # Odisha
+    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
+
+    # Punjab
+    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
+
+    # Rajasthan
+    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
+
+    #Sikkim
+    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
+
+    # Tamil Nadu
+    "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
                 "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
                 "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
                 "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
@@ -477,24 +817,52 @@ def search_teacher(request):
                 "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
                 "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
                 "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu"
+                "Ramanathapuram, Tamil Nadu",
+    #Telangana
+    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
+
+    # Tripura
+    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
+
+    # Uttar Pradesh
+    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
+
+    # Uttarakhand
+    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
+
+    #West Bengal
+    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
             ]
-   
+    account=Requestpost.objects.filter(email=email).first()
+    accounts=TutorRequest.objects.filter(email=email).first()
+    student = TutorRequest.objects.filter(email=email).first()
     if request.method=="POST":
         subject=request.POST.get('subject')
         location=request.POST.get('location')
-        if TutorRegistration.objects.filter(subject=subject,location=location).exists():
-          
-            tutors = TutorRegistration.objects.filter(subject=subject,location=location).values()
+       
+        tutors = TutorRegistration.objects.all()
+
+    # Filter based on subject and location
+        if TutorRegistration.objects.filter(Q(subject__icontains=subject) & Q(location__icontains=location)).exists():
+
+            tutors = TutorRegistration.objects.filter(Q(subject__icontains=subject)& Q(location__icontains=location)).values()
+            
+
+        elif TutorRegistration.objects.filter(Q(subject__icontains=subject)).exists():
+            tutors=TutorRegistration.objects.filter(Q(subject__icontains=subject)).values()
+            
+        elif TutorRegistration.objects.filter(Q(location__icontains=location)).exists():
+            tutors=TutorRegistration.objects.filter(Q(location__icontains=location)).values()
            
-        elif TutorRegistration.objects.filter(subject=subject).exists():
-            tutors=TutorRegistration.objects.filter(subject=subject).values()
-        elif TutorRegistration.objects.filter(location=location).exists():
-            tutors=TutorRegistration.objects.filter(location=location).values()
-        d={"tutors":tutors,"locations":l}
-        return render(request,"all_teacher.html",d)
+        else:
+            tutors=TutorRegistration.objects.all()
+
+        d={"tutors":tutors,"locations":l,"account":account,"accounts":accounts}
+        return render(request, "all_teacher.html", d)
     all_tutor=TutorRegistration.objects.all()
-    return render(request,"all_teacher.html",{"tutors":all_tutor,"locations":l})
+    return render(request,"all_teacher.html",{"tutors":all_tutor,"locations":l,"account":student})
+
+
 
 
 
@@ -556,7 +924,7 @@ def home_tutor(request):
     all_tutor=TutorRegistration.objects.filter(willing_to_travel="yes")
     return render(request,"all_teacher.html",{"tutors":all_tutor,"locations":l,"heading":"Home Tutors"})
 
-def search_teachers(request,email ):
+def search_teachers(request,email):
     l=[
                 "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
                 "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
@@ -678,9 +1046,23 @@ def  student_inbox(request,email):
 
 def student_post(request,email,id):
     if TutorRequest.objects.filter(email=email).exists():
-        s=TutorRequest.objects.get(email=email)
-        sp=Requestpost.objects.get(id=id)
-        d={"s":s,"sp":sp}
+        # objects=Requestpost.objects.all()
+        # s=TutorRequest.objects.get(email=email)
+        # sp=Requestpost.objects.get(id=id)/
+          # Get all Requestpost objects
+        objects = Requestpost.objects.all()
+
+        # Retrieve specific TutorRequest and Requestpost instances
+        s = get_object_or_404(TutorRequest, email=email)
+        sp = get_object_or_404(Requestpost, id=id)
+        for obj in objects:
+            if obj.imagess and hasattr(obj.imagess, 'url'):
+                obj.is_pdf = obj.imagess.url.endswith(".pdf")
+            else:
+                obj.is_pdf = False
+
+        d = {"s": s, "sp": sp, "objects": objects}
+
         return render(request,"student_post.html",d)
     return render( request,"student_post.html")
     
@@ -950,13 +1332,53 @@ def search_job(request):
         if Requestpost.objects.filter( Q(subject=subject) | Q(two_subject=subject) | Q(three_subject=subject) | Q(four_subject=subject) | Q(five_subject=subject),location=location).exists():
           
             tutors = Requestpost.objects.filter( Q(subject=subject) | Q(two_subject=subject) | Q(three_subject=subject) | Q(four_subject=subject) | Q(five_subject=subject),location=location).values()
+            d={"all":tutors}
            
         elif Requestpost.objects.filter( Q(subject=subject) | Q(two_subject=subject) | Q(three_subject=subject) | Q(four_subject=subject) | Q(five_subject=subject)).exists():
             tutors=Requestpost.objects.filter( Q(subject=subject) | Q(two_subject=subject) | Q(three_subject=subject) | Q(four_subject=subject) | Q(five_subject=subject)).values()
-        elif Requestpost.objects.filter(location=location).exists():
-            tutors=Requestpost.objects.filter(location=location).values()
-        d={"tutors":tutors}
-        return render(request,"tutors_job.html",{"all":tutors})
+            d={"all":tutors}
+        elif Requestpost.objects.filter(Q(location__icontains=location)).exists():
+            tutors=Requestpost.objects.filter(Q(location__icontains=location)).values()
+            d={"all":tutors}
+
+        
+        else:
+            
+            d={"t":"All Job","msg":"There is no Data Found"}
+        
+      
+        d={"all":tutors}
+        return render(request,"tutors_job.html",d)
+    all_tutor=TutorRegistration.objects.all()
+    return render(request,"tutors_job.html",{"all":all_tutor})
+
+def search_jobs(request,email):
+  
+    if request.method=="POST":
+        a = TutorRegistration.objects.filter(email=email).first()
+
+        all=Requestpost.objects.all()
+        subject=request.POST.get('subject')
+        location=request.POST.get('location')
+        if Requestpost.objects.filter( Q(subject=subject) | Q(two_subject=subject) | Q(three_subject=subject) | Q(four_subject=subject) | Q(five_subject=subject),location=location).exists():
+          
+            tutors = Requestpost.objects.filter( Q(subject=subject) | Q(two_subject=subject) | Q(three_subject=subject) | Q(four_subject=subject) | Q(five_subject=subject),location=location).values()
+            d={"all":tutors,"account":a,"t":"All Job"}
+           
+        elif Requestpost.objects.filter( Q(subject=subject) | Q(two_subject=subject) | Q(three_subject=subject) | Q(four_subject=subject) | Q(five_subject=subject)).exists():
+            tutors=Requestpost.objects.filter( Q(subject=subject) | Q(two_subject=subject) | Q(three_subject=subject) | Q(four_subject=subject) | Q(five_subject=subject)).values()
+            d={"all":tutors,"account":a,"t":"All Job"}
+        elif Requestpost.objects.filter(Q(location__icontains=location)).exists():
+            tutors=Requestpost.objects.filter(Q(location__icontains=location)).values()
+            d={"all":tutors,"account":a,"t":"All Job"}
+
+        else:
+            
+            d={"account":a,"t":"All Job","msg":"There is no Data Found"}
+
+       
+       
+        return render(request,"tutors_job.html",d)
     all_tutor=TutorRegistration.objects.all()
     return render(request,"tutors_job.html",{"all":all_tutor})
 
@@ -1025,7 +1447,93 @@ def h_home_tutor(request):
 
 def h_fliter_location(request,location):
     l=[
-                "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
+             # Andhra Pradesh
+    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
+    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
+    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
+    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
+
+    # Arunachal Pradesh
+    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
+    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
+
+    # Assam
+    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
+    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
+    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
+
+    # Bihar
+    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
+    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
+    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
+
+    # Chhattisgarh
+    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
+    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
+
+    # Goa
+    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
+    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
+
+    # Gujarat
+    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
+    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
+    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
+
+    # Haryana
+    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
+    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
+    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
+
+    # Himachal Pradesh
+    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
+    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
+
+    # Jharkhand
+    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
+    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
+
+    # Karnataka
+    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
+    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
+
+    # Kerala
+    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
+
+    # Madhya Pradesh
+    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
+    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
+
+    # Maharashtra
+    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
+    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
+
+    # Manipur
+    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
+
+    # Meghalaya
+    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
+
+    # Mizoram
+    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
+
+    # Nagaland
+    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
+
+    # Odisha
+    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
+
+    # Punjab
+    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
+
+    # Rajasthan
+    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
+
+    #Sikkim
+    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
+
+    # Tamil Nadu
+    "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
                 "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
                 "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
                 "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
@@ -1034,7 +1542,21 @@ def h_fliter_location(request,location):
                 "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
                 "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
                 "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu"
+                "Ramanathapuram, Tamil Nadu",
+    #Telangana
+    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
+
+    # Tripura
+    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
+
+    # Uttar Pradesh
+    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
+
+    # Uttarakhand
+    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
+
+    #West Bengal
+    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
             ]
     decoded_once = unquote(location)  # First level of decoding
     decoded_twice = unquote(decoded_once)   # Second level of decoding
@@ -1042,9 +1564,8 @@ def h_fliter_location(request,location):
     print(decoded_twice)
     if TutorRegistration.objects.filter(location=decoded_twice).exists():
         tutors=TutorRegistration.objects.filter(location=decoded_twice).values()
-    else:
-        tutors=TutorRegistration.objects.all().values()
-    return render(request,"h_all_teacher.html",{"tutors":tutors,"locations":l,"heading":location})
+        return render(request,"h_all_teacher.html",{"tutors":tutors,"locations":l,"heading":decoded_twice})
+    return render(request,"h_all_teacher.html",{"locations":l,"heading":decoded_twice})
  
 
 def h_tutors_job(request):
@@ -1063,7 +1584,93 @@ def h_home_job(request):
     return render(request,"h_job.html",{"all":all,"t":"Home Teaching"})
 def h_search_teacher(request):
     l=[
-                "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
+                  # Andhra Pradesh
+    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
+    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
+    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
+    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
+
+    # Arunachal Pradesh
+    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
+    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
+
+    # Assam
+    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
+    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
+    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
+
+    # Bihar
+    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
+    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
+    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
+
+    # Chhattisgarh
+    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
+    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
+
+    # Goa
+    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
+    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
+
+    # Gujarat
+    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
+    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
+    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
+
+    # Haryana
+    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
+    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
+    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
+
+    # Himachal Pradesh
+    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
+    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
+
+    # Jharkhand
+    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
+    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
+
+    # Karnataka
+    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
+    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
+
+    # Kerala
+    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
+
+    # Madhya Pradesh
+    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
+    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
+
+    # Maharashtra
+    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
+    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
+
+    # Manipur
+    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
+
+    # Meghalaya
+    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
+
+    # Mizoram
+    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
+
+    # Nagaland
+    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
+
+    # Odisha
+    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
+
+    # Punjab
+    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
+
+    # Rajasthan
+    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
+
+    #Sikkim
+    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
+
+    # Tamil Nadu
+    "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
                 "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
                 "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
                 "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
@@ -1072,20 +1679,40 @@ def h_search_teacher(request):
                 "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
                 "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
                 "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu"
+                "Ramanathapuram, Tamil Nadu",
+    #Telangana
+    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
+
+    # Tripura
+    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
+
+    # Uttar Pradesh
+    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
+
+    # Uttarakhand
+    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
+
+    #West Bengal
+    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
             ]
     if request.method=="POST":
         subject=request.POST.get('subject')
         location=request.POST.get('location')
-        if TutorRegistration.objects.filter(subject=subject,location=location).exists():
-          
-            tutors = TutorRegistration.objects.filter(subject=subject,location=location).values()
-           
-        elif TutorRegistration.objects.filter(subject=subject).exists():
-            tutors=TutorRegistration.objects.filter(subject=subject).values()
-        elif TutorRegistration.objects.filter(location=location).exists():
-            tutors=TutorRegistration.objects.filter(location=location).values()
-        d={"tutors":tutors,"locations":l}
+        if TutorRegistration.objects.filter(Q(subject__icontains=subject) & Q(location__icontains=location)).exists():
+
+            tutors = TutorRegistration.objects.filter(Q(subject__icontains=subject)& Q(location__icontains=location)).values()
+            d={"tutors":tutors,"locations":l}
+
+        elif TutorRegistration.objects.filter(Q(subject__icontains=subject)).exists():
+            tutors=TutorRegistration.objects.filter(Q(subject__icontains=subject)).values()
+            d={"tutors":tutors,"locations":l}
+        elif TutorRegistration.objects.filter(Q(location__icontains=location)).exists():
+            tutors=TutorRegistration.objects.filter(Q(location__icontains=location)).values()
+            d={"tutors":tutors,"locations":l}
+        else:
+            tutors=TutorRegistration.objects.all()
+            d={"locations":l}
+        
         return render(request,"h_all_teacher.html",d)
     all_tutor=TutorRegistration.objects.all()
     return render(request,"h_all_teacher.html",{"tutors":all_tutor,"locations":l})
@@ -1191,29 +1818,38 @@ def student_update(request,email,id):
     post = Requestpost.objects.get(id=id)
     student = TutorRequest.objects.filter(email=email).first()
     if request.method=="POST":
+        classes=request.POST.get("classes")
+        cariculam=request.POST.get("curriculum")
         dyr = request.POST.get("dyr")
-        level = request.POST.get("level")
+       
         subject = request.POST.get("subject")
         two_subject = request.POST.get("two_subject")
         three_subject = request.POST.get("three_subject")
+        four_subject=request.POST.get("four_subject")
+        five_subject=request.POST.get("five_subject")
         i_want = request.POST.get("i_want")
         meeting_option= request.POST.get("meeting_option")
         budget = request.POST.get("budget")
         budget_need = request.POST.get("budget_need")
         
         language = request.POST.get("language")
-        tutor_want = request.POST.get("tutor_want")
+       
         need = request.POST.get("need")
-        message = request.POST.get("message")
+        
         gender = request.POST.get("gender")
         l=TutorRequest.objects.filter(email=email).first()
         r=Requestpost.objects.filter(id=id).update(
+            
             email=email,
+            curriculum=cariculam,
+            classes=classes,
             dyr=dyr,
-            level=level,
+            
             subject=subject,
             two_subject=two_subject,
             three_subject=three_subject,
+            four_subject=four_subject,
+            five_subject=five_subject,
             i_want=i_want,
             meeting_option=meeting_option,
          
@@ -1221,9 +1857,9 @@ def student_update(request,email,id):
             budget_need=budget_need,
             gender=gender,
             language=language,
-            tutor_want=tutor_want,
+           
             need=need,
-            message=message,
+           
             location=l.location
             )
  
@@ -1260,13 +1896,22 @@ def view_message_stu(request,a_email,email,id):
 def view_contant_stu(request,a_email,email,id):
     print(email)
     c=TutorRequest.objects.filter(email=a_email).first()
+    tutor = TutorRegistration.objects.filter(email=email).values()
+    first=TutorRegistration.objects.filter(email=email).first()
     if  student_addcard.objects.filter(email=a_email,cid=id).exists():
         tutor = TutorRegistration.objects.filter(email=email).values()
         first=TutorRegistration.objects.filter(email=email).first()
         p={"all":tutor,"name":first.name,"roll":first.job_roll,"first":first,"s_email":a_email,"phone":first.phone,"email":first.email}
         return render(request,"myprofile.html",p)
+    else:
+        p={"all":tutor,"name":first.name,"roll":first.job_roll,"first":first,"s_email":a_email,"phone":first.phone,"option":"option"}
+        return render(request,"myprofile.html",p)
+
   
-    elif c.coin:
+
+def use_coin_view_contant_stu(request,a_email,email,id):
+    c=TutorRequest.objects.filter(email=a_email).first()
+    if c.coin:
         print(c.coin)
         if c.coin>=100:
             c.coin=c.coin-100
@@ -1279,14 +1924,107 @@ def view_contant_stu(request,a_email,email,id):
     else:
         c=TutorRequest.objects.filter(email=a_email).first()
         return render(request,"s_wallet.html",{"account":c})
+
+
+def t_forget_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if TutorRegistration.objects.filter(email=email).exists():
+            tutor=TutorRegistration.objects.filter(email=email).first()
+            login={"name":tutor.name,"email":email,"password":tutor.password}
+            html_template="a_email_verify.html"
+            html_message=render_to_string(html_template,login)
+        
+            email_from=settings.EMAIL_HOST_USER
+            r_list=[email]
+            subject="Action required: Please confirm to post requirement"
+            message=EmailMessage(subject,html_message,email_from,r_list)
+            message.content_subtype='html'
+            message.send()
+            return render(request,"t_forget.html",{"msg":"Check your mail and change your password"})
+        else:
+            return render(request,"t_forget.html",{"msg":"Email not found"})
+    return render(request,"t_forget.html")
+
+def change_password(request,email):
+    if request.method=="POST":
+        password=request.POST.get('password')
+        confirm_password=request.POST.get('confirm_password')
+        if password==confirm_password:
+            TutorRegistration.objects.filter(email=email).update(password=password)
+            return render(request,"login.html",{"msg":"your password is changed!!!!! Start login"})
+        else:
+            return render(request,"t_change_p.html",{"msg":"password and confirm password not match"})
+        
+
+
+    return render(request,"t_change_p.html",{"email":email})
+
     
+
+
 
 def home(request):
+    return render(request,"new_home.html")
+
+def about(request):
+    return render(request,"about.html")
+
+
+def delete_all(request):
+   TutorRequest.objects.all().delete()
+   TutorRegistration.objects.all().delete()
+   Message.objects.all().delete()   
+   teacher_addcard.objects.all().delete()
+   student_addcard.objects.all().delete()
+   Requestpost.objects.all().delete()
+   return render(request,"home.html")
+
+def delete_stu(request):
+    TutorRequest.objects.all().delete()
+    student_addcard.objects.all().delete()
     return render(request,"home.html")
+
+
+def s_forget_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if TutorRequest.objects.filter(email=email).exists():
+            tutor=TutorRequest.objects.filter(email=email).first()
+            login={"name":tutor.name,"email":email,"password":tutor.password}
+            html_template="s_mail_verify.html"
+            html_message=render_to_string(html_template,login)
+        
+            email_from=settings.EMAIL_HOST_USER
+            r_list=[email]
+            subject="Action required: Please confirm to post requirement"
+            message=EmailMessage(subject,html_message,email_from,r_list)
+            message.content_subtype='html'
+            message.send()
+            return render(request,"s_forget.html",{"msg":"Check your mail and change your password"})
+        else:
+            return render(request,"s_forget.html",{"msg":"Email not found"})
+    return render(request,"s_forget.html")
+
+def s_change_password(request,email):
+    if request.method=="POST":
+        password=request.POST.get('password')
+        confirm_password=request.POST.get('confirm_password')
+        if password==confirm_password:
+            TutorRequest.objects.filter(email=email).update(password=password)
+          
+            
+            return render(request,"login.html",{"msg":f"your password is changed!!!!! Start login"})
+        else:
+            return render(request,"s_c_p.html",{"msg":"password and confirm password not match"})
+        
+
+
+    return render(request,"s_c_p.html",{"email":email})
+
     
 
 
-      
 
       
 

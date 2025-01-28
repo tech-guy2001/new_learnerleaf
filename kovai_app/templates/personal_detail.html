@@ -73,17 +73,21 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        #back{
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #16472f;
+            color: white;
+        border-radius: 5px;
+        border: none;
+        margin: 10px;
+        }
+
     </style>
 </head>
 
 <body>
-    <div class="profile">
-        
-       
-        <i class="fa-solid fa-id-badge" style="font-size: 40px; color: #fff;"></i> <span style="font-size: 20px; color: #fff;">{{name|title}}</span>
-  
-    
-</div>
+    <h3 style="margin-left: 200px;">Profile 6 of 6</h3>
     <h3>Profile Description</h3>
     <p>This is the most important section for you.<br>
         80% of students will decide if they want to hire you just based on what you write here.<br>
@@ -91,14 +95,31 @@
         Do not copy-paste your resume here.<br>
         Do not share any contact details.</p>
 
-    <form action="/personal_detail/{{email}}" method="POST" enctype="multipart/form-data">
+    <form action="/personal_detail/{{email}}" method="POST" enctype="multipart/form-data" onsubmit="return validateProfileDescription()">
         {% csrf_token %}
-        <label for="profile_description">Profile Description</label>
-        <textarea name="profile_description" rows="10" cols="50"></textarea><br>
+        <label for="profile_description">Short Profile Description About you</label>
+        <textarea
+        id="profile_description"
+        name="s_profile_description"
+        rows="3"
+        cols="50"
+        placeholder="Shot Profile Description must with in 77 charaters I have not shared any contact details (Email, Phone, Skype, Website, etc)"
+    ></textarea><br>
 
-        
-     <label for="no"> <input type="checkbox" name="no" id="no"> 
-        I have not shared any contact details (Email, Phone, Skype, Website, etc)</label>     
+
+        <label for="profile_description">Profile Description</label>
+        <textarea
+        id="sprofile_description"
+        name="profile_description"
+        rows="10"
+        cols="50"
+        placeholder="I have not shared any contact details (Email, Phone, Skype, Website, etc)"
+    ></textarea><br>
+
+       
+   
+
+             
         <h3>Upload ID Proof</h3>
         <p>Please upload proof for the following:<br>
             You are a citizen of India OR<br>
@@ -119,6 +140,51 @@
 
         <input type="submit" value="Submit">
     </form>
+    <button type="button" id="back" onclick="history.back()">Back</button>
+
+    <script>
+      
+    function validateProfileDescription() {
+        const description = document.getElementById('profile_description').value.trim();
+        const sdescription = document.getElementById('sprofile_description').value.trim();
+        const idProof = document.querySelector('input[name="id_proof"]').files;
+        const profilePic = document.querySelector('input[name="profile"]').files;
+
+        const regex = /^[A-Za-z\s.,!?'" ]+$/; // Allows only letters, spaces, and some punctuation
+
+        // Validate the short profile description
+        if (!regex.test(description)) {
+            alert('Please enter only characters in the short profile description and avoid using numbers or special symbols.');
+            return false; // Prevent form submission
+        }
+
+        // Validate the full profile description
+        if (!regex.test(sdescription)) {
+            alert('Please enter only characters in the profile description and avoid using numbers or special symbols.');
+            return false; // Prevent form submission
+        }
+
+        // Validate the upload for ID proof
+        if (idProof.length === 0) {
+            alert('Please upload your ID proof.');
+            return false; // Prevent form submission
+        }
+
+        // Validate the upload for profile photo
+        if (profilePic.length === 0) {
+            alert('Please upload your profile photo.');
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
+</script>
+
+
+       
+            
+           
+    
 </body>
 
 </html>

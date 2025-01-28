@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -110,60 +110,21 @@
         .autocomplete-results li:hover {
             background-color: #f0f0f0;
         }
-    </style>
-    <script>
-        window.onload = function () {
-            const study_subjects = [
-                "Mathematics", "Physics", "Chemistry", "Biology", "Computer Science",
-                "English", "History", "Geography", "Economics", "Political Science",
-                "Psychology", "Sociology", "Philosophy", "Engineering", "Law",
-                "Medicine", "Nursing", "Architecture", "Music", "Art"
-            ];
-
-            function attachAutoComplete(input_box_id, result_box_class) {
-                const input_box = document.getElementById(input_box_id);
-                const result_box = document.querySelector(result_box_class);
-
-                input_box.onkeyup = function () {
-                    let result = [];
-                    let input = input_box.value;
-                    if (input.length) {
-                        result = study_subjects.filter((keyword) => {
-                            return keyword.toLowerCase().includes(input.toLowerCase());
-                        });
-                    }
-                    display(result, result_box);
-                };
-
-                function display(result, result_box) {
-                    const content = result.map((list) => {
-                        return `<li onclick="selectItem('${input_box_id}', '${result_box_class}', this)">${list}</li>`;
-                    });
-                    result_box.innerHTML = `<ul>${content.join('')}</ul>`;
-                }
-            }
-
-            // Initialize autocomplete for all subject fields
-            attachAutoComplete("subject", ".res_box");
-            attachAutoComplete("two_subject", ".two_res_box");
-            attachAutoComplete("three_subject", ".three_res_box");
-            attachAutoComplete("four_subject", ".four_res_box");
-            attachAutoComplete("five_subject", ".five_res_box");
-        };
-
-        function selectItem(input_box_id, result_box_class, list) {
-            const input_box = document.getElementById(input_box_id);
-            input_box.value = list.innerHTML;
-            document.querySelector(result_box_class).innerHTML = '';
+        #back{
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #16472f;
+            color: white;
+        border-radius: 5px;
+        border: none;
         }
-    </script>
+
+    </style>
+ 
 </head>
 
 <body>
-    <div class="profile">
-        <i class="fa-solid fa-id-badge" style="font-size: 40px;"></i>
-        <span style="font-size: 20px;">{{ name|title }}</span>
-    </div>
+  
     <div class="alert alert-info alert-dismissible fade show">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <strong>{{ msg }}</strong>
@@ -187,7 +148,7 @@
             </optgroup>
             <optgroup label="-- Grades --">
                 <option value="school">Preschool, Kindergarten, KG, Nursery</option>
-                <!-- Additional Grade Options here -->
+              
             </optgroup>
         </select>
 
@@ -215,7 +176,7 @@
                 </optgroup>
                 <optgroup label="-- Grades --">
                     <option value="school">Preschool, Kindergarten, KG, Nursery</option>
-                    <!-- Additional Grade Options here -->
+                    
                 </optgroup>
             </select>
 
@@ -244,7 +205,7 @@
                 </optgroup>
                 <optgroup label="-- Grades --">
                     <option value="school">Preschool, Kindergarten, KG, Nursery</option>
-                    <!-- Additional Grade Options here -->
+                    
                 </optgroup>
             </select>
 
@@ -273,7 +234,7 @@
                 </optgroup>
                 <optgroup label="-- Grades --">
                     <option value="school">Preschool, Kindergarten, KG, Nursery</option>
-                    <!-- Additional Grade Options here -->
+                  
                 </optgroup>
             </select>
 
@@ -302,7 +263,7 @@
                 </optgroup>
                 <optgroup label="-- Grades --">
                     <option value="school">Preschool, Kindergarten, KG, Nursery</option>
-                    <!-- Additional Grade Options here -->
+                   
                 </optgroup>
             </select>
 
@@ -318,6 +279,7 @@
 
         <input type="submit" value="Submit">
     </form>
+    <button  id="back" type="button" onclick="history.back()">Back</button>
 
     <script>
         $(document).ready(function () {
@@ -337,6 +299,81 @@
                 $(".five").toggle();
             });
         });
+   
+        window.onload = function () {
+    const subjects = [
+        "Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "Statistics", 
+        "Data Science", "Artificial Intelligence", "Machine Learning", "Information Technology", 
+        "Software Engineering", "Electrical Engineering", "Mechanical Engineering", 
+        "Civil Engineering", "Chemical Engineering", "Aerospace Engineering", "Environmental Science", 
+        "Geology", "Astronomy", "Oceanography", "Zoology", "Botany", "Genetics", "Microbiology", 
+        "Biotechnology", "Biomedical Engineering", "Neuroscience", "Psychology", "Sociology", 
+        "Anthropology", "Philosophy", "Political Science", "International Relations", "Law", 
+        "Criminology", "Economics", "Finance", "Accounting", "Business Administration", 
+        "Marketing", "Human Resource Management", "Entrepreneurship", "Supply Chain Management", 
+        "Management Information Systems", "Project Management", "Public Administration", 
+        "History", "Geography", "Archaeology", "Linguistics", "Literature", "Creative Writing", 
+        "English", "French", "Spanish", "German", "Chinese", "Japanese", "Russian", 
+        "Italian", "Latin", "Music", "Art", "Drama", "Theater", "Film Studies", "Dance", 
+        "Graphic Design", "Fashion Design", "Interior Design", "Architecture", "Urban Planning", 
+        "Medicine", "Nursing", "Dentistry", "Pharmacy", "Public Health", "Nutrition", 
+        "Veterinary Science", "Kinesiology", "Sports Science", "Education", "Teaching Methods", 
+        "Special Education", "Early Childhood Education", "Library Science", "Ethics", 
+        "Religious Studies", "Theology", "Cultural Studies", "Gender Studies", 
+        "Communication Studies", "Journalism", "Media Studies", "Photography", "Film Production", 
+        "Game Design", "Animation", "Culinary Arts", "Hospitality Management", "Tourism", 
+        "Event Management", "Agriculture", "Horticulture", "Forestry", "Environmental Studies", 
+        "Sustainable Development", "Marine Biology", "Hydrology", "Physics", "Theoretical Physics", 
+        "Quantum Mechanics", "Thermodynamics", "Fluid Mechanics", "Solid State Physics", 
+        "Electronics", "Circuit Design", "Signal Processing", "Robotics", "Control Systems", 
+        "Nanotechnology", "Materials Science", "Renewable Energy", "Meteorology", 
+        "Climatology", "Ecology", "Evolutionary Biology", "Bioinformatics", "Biophysics", 
+        "Pathology", "Immunology", "Pharmacology", "Toxicology", "Anatomy", "Physiology", 
+        "Dermatology", "Ophthalmology", "Radiology", "Surgery", "Orthopedics", "Cardiology", 
+        "Psychiatry", "Neurology", "Geriatrics", "Pediatrics", "Obstetrics and Gynecology", 
+        "Radiation Therapy", "Genomic Studies", "Molecular Biology", "Virology", 
+        "Cybersecurity", "Network Engineering", "Database Management", "Software Testing", 
+        "Programming", "Web Development", "Mobile App Development", "Cloud Computing", 
+        "Blockchain Technology", "Artificial Neural Networks", "Big Data Analysis"
+    ];
+
+    function attachAutoComplete(input_box_id, result_box_class) {
+        const input_box = document.getElementById(input_box_id);
+        const result_box = document.querySelector(result_box_class);
+
+        input_box.onkeyup = function () {
+            let result = [];
+            let input = input_box.value;
+            if (input.length) {
+                result = subjects.filter((keyword) => {
+                    return keyword.toLowerCase().includes(input.toLowerCase());
+                });
+            }
+            display(result, result_box);
+        };
+
+        function display(result, result_box) {
+            const content = result.map((list) => {
+                return `<li onclick="selectItem('${input_box_id}', '${result_box_class}', this)">${list}</li>`;
+            });
+            result_box.innerHTML = `<ul>${content.join('')}</ul>`;
+        }
+    }
+
+    // Initialize autocomplete for all subject fields
+    attachAutoComplete("subject", ".res_box");
+    attachAutoComplete("two_subject", ".two_res_box");
+    attachAutoComplete("three_subject", ".three_res_box");
+    attachAutoComplete("four_subject", ".four_res_box");
+    attachAutoComplete("five_subject", ".five_res_box");
+};
+
+function selectItem(input_box_id, result_box_class, list) {
+    const input_box = document.getElementById(input_box_id);
+    input_box.value = list.innerHTML;
+    document.querySelector(result_box_class).innerHTML = '';
+}
+
     </script>
 </body>
 
@@ -345,4 +382,337 @@
 
 
 
+ -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Dynamic List with Checkboxes and Labels</title>
+     <style>
+         .main{
+               margin-left: 300px;
+               margin-top: 100px;
+         }
+         .hide{
+             display: none;
+            
+         }
+         /* General styling */
+ body {
+     font-family: Arial, sans-serif;
+     margin: 20px;
+     padding: 20px;
+    
+     color: #333;
+ }
+ 
+ /* Label styling */
+ .subject {
+     font-weight: bold;
+     margin-bottom: 5px;
+     display: inline-block;
+ }
+ 
+ /* Input fields */
+ input[type="text"] {
+     width: 400px;
+     padding: 20px;
+     margin-bottom: 10px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-sizing: border-box;
+ }
+ 
+ input[type="submit"],
+ button {
+     background-color:royalblue;
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+     margin: 5px 0;
+     cursor: pointer;
+     border-radius: 4px;
+     transition: background-color 0.3s ease;
+ }
+ 
+ input[type="submit"]:hover,
+ button:hover {
+     background-color: #45a049;
+ }
+ 
+ /* List styling */
+ ul {
+     list-style-type: none;
+     padding: 0;
+     margin: 20px 0;
+ }
+ 
+ li {
+     background: #f9f9f9;
+     margin: 10px 0;
+     padding: 10px 15px;
+     border-radius: 4px;
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ }
+ 
+ li label {
+     margin-left: 5px;
+     font-weight: normal;
+     color: #555;
+     font-size: 18px;
+ }
+ label{
+    font-size: 24px;
+ }
+ 
+ /* Hidden input fields */
+ .hide {
+     display: none;
+ }
+ 
+ /* Responsive design */
+ @media (max-width: 600px) {
+    .main{
+               margin-left: 0;
+          
+         }
+     input[type="text"] {
+         width: 100%;
+     }
+ 
+     button,
+     input[type="submit"] {
+         width: 100%;
+     }
+ }
+
+
+        .show-btn {
+            margin-bottom: 20px;
+        }
+
+        .autocomplete-results {
+          
+           
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: #fff;
+            position: absolute;
+            z-index: 1000;
+            width: 400px
+        }
+
+        .autocomplete-results ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .autocomplete-results li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .autocomplete-results li:hover {
+            background-color: #f0f0f0;
+        }
+ 
+     </style>
+     <script>
+
+
+    function validateForm() {
+        // Get the input values
+        const subjects = document.getElementById("subjects").value.trim();
+        const level = document.getElementById("level").value.trim();
+
+        // Check if the inputs are empty
+        if (!subjects ) {
+            alert("you want to add subject");
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+
+    // Example function for 'addlevel', can be customized further
+    function addlevel() {
+        console.log("Level function called");
+    }
+
+         let a = [];
+         let v = [];
+
+         document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+    checkbox.addEventListener("change", handleCheckboxChange);
+});
+
+        
+  
+         
+                 function add() {
+    let name = document.getElementById("subject").value;
+
+    if (name) {
+        a.push(name);
+
+        // Create a new list item
+        let listItem = document.createElement("li");
+
+        // Add the item name as text
+        let itemText = document.createTextNode(`${name}: `);
+        listItem.appendChild(itemText);
+
+        // Add the list item to the unordered list
+        document.getElementById("list").appendChild(listItem);
+
+         const handleCheckboxChange = (event) => {
+                     let checkboxName = event.target.name;
+                     if (event.target.checked) {
+                        
+                             v.push(checkboxName);
+                         
+                     } 
+                     console.log(v); // Output the updated array
+                     document.getElementById("level").value = v;
+                     console.log(v)
+         
+                 };
+
+        // Clear the input field
+        document.getElementById("subject").value = "";
+
+        // Uncheck all checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+
+        // Update the hidden input fields
+        document.getElementById("subjects").value = a;
+      
+        document.getElementById("level").value = v;
+        console.log(v)
+        console.log(a)
+
+    } else {
+        alert("Please enter a subject.");
+    }
+}
+
+             
+         
+        
+      
+
+         
+        window.onload = function () {
+    const subjects = [
+        "Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "Statistics", 
+        "Data Science", "Artificial Intelligence", "Machine Learning", "Information Technology", 
+        "Software Engineering", "Electrical Engineering", "Mechanical Engineering", 
+        "Civil Engineering", "Chemical Engineering", "Aerospace Engineering", "Environmental Science", 
+        "Geology", "Astronomy", "Oceanography", "Zoology", "Botany", "Genetics", "Microbiology", 
+        "Biotechnology", "Biomedical Engineering", "Neuroscience", "Psychology", "Sociology", 
+        "Anthropology", "Philosophy", "Political Science", "International Relations", "Law", 
+        "Criminology", "Economics", "Finance", "Accounting", "Business Administration", 
+        "Marketing", "Human Resource Management", "Entrepreneurship", "Supply Chain Management", 
+        "Management Information Systems", "Project Management", "Public Administration", 
+        "History", "Geography", "Archaeology", "Linguistics", "Literature", "Creative Writing", 
+        "English", "French", "Spanish", "German", "Chinese", "Japanese", "Russian", 
+        "Italian", "Latin", "Music", "Art", "Drama", "Theater", "Film Studies", "Dance", 
+        "Graphic Design", "Fashion Design", "Interior Design", "Architecture", "Urban Planning", 
+        "Medicine", "Nursing", "Dentistry", "Pharmacy", "Public Health", "Nutrition", 
+        "Veterinary Science", "Kinesiology", "Sports Science", "Education", "Teaching Methods", 
+        "Special Education", "Early Childhood Education", "Library Science", "Ethics", 
+        "Religious Studies", "Theology", "Cultural Studies", "Gender Studies", 
+        "Communication Studies", "Journalism", "Media Studies", "Photography", "Film Production", 
+        "Game Design", "Animation", "Culinary Arts", "Hospitality Management", "Tourism", 
+        "Event Management", "Agriculture", "Horticulture", "Forestry", "Environmental Studies", 
+        "Sustainable Development", "Marine Biology", "Hydrology", "Physics", "Theoretical Physics", 
+        "Quantum Mechanics", "Thermodynamics", "Fluid Mechanics", "Solid State Physics", 
+        "Electronics", "Circuit Design", "Signal Processing", "Robotics", "Control Systems", 
+        "Nanotechnology", "Materials Science", "Renewable Energy", "Meteorology", 
+        "Climatology", "Ecology", "Evolutionary Biology", "Bioinformatics", "Biophysics", 
+        "Pathology", "Immunology", "Pharmacology", "Toxicology", "Anatomy", "Physiology", 
+        "Dermatology", "Ophthalmology", "Radiology", "Surgery", "Orthopedics", "Cardiology", 
+        "Psychiatry", "Neurology", "Geriatrics", "Pediatrics", "Obstetrics and Gynecology", 
+        "Radiation Therapy", "Genomic Studies", "Molecular Biology", "Virology", 
+        "Cybersecurity", "Network Engineering", "Database Management", "Software Testing", 
+        "Programming", "Web Development", "Mobile App Development", "Cloud Computing", 
+        "Blockchain Technology", "Artificial Neural Networks", "Big Data Analysis"
+    ];
+
+    function attachAutoComplete(input_box_id, result_box_class) {
+        const input_box = document.getElementById(input_box_id);
+        const result_box = document.querySelector(result_box_class);
+
+        input_box.onkeyup = function () {
+            let result = [];
+            let input = input_box.value;
+            if (input.length) {
+                result = subjects.filter((keyword) => {
+                    return keyword.toLowerCase().includes(input.toLowerCase());
+                });
+            }
+            display(result, result_box);
+        };
+
+        function display(result, result_box) {
+            const content = result.map((list) => {
+                return `<li onclick="selectItem('${input_box_id}', '${result_box_class}', this)">${list}</li>`;
+            });
+            result_box.innerHTML = `<ul>${content.join('')}</ul>`;
+        }
+    }
+
+    // Initialize autocomplete for all subject fields
+    attachAutoComplete("subject", ".res_box");
+    attachAutoComplete("two_subject", ".two_res_box");
+    attachAutoComplete("three_subject", ".three_res_box");
+    attachAutoComplete("four_subject", ".four_res_box");
+    attachAutoComplete("five_subject", ".five_res_box");
+};
+
+function selectItem(input_box_id, result_box_class, list) {
+    const input_box = document.getElementById(input_box_id);
+    input_box.value = list.innerHTML;
+    document.querySelector(result_box_class).innerHTML = '';
+}
+     </script>
+ </head>
+ <body>
+    
+    <h3 style="margin-left: 200px;">Profile 2 of 6</h3>
+     <div class="main">
+    <label class="subject">Subject</label> <br>
+         <input type="text" name="subject" id="subject" placeholder="Enter subject" >
+         <div class="autocomplete-results res_box"></div> 
+        
+     
+ 
+     <button type="button" onclick="add()" >Add</button> <br> <br>
+     <input type="checkbox" name="Beginner" id="beginner"> <label >Beginner</label>
+    <input type="checkbox" name="Intermediate" id="intermediate"> <label >Intermediate</label>
+     <input type="checkbox" name="Expert" id="expert"><label >Expert</label>
+     <ul id="list"></ul>
+ 
+     <form action="/subject/{{ email }}" method="POST" onsubmit=" return validateForm()">
+         {% csrf_token %}
+         <div class="hide">
+         <input type="text" name="subjects" id="subjects">
+         <input type="text" name="level" id="level">
+     </div>
+         <input type="submit" value="Save"  onclick="add()" >
+     </form>
+ </div>
+ 
+   
+ </body>
+ </html>
+ 
 

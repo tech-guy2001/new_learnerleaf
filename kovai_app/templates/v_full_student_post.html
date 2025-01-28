@@ -249,55 +249,35 @@ body {
             min-width: 160px;
         }
 
+
+        /* Section Heading */
+.section-heading {
+    margin: 40px 0 20px;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    color: #007bff;
+    animation: fadeInDown 1s ease;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
     </style>
    
 </head>
 <body>
-    <div class="profile">
-        <h2 style="position: absolute; left: 100px; font-weight: bold; color: #f4f4f4; font-size: 36px;">Learnersleaf</h2>
-        <div><i class="fa-solid fa-envelope" style="font-size: 40px;"></i> <a href="/teacher_inbox/{{account.email}}">Message</a></div>
-        <div class="dropdown"><div class="btn  dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-id-badge" style="font-size: 40px;"></i> <span style="font-size: 20px;">{{account.name|title}}</span></div>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/"> <i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
-            <li><a class="dropdown-item" href="#"> <i class="fa-solid fa-gear"></i>Settings</a></li>
-           
-        </ul>
-    </div>
-    </div> 
-    <div class="nav">
-        <div class="item1" style="text-decoration: none;"> <a href="" style="color: black; text-decoration: none;text-decoration: none;">Dasboad</a></div>
-        <div class="item2">
-            <div class="dropdown">
-                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                    Jobs
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/tutor_job/{{account.email}}">All Job</a></li>
-                    <li><a class="dropdown-item" href="/tutor_online_job/{{account.email}}">Online Job</a></li>
-                    <li><a class="dropdown-item" href="/tutor_job/{{account.email}}">Home Teaching</a></li>
-                    
-                </ul>
-            </div>
-        </div>
-        <div class="item3"> <a href="/t_wallet/{{account.email}}">Wallet</a></div>
-        <div class="item4"><div class="dropdown">
-            <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown">
-                Edit
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
-                <li><a class="dropdown-item" href="/t_basic/{{account.email}}">Detail</a></li>
-                <li><a class="dropdown-item" href="/t_photo/{{account.email}}">Photo</a></li>
-                <li><a class="dropdown-item" href="/t_subject/{{account.email}}">subject</a></li>
-                <li><a class="dropdown-item" href="/t_contact/{{account.email}}">contact</a></li>
-                <li><a class="dropdown-item" href="/t_teaching/{{account.email}}">Teaching Details</a></li>
-                <li><a class="dropdown-item" href="/t_experience/{{account.email}}">Employ Details</a></li>
-            </ul>
-        </div></div>
-        
-    </div>
-    <h1>Post</h1>
-    <div class="post">
+   
+    <h1 class="section-heading ">Post</h1>
+    <!-- <div class="post">
    
     <h2>{{sp.meeting_option }} {{sp.subject}} teacher need in {{s.location}}</h2>
     <ul>
@@ -323,13 +303,55 @@ body {
   <p>{{sp.message}}</p>
   <p>{{sp.dyr}}</p>
   <a href="/t_message_to/{{account.email}}/{{sp.email}}"><button> <i class="fa-solid fa-message"></i>Message</button></a>
+  <button class="whatsapp-btn" onclick="contactWhatsApp()"> <i class="fa-brands fa-square-whatsapp"></i>Contact with WhatsApp</button> -->
+
+  <div class="post">
+   
+    <h2>{{sp.meeting_option }} {{sp.subject}} Teacher needed in {{s.location}}</h2>
+    <p> <i class="fa-solid fa-chalkboard-teacher class-icon"></i> Class {{sp.classes}} {{sp.curriculam}}</p>
+    <p><i class="fa-solid fa-graduation-cap"></i> Subject: </p>
+    <ul>
+        {% if sp.subject %}
+        <li> {{sp.subject}}</li>
+        {% endif %}
+        {% if sp.two_subject %}
+        <li> {{sp.two_subject}}</li>
+        {% endif %}
+        {% if sp.three_subject %}
+        <li> {{sp.three_subject}}</li>
+        {% endif %}
+
+    </ul>
+  <p> <i class="fa-solid fa-location-dot" style="font-size: 20px;"></i> {{s.location}}  </p> 
+  <p><i class="fa-solid fa-indian-rupee-sign" style="font-size: 20px;"></i> {{sp.budget}} /{{sp.budget_need}}</p>
+  <p><i class="fa-solid fa-hourglass-start"></i> Posted:{{ sp.dates|timesince }} ago  <i class="fa-solid fa-scale-unbalanced-flip"></i> Requires:{{sp.need}}</p>
+  <p><i class="fa-solid fa-user"></i> Posted by: {{s.name}}</p>
+  <p><i class="fa-solid fa-phone"></i>Contact: {{s.phone}}</p>
+  <p><i class="fa-solid fa-venus-mars"></i>Gender Preference: {{sp.gender}}</p>
+  <p><i class="fa-solid fa-wifi"></i>Available :{{sp.meeting_option}}</p>
+  <p><i class="fa-solid fa-paper-plane"></i> Can communicate in :{{sp.language }}</p>
+  <p>{{sp.message}}</p>
+  {% if sp.imagess %}
+  <p><i class="fa-solid fa-file-arrow-up"></i> <a href="{{ sp.imagess.url }}" target="_blank">View File</a></p>
+  
+
+{% endif %}
+
+  <p>{{sp.dyr}}</p>
+  <!-- <a href="/t_message_to/{{account.email}}/{{sp.email}}"><button> <i class="fa-solid fa-message"></i>Message</button></a> -->
   <button class="whatsapp-btn" onclick="contactWhatsApp()"> <i class="fa-brands fa-square-whatsapp"></i>Contact with WhatsApp</button>
+
+
+
+
+    </div>
 
   <script>
       function contactWhatsApp() {
           window.open("https://wa.me/{{s.w_number}}s?text=Hello, I'd like to contact you!", "_blank");
       }
   </script>
+
 
 
     </div>

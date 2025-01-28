@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
 {% load static %}
+{% load custom_filters %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -172,6 +173,18 @@
 .detail:hover{
   box-shadow: 0 0 10px  blue
 }
+.c_sub {
+        display: flex; /* Align items horizontally */
+        flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+        padding: 0;
+        list-style: none;
+        margin: 0;
+      position: relative;
+      left: 5px;
+      top: 5px;
+     gap: 15px;
+}
+
 
 </style>
 <script>
@@ -226,21 +239,13 @@
 
       <div class="subject">
         <i class="fa-solid fa-graduation-cap" style="font-size: 50px;"> <span style="font-size: 30px; font-family: Arial, Helvetica, sans-serif;">Subjects</span></i> 
-        {% for i in all %}
-        {% if i.subject %}
-        <h4>{{i.subject}} <span>{{i.from_level}} to {{i.to_level}}</span></h4>
-        
-        {% endif %}
-        {% if i.two_subject %}
-        <h4>{{i.two_subject}} <span>{{i.two_from_level}} to {{i.two_to_level}}</span></h4>
-        
-        {% endif %}
-        {% if three_i.subject %}
-        <h4>{{three_i.subject}} <span>{{three_i.from_level}} to {{three_i.to_level}}</span></h4>
-        
-        {% endif %}
-
-        {% endfor %}
+        <ul class="c_sub">
+          {% for i in all %}
+          {% for subject in i.subject|parse_subjects %}
+              <li class="subject-item"><i class="fa-solid fa-bullseye"></i> {{ subject }}</li>
+          {% endfor %}
+          {% endfor %}
+      </ul>
         
       </div>
       
@@ -248,13 +253,23 @@
       <div class="experience">
         <i class="fa-solid fa-suitcase" style="font-size: 50px;"> <span style="font-size:30px ; font-family: Arial, Helvetica, sans-serif;">Experience</span></i>
         {% for i in all %}
-        {% if i.company_name %}
+       
         
-        {% if i.job_end_date %}
-        <p><h5>{{i.job_roll}}</h5>({{i.job_start_date}} - {{i.job_end_date}}) at {{i.company_name}}</p>
-        {% else %}
-        <p><h5>{{i.job_roll}}</h5>({{i.job_start_date}} - now ) at {{i.company_name}}</p>
+        {% if i.company_name %}
+        <p><h5>{{i.job_roll}}</h5>at {{i.company_name}} for {{i.year_of_experience}} Year</p>
         {% endif %}
+
+        {% if i.company_name_two %}
+        <p><h5>{{i.job_roll_two}}</h5>at {{i.company_name_two}} for {{i.year_of_experience_two}} Years</p>
+        {% endif %}
+        {% if i.company_name_three %}
+        <p><h5>{{i.job_roll_three}}</h5>at {{i.company_name_three}} for {{i.year_of_experience_three}} Year</p>
+        {% endif %}
+        {% if i.company_name_four %}
+        <p><h5>{{i.job_roll_four}}</h5>at {{i.company_name_four}} for {{i.year_of_experience_four}} Year</p>
+        {% endif %}
+        {% if i.company_name_five %}
+        <p><h5>{{i.job_roll_five}}</h5>at {{i.company_name_five}} for {{i.year_of_experience_five}} Year</p>
         {% endif %}
         {% endfor %}
       </div>
@@ -262,7 +277,22 @@
         <i class="fa-solid fa-user-graduate" style="font-size: 50px;"><span style="font-size:30px ; font-family: Arial, Helvetica, sans-serif;">Education</span></i>
         {% for i in all %}
         {% if i.institution_name %}
-        <p><h5>{{i.degree}}</h5>({{i.start_date}} to {{i.end_date}}) at {{i.institution_name}}</p>
+        <p><h5>{{i.degree_type}}</h5>({{i.degree_name}}) at {{i.institution_name}}</p>
+        {% endif %}
+        {% if i.institution_name_two %}
+        <p><h5>{{i.degree_type_two}}</h5>({{i.degree_name_two}}) at {{i.institution_name_two}}</p>
+        {% endif %}
+
+        {% if i.institution_nam_three %}
+        <p><h5>{{i.degree_type_three}}</h5>({{i.degree_name_three}}) at {{i.institution_name_three}}</p>
+        {% endif %}
+
+        {% if i.institution_name_four %}
+        <p><h5>{{i.degree_type_four}}</h5>({{i.degree_name_four}}) at {{i.institution_name_four}}</p>
+        {% endif %}
+
+        {% if i.institution_name_five %}
+        <p><h5>{{i.degree_type_five}}</h5>({{i.degree_name_five}}) at {{i.institution_name_five}}</p>
         {% endif %}
         {% endfor %}
       </div>
@@ -287,9 +317,9 @@
 
       
       <div class="detail" id="main">
-        <button><a  href="/view_message_stu/{{s_email}}/{{first.email}}/{{first.id}}"><i class="fa-solid fa-message" style="font-size: 20px;"></i>&nbsp;&nbsp;message</a></button>
-        <button ><a href="/view_contact_stu/{{s_email}}/{{first.email}}/{{first.id}}"><i class="fa-solid fa-square-phone" style="font-size: 20px;"></i>&nbsp;&nbsp;contact</a></button><br> <br>
-        <button class="whatsapp-btn" onclick="contactWhatsApp()"> <i class="fa-brands fa-square-whatsapp"></i>&nbsp;&nbsp;Contact with WhatsApp</button>
+        <button><a  href="/view_message_stu/{{s_email}}/{{first.email}}/{{first.id}}"><i class="fa-solid fa-message" style="font-size: 20px;"></i>&nbsp;&nbsp;Message</a></button>
+        <button ><a href="/view_contact_stu/{{s_email}}/{{first.email}}/{{first.id}}"><i class="fa-solid fa-square-phone" style="font-size: 20px;"></i>&nbsp;&nbsp;Contact</a></button><br> <br>
+        
 
   <script>
      function contactWhatsApp() {
@@ -297,6 +327,13 @@
 }
 
   </script>
+       {% if option %}
+       <div class="option">
+        <p>you want use coin</p>
+        <button><a href="/use_coin_view_contant_stu/{{s_email}}/{{first.email}}/{{first.id}}"><i class="fa-solid fa-coin" style="font-size: 20px;"></i>
+          &nbsp;&nbsp;Use Coin</a></button>
+       </div>
+       {% endif %}
        {% if email %}
         <p><i class="fa-solid fa-square-phone" style="font-size: 20px;"></i> : {{first.phone}}</p>
         
@@ -304,19 +341,21 @@
         {% endif %}
       
         <ul>
-          <li><i class="fa-solid fa-location-dot" style="font-size: 20px;"></i>{{first.location}}</li>
+          <li> <i class="fa-solid fa-graduation-cap" style="font-size: 20px; "></i>
+            <strong>Class: </strong>{{first.classes}} </li>
+          <li><i class="fa-solid fa-location-dot" style="font-size: 20px;"></i> {{first.location}}</li>
           {% for i in all %}
           {% if i.willing_to_travel %}
-          <li><i class="fa-solid fa-car" style="font-size: 20px;"></i> Can travel:{{i.willing_to_travel}}</li>
-          <li><i class="fa-solid fa-chalkboard-user"></i> Total Teaching exp{{i.total_experience}}</li>
-   
-      <li><i class="fa-solid fa-wifi"></i>Teaches online:{{i.available_for_online_teaching }} </li>
-      <li><i class="fa-solid fa-wifi"></i>Online Teaching exp:{{i.online_experience}}</li>
-      <li><i class="fa-solid fa-house"></i>Teaches at student's home:{{i.willing_to_travel}}</li>
-      <li><i class="fa-solid fa-book"></i>Homework Help{{i.help_with_homework}}</li>
-      <li><i class="fa-solid fa-venus-mars"></i>Gender:{{i.gender}}</li>
-      <li><i class="fa-solid fa-message"></i>Speaks:{{i.language}}</li>
-      <li><i class="fa-solid fa-wallet"></i>Fees :₹{{i.min_fee}}-- ₹{{i.max_fee}} for ({{i.i_charge}})</li>
+          <li><i class="fa-solid fa-car" style="font-size: 20px;"></i> Can Travel: {{i.willing_to_travel|upper}}</li>
+       
+      <li><i class="fa-solid fa-venus-mars"></i>Gender: {{i.gender}}</li>
+      <li><i class="fa-solid fa-wifi"></i>Teaches online: {{i.available_for_online_teaching }} </li>
+    
+    
+     
+      
+      <li><i class="fa-solid fa-message"></i>  Language: {{i.language}}</li>
+      <li><i class="fa-solid fa-wallet"></i>  Fees :₹{{i.min_fee}}-- ₹{{i.max_fee}} for ({{i.i_charge}})</li>
       {% endif %}
       {% endfor %}
         </ul>

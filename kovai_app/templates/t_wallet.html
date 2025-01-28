@@ -10,82 +10,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-           
+       .navbar{
+		background-color: white;
+		}
+        .navbar-brand h2 {
+            font-weight: bold;
+            color: #007BFF;
+            font-size: 36px;
+        }
+		.section-heading {
+    margin: 40px 0 20px;
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+    color: #f7fafd;
+    animation: fadeInDown 1s ease;
+}
+
+        .navbar-nav .nav-item .nav-link {
+            font-weight: bold;
+            color: #555;
+        }
+       
+        .dropdown-menu .dropdown-item {
+            color: #0a0606;
         }
 
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .navbar-nav .btn {
+            font-weight: bold;
+            
+        }
+
+        .btn-info {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
+
+        .btn-info:hover {
+            background-color: #0056b3;
+        }
        
-
-              /* Navbar styles */
-.navbar-brand {
-    font-size: 30px;
-    font-weight: bold;
-    color: #007bff;
-    transition: color 0.3s ease;
-}
-
-.navbar-brand:hover {
-    color: #0056b3;
-}
-.active{
-    background-color: #f3f5f7;
-    font-weight: bold;
-    height: 40px;
-    border-radius: 4px;
-    
-}
-.nav-link {
-    font-size: 18px;
-    margin-right: 20px;
-    color: #0e0e0e;
-    position: relative;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    background: #007bff;
-    left: 0;
-    bottom: -5px;
-    transition: width 0.3s ease;
-}
-
-.nav-link:hover {
-    color: #007bff;
-    transform: translateY(-2px);
-}
-
-.nav-link:hover::after {
-    width: 100%;
-}
-
-
-
-/* Post button styles */
-.post-btn {
-    position: fixed;
-    right: 20px;
-    top: 80px;
-    font-size: 18px;
-    padding: 10px 20px;
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.post-btn:hover {
-    background-color: #5a6268;
-    transform: scale(1.05);
-}
-
 /* Section Heading */
 .section-heading {
     margin: 40px 0 20px;
@@ -96,56 +64,13 @@
     animation: fadeInDown 1s ease;
 }
 
-@keyframes fadeInDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.res_box ul li:hover {
+    background-color: #f0f0f0;
 }
-      body {
-    background-color: #f5f5f5;
-    font-family: 'Roboto', sans-serif;
-    color: #333;
+.navbar-nav .nav-item .nav-link:hover{
+    color: #3498db;
+    border-bottom: 2px solid #3498db ;
 }
-
-h2 {
-    color: #0a0606;
-    font-weight: bold;
-}
-
-nav{
-    background: linear-gradient(45deg, #0048ff, #7ed6df);
-    background-size: 400% 400%;
-    animation: gradientAnimation 10s ease infinite;
-    
-    
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-@keyframes gradientAnimation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-.nav-item:hover {
-    color: #0048ff;
-    border-bottom: 3px solid #0048ff;
-    cursor: pointer;
-}
-        .dropdown-menu {
-            min-width: 160px;
-        }
- 
 
         .footer{
     background-color: #060606;
@@ -155,69 +80,8 @@ nav{
     margin-left: 0;
 }
 
-        .detail ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .detail li {
-            padding: 10px 0;
-            font-size: 18px;
-        }
-
-        .location {
-            margin-top: 20px;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        input[type="submit"] {
-            background-color: rgb(0, 123, 255);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        .alert {
-            margin-top: 20px;
-        }
-        .detail{
-            background-color: azure;
-            border-radius: 10px;
-            margin-left: 300px;
-           
-            width: 600px;
-        }
-        .detail h4{
-            background-color: rgb(18, 213, 216);
-            margin-top: 40px;
-            cursor: pointer;
-          
-            
-            
-        }
-        .detail h4:hover{
-            background-color: #0056b3;
-            color: azure;
-        }
-        .one, .two, .three, .four, .five{
-            display: none;
-        }
-        /* Balance section styling */
-h1 {
+  
+            h1 {
     font-family: 'Arial', sans-serif;
     font-size: 24px;
     color: #333;
@@ -265,16 +129,13 @@ a{
     color: #f39c12; /* Icon color */
     font-size: 28px; /* Larger icon */
 }
-ul i{
-    font-size: 38px;
-}
 
 /* Buy Coin section styling */
 .buy_coin {
     display: flex;
     gap: 20px;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .buy_coin a {
@@ -304,6 +165,95 @@ ul i{
         width: 80%;
         text-align: center;
     }
+}
+.footer{
+    background-color: #060606;
+    padding: 20px;
+    color: #fff;
+}
+
+.slider-container {
+      display: inline-block;
+      margin-top: 20px;
+      margin-left: 300px;
+    }
+    .value {
+      font-size: 30px;
+      font-weight: bold;
+      color: green;
+      margin-left: 10px;
+    }
+    input[type="range"]
+    {
+        width: 500px;
+    }
+    .coin{
+        margin-top: 50px;
+        margin-left: -100px;
+    }
+   
+
+    @media (max-width: 768px) {
+    /* Navbar */
+    .navbar-brand h2 {
+        font-size: 28px;
+        text-align: center;
+    }
+
+    
+
+
+    /* Section Heading */
+    .section-heading {
+        font-size: 22px;
+        margin: 20px 0;
+    }
+
+    /* Wallet */
+    .wallet {
+        max-width: 90%;
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    /* Slider */
+    .slider-container {
+        margin: 20px auto;
+        text-align: center;
+        margin-left: 100px;
+    }
+
+    .slider-container input[type="range"] {
+        width: 90%;
+    }
+
+    /* Buy Coin */
+    .buy_coin {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buy_coin a {
+        width: 80%;
+        text-align: center;
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        font-size: 14px;
+    }
+}
+.active{
+  
+  font-weight: bold;
+
+  border-radius: 4px;
+  color: #3498db;
+  border-bottom: 2px solid #3498db ;
+  
 }
 
 .footer{
@@ -338,11 +288,26 @@ $(document).ready(function(){
  
   });
 });
+function updateValue(value) {
+      document.getElementById('sliderValue').textContent = value;
+    }
+    function updateValue(value) {
+      document.getElementById('sliderValue').textContent = value;
+      // Update the button text dynamically
+      document.getElementById('buyCoinBtn').textContent = `Buy ${value} Coins`;
+      document.getElementById('buyCoinBtn').dataset.value = value; // Store the value in the button
+  }
+
+  function buyCoins(email) {
+      const coinValue = document.getElementById('buyCoinBtn').dataset.value || 100; // Default to 100 if not set
+      // Redirect or make a fetch/POST request to update balance on the server
+      window.location.href = `/buy_coin_teach/${email}/${coinValue}`;
+  }
 
 </script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light " >
+    <!-- <nav class="navbar navbar-expand-lg navbar-light " >
         <div class="container-fluid">
             <a class="navbar-brand " href="#"><h2 style="font-weight: bold; color: #f9f5f5; font-size: 36px;">Learnersleaf</h2>
             </a>
@@ -408,7 +373,66 @@ $(document).ready(function(){
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> -->
+
+    <nav class="navbar navbar-expand-lg navbar-light  fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand " href="#">
+                <h2>LearnersLeaf</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="/teacher_dashboard/{{account.email}}">Dasboad</a>
+                   </li>
+
+                   <li class="nav-item active">
+                    <a class="nav-link  " href="/t_wallet/{{account.email}}">Wallet</a>
+                </li>
+
+
+                    <!-- <li class="nav-item dropdown">
+                        <button class="btn dropdown-toggle" style="color: #555" data-bs-toggle="dropdown">
+                            Find Tutor
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
+                            <li><a class="dropdown-item" href="/h_all_teachers">All Tutors</a></li>
+                            <li><a class="dropdown-item" href="/h_online_tutor">Online Tutors</a></li>
+                            <li><a class="dropdown-item" href="/h_home_tutor">Home Tutors</a></li>
+                        </ul>
+                    </li> -->
+
+                    <li class="nav-item dropdown">
+                        <button class="btn dropdown-toggle" style="color: #555" data-bs-toggle="dropdown">
+                            Find Job
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/tutor_job/{{account.email}}">All Job</a></li>
+                            <li><a class="dropdown-item" href="/tutor_online_job/{{account.email}}">Online Job</a></li>
+                            <li><a class="dropdown-item" href="/tutor_job/{{account.email}}">Home Teaching</a></li>
+                                    
+                        </ul>
+                    </li>
+
+                    <li class="nav-item ">
+                        <div class="dropdown" style="color: #555">
+                            <div class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-user" style="font-size: 18px;"></i> {{account.name|title}}
+                            </div>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                                <li><a class="dropdown-item" href="/#"><i class="fa-solid fa-gear"></i> Settings</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> <br><br>
 
     {% if msg %}
     <div class="alert alert-info alert-dismissible fade show">
@@ -417,34 +441,43 @@ $(document).ready(function(){
     </div>
     {% endif %}
 
- <div class="wallet">
-    <h1 class=".section-heading"> Wallet</h1>
-    <ul>
-        <li><i class="fa-solid fa-coins" style="font-size: 38px;"></i> <span> -   300  coin  for  3 "Enquirys."</span></li>
-        <li><i class="fa-solid fa-coins" style="font-size: 38px;"></i> <span> -   600  coin  for  8 "Enquirys."</span></li>
-        <li><i class="fa-solid fa-coins" style="font-size: 38px;"></i> <span> -   900  coin  for  13 "Enquirys."</span></li>
-    </ul>
-    {% if account.coin %}
-    <h1> <i class="fa-solid fa-wallet" style="font-size: 40px;"></i>Balance Coin : <span style="font-weight: bold; font-size: 30px;">{{account.coin}}</span> </h1>
-    {% else %}
-    <h1> <i class="fa-solid fa-wallet" style="font-size: 40px;"></i>Balance Coin :000 </h1>
-    {% endif %}
- </div>
+    <div class="wallet">
+   
+        {% if account.coin %}
+        <h1> <i class="fa-solid fa-wallet" style="font-size: 40px;"></i>Balance Coin : <span style="font-weight: bold; font-size: 30px;">{{account.coin}}</span> </h1>
+        {% else %}
+        <h1> <i class="fa-solid fa-wallet" style="font-size: 40px;"></i>Balance Coin :000 </h1>
+        {% endif %}
+     </div>
+    
+   
+  <div class="slider-container">
+    <h1>Adjust the Range Coin</h1>
+    <input 
+      type="range" 
+      id="rangeSlider" 
+      min="100" 
+      max="3000" 
+      value="100" 
+      step="50" 
+      oninput="updateValue(this.value)">
+      <i class="fa-solid fa-coins" style="font-size: 48px;"></i> <span class="value" id="sliderValue">100</span>
+   
+  </div> 
+ <!-- <div class="buy_coin">
+   <a href="/buy_coin_teach/{{account.email}}/300">Buy Coins</a>
+  
 
+ </div> <br> -->
  <div class="buy_coin">
-   <a href="/buy_coin_teach/{{account.email}}/300">Buy 300 Coins</a>
-   <a href="/buy_coin_teach/{{account.email}}/600">Buy 600 Coins</a>
-   <a href="/buy_coin_teach/{{account.email}}/900">Buy 900 Coins</a>
+    <button 
+        id="buyCoinBtn" 
+        class="btn btn-primary" 
+        onclick="buyCoins('{{account.email}}')">
+        Buy 100 Coins
+    </button>
+</div> <br><br>
 
- </div> <br>
-
- <div class="footer">
-    <p>&copy; 2023 All rights reserved | This website is made with <i
-        class="fa-solid fa-heart"></i> by <a href="https://www.linkedin.com
-        /in/krishnachandra-9a8a3a1a5/"> call me</a>
-        </p>
-</div>
-      
 </body>
 </html>
 </body>

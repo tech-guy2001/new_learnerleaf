@@ -1,62 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Validation</title>
     <script>
-        function validateForm() {
-            let email = document.forms["tutorForm"]["email"].value;
-            let location = document.forms["tutorForm"]["location"].value;
-            let phone = document.forms["tutorForm"]["phone"].value;
-            let dyr = document.forms["tutorForm"]["dyr"].value;
-            let subject = document.forms["tutorForm"]["subject"].value;
-            let budget = document.forms["tutorForm"]["budget"].value;
-            let language = document.forms["tutorForm"]["language"].value;
-            let message = document.forms["tutorForm"]["message"].value;
-            
-            if (email == "" || !validateEmail(email)) {
-                alert("Please enter a valid email.");
-                return false;
-            }
-            if (location == "") {
-                alert("Please enter your location.");
-                return false;
-            }
-            if (phone == "" || !validatePhone(phone)) {
-                alert("Please enter a valid phone number.");
-                return false;
-            }
-            if (dyr == "") {
-                alert("Please enter the details of your requirement.");
-                return false;
-            }
-            if (subject == "") {
-                alert("Please enter the subject.");
-                return false;
-            }
-            if (budget == "") {
-                alert("Please enter your budget.");
-                return false;
-            }
-            if (language == "") {
-                alert("Please enter your preferred language.");
-                return false;
-            }
-            if (message == "") {
-                alert("Please enter a message.");
-                return false;
-            }
-            return true;
-        }
+      function validateForm() {
+    const form = document.forms["tutorForm"];
+    const name = form["name"].value.trim();
+    const email = form["email"].value.trim();
+    const location = form["location"].value.trim();
+    const phone = form["phone"].value.trim();
+    const gender = form["gender"].value;
+    const password = form["password"].value.trim();
+    const c_password = form["c_password"].value.trim();
 
-        function validateEmail(email) {
-            let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
+    // Name Validation
+    if (name === "") {
+        alert("Please enter your name.");
+        return false;
+    }
 
-        function validatePhone(phone) {
-            let re = /^\d{10}$/; // This regex validates a 10-digit phone number. Adjust if necessary.
-            return re.test(phone);
-        }
+    // Email Validation
+    if (email === "" || !validateEmail(email)) {
+        alert("Please enter a valid email.");
+        return false;
+    }
+
+    // Location Validation
+    if (location === "") {
+        alert("Please select your location.");
+        return false;
+    }
+
+    // Phone Validation
+    if (phone === "" || !validatePhone(phone) ||phone.length()==10) {
+        alert("Please enter a valid 10-digit phone number.");
+        return false;
+    }
+
+    // Gender Validation
+    if (!gender) {
+        alert("Please select your gender.");
+        return false;
+    }
+
+    // Password Validation
+    if (password === "") {
+        alert("Please enter a password.");
+        return false;
+    }
+
+    // Confirm Password Validation
+    if (password !== c_password) {
+        alert("Password and Confirm Password must match.");
+        return false;
+    }
+
+    return true;
+}
+
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function validatePhone(phone) {
+    const re = /^\d{10}$/; // Validates a 10-digit phone number
+    return re.test(phone);
+}
+
     </script>
 
     <style>
@@ -86,6 +98,7 @@ form label {
 
 input[type=text], 
 input[type=email], 
+input[type=password],
 select {
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -98,6 +111,7 @@ select {
 
 input[type=text]:focus, 
 input[type=email]:focus, 
+input[type=password]:focus,
 select:focus {
     border-color: #0066cc;
     box-shadow: 0 0 8px rgba(0, 102, 204, 0.2);
@@ -120,11 +134,11 @@ input[type=submit]:hover {
 }
 
 .location {
-    background-color: #eef5ff;
-    padding: 20px;
+
+ 
     border-radius: 5px;
     margin-bottom: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+   
 }
 
 .res_box ul {
@@ -155,33 +169,47 @@ input[type=submit]:hover {
 }
 
 /* Responsive Design */
+/* Responsive Design */
 @media screen and (max-width: 600px) {
+    body {
+        font-size: 14px; /* Adjust font size for readability on smaller screens */
+    }
+
     form {
-        margin: 10px;
-        padding: 10px;
+        margin: 10px; /* Reduce the margin for smaller screens */
+        padding: 15px; /* Increase padding for better touch target size */
+        max-width: 100%; /* Ensure form takes full width on mobile */
+    }
+
+    input[type=text], 
+    input[type=email], 
+    input[type=password],
+    select {
+        font-size: 14px; /* Slightly reduce font size for smaller screens */
+        padding: 12px; /* Increase padding for better touch interaction */
     }
     
     input[type=submit] {
-        font-size: 16px;
-        padding: 10px;
+        font-size: 16px; /* Ensure button text is readable on smaller screens */
+        padding: 12px; /* Adjust button padding for better touch area */
     }
     
     .location {
-        padding: 10px;
+        padding: 12px; /* Reduce padding for compactness */
     }
 
-    h2 {
-        font-size: 24px;
-        width: auto;
-        animation-duration: 1s; /* Faster animation on smaller devices */
+    h2.section-heading {
+        font-size: 20px; /* Reduce heading size for smaller devices */
+        margin: 20px 0; /* Adjust spacing for consistency */
     }
 }
 
+
 /* Section Heading */
 .section-heading {
-    margin: 40px 0 20px;
+    margin: 30px 400px 0px;
     font-size: 28px;
-    text-align: center;
+   
     font-weight: bold;
     color: #007bff;
     animation: fadeInDown 1s ease;
@@ -197,6 +225,9 @@ input[type=submit]:hover {
         transform: translateY(0);
     }
 }
+li{
+    display: inline-block;
+}
     </style>
 </head>
 <body>
@@ -205,7 +236,7 @@ input[type=submit]:hover {
         {% csrf_token %}
         <label >Name</label>
         <input type="text" name="name" id="name">
-        <label>Email</label><br>
+        <label>Email</label>
         <input type="email" name="email" placeholder="ENTER EMAIL"><br><br>
         <div class="location">
             <label>Location</label>
@@ -214,16 +245,18 @@ input[type=submit]:hover {
                 <!-- Results will appear here -->
             </div>
         </div>
-        <label>Phone</label><br>
+        <label>Contact</label>
         <input type="text" name="phone" placeholder="ENTER PHONE"><br><br>
-        <label>WhatsApp Number</label><br>
-        <input type="text" name="w_number" placeholder="ENTER PHONE"><br><br>
-        <label>Gender Preference</label><br>
-        <select name="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="both">Both</option>
-        </select><br><br>
+       
+        <label>Gender</label>
+        <ul class="gender">
+       <li> <input type="radio" name="gender" value="male"></li>  <li><label for="gender">Male</label></li></ul> 
+        <ul class="gender">
+       <li> <input type="radio" name="gender" value="female"></li><li> <label for="gender">Female</label></li></ul><br>
+       <label for="password">Password</label><br>
+       <input type="password" name="password"> <br>
+       <label for="c_password">Confim Password</label> <br>
+       <input type="text" name="c_password">
        
         <input type="submit" value="submit">
     </form>
@@ -231,16 +264,132 @@ input[type=submit]:hover {
     <script>
         window.onload = function() {
             const key = [
-                "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
-                "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
-                "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-                "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
-                "Dindigul, Tamil Nadu", "Ramanathapuram, Tamil Nadu", "Tuticorin, Tamil Nadu", "Cuddalore, Tamil Nadu",
-                "Vellore, Tamil Nadu", "Ariyalur, Tamil Nadu", "Perambalur, Tamil Nadu", "Nagercoil, Tamil Nadu",
-                "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
-                "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
-                "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu"
+              // Andhra Pradesh
+    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
+    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
+    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
+    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
+
+    // Arunachal Pradesh
+    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
+    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
+
+    // Assam
+    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
+    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
+    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
+
+    // Bihar
+    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
+    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
+    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
+
+    // Chhattisgarh
+    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
+    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
+
+    // Goa
+    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
+    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
+
+    // Gujarat
+    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
+    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
+    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
+
+    // Haryana
+    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
+    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
+    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
+
+    // Himachal Pradesh
+    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
+    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
+
+    // Jharkhand
+    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
+    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
+
+    // Karnataka
+    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
+    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
+
+    // Kerala
+    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
+
+    // Madhya Pradesh
+    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
+    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
+
+    // Maharashtra
+    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
+    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
+
+    // Manipur
+    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
+
+    // Meghalaya
+    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
+
+    // Mizoram
+    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
+
+    // Nagaland
+    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
+
+    // Odisha
+    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
+
+    // Punjab
+    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
+
+    // Rajasthan
+    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
+
+    // Sikkim
+    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
+
+    // Tamil Nadu
+   
+    "Chennai, Tamil Nadu", "Madurai, Tamil Nadu", "Thanjavur, Tamil Nadu", "Kanchipuram, Tamil Nadu",
+    "Rameswaram, Tamil Nadu", "Chidambaram, Tamil Nadu", "Tiruvannamalai, Tamil Nadu",
+    "Velankanni, Tamil Nadu", "Mahabalipuram, Tamil Nadu",
+
+  
+    "Coimbatore, Tamil Nadu", "Tiruppur, Tamil Nadu", "Salem, Tamil Nadu", "Hosur, Tamil Nadu", "Erode, Tamil Nadu",
+
+ 
+    "Ooty (Udhagamandalam), Tamil Nadu", "Kodaikanal, Tamil Nadu", "Yercaud, Tamil Nadu",
+
+  
+    "Marina Beach, Chennai, Tamil Nadu", "Kanyakumari, Tamil Nadu", "Pondicherry (Puducherry)", 
+    "Tuticorin, Tamil Nadu", "Nagapattinam, Tamil Nadu",
+
+  
+    "The Nilgiris, Tamil Nadu", "Mudumalai National Park, Tamil Nadu", "Hogenakkal, Tamil Nadu",
+    "Kalakkad Mundanthurai Tiger Reserve, Tamil Nadu",
+
+   
+    "Palani, Tamil Nadu", "Tiruvarur, Tamil Nadu", "Srirangam, Tamil Nadu",
+
+    "Cuddalore, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Kumbakonam, Tamil Nadu", "Vellore, Tamil Nadu",
+    "Pollachi, Tamil Nadu", "Dindigul, Tamil Nadu",
+
+    // Telangana
+    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
+
+    // Tripura
+    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
+
+    // Uttar Pradesh
+    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
+
+    // Uttarakhand
+    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
+
+    // West Bengal
+    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
+
             ];
             const result_box = document.querySelector('.res_box');
             const input_box = document.getElementById("box");

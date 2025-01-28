@@ -40,7 +40,7 @@
         }
 
         input[type="text"], select {
-            width: 100%;
+            width: 90%;
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -120,181 +120,204 @@
             font-size: 30px;
             padding: 10px;
             width: 60%;
-            margin-left: 260px;
+            margin-left: 200px;
+          
+        }
+        .subject-section {
+            display: none;
+            margin-top: 20px;
+            position: relative;
+        }
+        @media (max-width: 600px) {
+            h1{
+                margin-left: 10px;
+            }
         }
     </style>
 
     <script>
-        $(document).ready(function(){
-            $("#two_show").click(function(){
-                $("#two").toggle();
+           $(document).ready(function () {
+            $("#show-two").click(function () {
+                $(".two").toggle();
+                $("#show-two").hide();
             });
 
-            $("#three_show").click(function(){
-                $("#three").toggle();
+            $("#show-three").click(function () {
+                $(".three").toggle();
+                $("#show-three").hide();
+            });
+
+            $("#show-four").click(function () {
+                $(".four").toggle();
+                $("#show-four").hide();
+            });
+
+            $("#show-five").click(function () {
+               
+                $(".five").toggle();
+                $("#show-five").hide();
             });
         });
     </script>
 </head>
 <body>
     <h1>Post a New Requirement</h1>
-    <form action="/add_post/{{email}}" method="POST">
+    <form action="/add_post/{{email}}" method="POST" onsubmit="return validation()" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="autocomplete-container" id="one">
-            <label for="box">Subject</label>
-            <input type="text" id="box" placeholder="Search for a subject..." name="subject">
-            <div class="res_box"></div>
+        <label for="classes">Class</label> <br>
+        <input type="text" name="classes" id="classes" required><br>
+    
+        <label>Curriculum</label>
+        <input type="text" placeholder="State board, CBSE, ICSE, IGCSE, IB..." name="curriculum" id="curriculum"> <br>
+    
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" placeholder="e.g., Maths, Python" required>
+        <div class="autocomplete-results res_box"></div>
+    
+        <button type="button" class="btn btn-primary show-btn" id="show-two">Add Another Subject</button>
+
+       
+        <div class="two subject-section">
+            <label for="two_subject">Subject</label>
+            <input type="text" id="two_subject" name="two_subject" placeholder="e.g., Maths, Python">
+            <div class="autocomplete-results two_res_box"></div>
+
+            <button type="button" class="btn btn-primary show-btn" id="show-three">Add Another Subject</button>
+          
         </div>
-
-        <p id="two_show" class="btn">Add Subject</p>
-
-        <div class="autocomplete-container" id="two">
-            <label for="two_box">Add another subject</label>
-            <input type="text" id="two_box" placeholder="Search for another subject..." name="two_subject">
-            <div class="two_res_box"></div>
-        </div>
-
-        <p id="three_show" class="btn">Add Subject</p>
-
-        <div class="autocomplete-container" id="three">
-            <label for="three_box">Add another subject</label>
-            <input type="text" id="three_box" placeholder="Search for a third subject..." name="three_subject">
-            <div class="three_res_box"></div>
-        </div>
-
-        <label for="dyr">Details of your requirement</label>
-<textarea id="dyr" name="dyr" style="width: 90%; height: 120px; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" placeholder="Example: I am looking for someone with experience in teaching IGCSE Maths online to young kids. My daughter is available from 4.30 pm EST to 8.30 pm EST on weekdays and flexible on Weekends. You should have a digital pen and good internet connection. My budget is a maximum of $35 per hour."></textarea> <br><br>
-        <label for="level">Level</label><br>
-        <select id="level" name="level">
-            <optgroup data-group-name="1" label="-- Skill Level --">
-                <option data-group-name="1" value="Beginner">Beginner</option>
-                <option data-group-name="1" value="Intermediate">Intermediate</option>
-                <option data-group-name="1" value="Expert">Expert</option>
-            </optgroup>
-            <optgroup data-group-name="2" label="-- Grades --">
-                <option data-group-name="2" value="school">Preschool, Kindergarten, KG, Nursery</option>
-                <option data-group-name="2" value="g2">Grade 2</option>
-                <option data-group-name="2" value="g1">Grade 1</option>
-                <option data-group-name="2" value="g3">Grade 3</option>
-                <option data-group-name="2" value="g4">Grade 4</option>
-                <option data-group-name="2" value="g5">Grade 5</option>
-                <option data-group-name="2" value="g6">Grade 6</option>
-                <option data-group-name="2" value="g7">Grade 7</option>
-                <option data-group-name="2" value="g8">Grade 8</option>
-                <option data-group-name="2" value="g9">Grade 9</option>
-                <option data-group-name="2" value="g10">Grade 10</option>
-                <option data-group-name="2" value="IGCSE">IGCSE</option>
-                <option data-group-name="2" value="GCSE">GCSE</option>
-                <option data-group-name="2" value="O_level">O level</option>
-                <option data-group-name="2" value="g11">Grade 11</option>
-                <option data-group-name="2" value="AS_level">AS level</option>
-                <option data-group-name="2" value="A2_level">A2 level</option>
-                <option data-group-name="2" value="A_level">A level</option>
-                <option data-group-name="2" value="g12">Grade 12</option>
-                <option data-group-name="2" value="Diploma">Diploma</option>
-                <option data-group-name="2" value="Bachelors/Undergraduate">Bachelors/Undergraduate</option>
-                <option data-group-name="2" value="Masters/Postgraduate">Masters/Postgraduate</option>
-                <option data-group-name="2" value="MPhil">MPhil</option>
-                <option data-group-name="2" value="Doctorate/PhD">Doctorate/PhD</option>
-            </optgroup>
 
         
+        <div class="three subject-section">
+            <label for="three_subject">Subject</label>
+            <input type="text" id="three_subject" name="three_subject" placeholder="e.g., Maths, Python">
+            <div class="autocomplete-results three_res_box"></div>
+            <button type="button" class="btn btn-primary show-btn" id="show-four">Add Another Subject</button>
+        </div>
 
-        </select> <br><br>
+    
+        <div class="four subject-section">
+            <label for="four_subject">Subject</label>
+            <input type="text" id="four_subject" name="four_subject" placeholder="e.g., Maths, Python">
+            <div class="autocomplete-results four_res_box"></div>
 
-        <label for="i_want">I WANT</label> <br>
+            <button type="button" class="btn btn-primary show-btn" id="show-five">Add Another Subject</button>
+        </div>
+
+       
+        <div class="five subject-section">
+            <label for="five_subject">Subject</label>
+            <input type="text" id="five_subject" name="five_subject" placeholder="e.g., Maths, Python">
+            <div class="autocomplete-results five_res_box"></div>
+
+           
+        </div><br>
+        <br>
+
+        <label for="i_want">I am looking for:</label> <br>
         <select id="i_want" name="i_want">
-            <option value="tutoring">Tutoring</option>
-            <option value="assignment_help">Assignment Help</option>
+            <option value="Tutoring">Tuition</option>
+            <option value="Project Support">Project Support</option>
+            <option value="assignment help">Assignment Support</option>
+            <option value="Others">Others</option>
         </select> <br><br>
 
-        <label>Meeting option</label><br>
-        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="online"> Online (using Skype etc)</label>
-        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="my_place"> At my place (home/institute)</label>
-        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="tutors_place"> Travel to tutor</label> <br><br>
+        <label>Mode of Teaching:</label><br>
+        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="Online"> Online </label>
+        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="Home"> Home</label>
+        <label class="checkbox-label"><input type="checkbox" name="meeting_option" value="At Tutor's Place"> At Tutor's Place</label> <br><br>
 
         <label for="budget">Budget</label> <br>
-        <input type="text" id="budget" name="budget" placeholder="INR" style="width: 40%;"> 
+        <input type="text" id="budget" name="budget" placeholder="INR" style="width: 40%;" required> 
         <select name="budget_need" style="width: 40%;">
-            <option value="per_hour">per hour</option>
-            <option value="per_hour">per hour</option>
-            <option value="per_day">per day</option>
-            <option value="per_week">per week</option>
-            <option value="per_month">per month</option>
+            <option value="per hour">per hour</option>
+            <option value="per hour">per hour</option>
+            <option value="per day">per day</option>
+            <option value="per week">per week</option>
+            <option value="per month">per month</option>
 
          
         </select> <br><br>
 
         <label for="gender">Gender Preference</label><br>
         <select id="gender" name="gender" style="width: 40%;">
+            <option value="">Select your preferred tutor gender:</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-            <option value="both">Both</option>
+            <option value="both">Any</option>
         </select> <br><br>
 
         <label for="language">Preferred Language</label> <br>
-        <input type="text" id="language" name="language" placeholder="I can communicate with the tutor in (languages)" style="width: 90%;"> <br><br>
+        <input type="text" id="language" name="language" placeholder="I can communicate with the tutor in (languages)" style="width: 90%;" required> <br><br>
 
-        <label for="tutor_want">Tutor Want</label><br>
-        <select id="tutor_want" name="tutor_want">
-            <option value="one">only one</option>
-            <option value="two">only two</option>
-            <option value="more">As many as possible</option>
-            <!-- Add remaining options here -->
-        </select> <br><br>
+     
+        <label for="need">I need some:</label> <br>
+       
+        <input type="checkbox" value="Full Time" name="need">
+        <label for="need">Full Time</label> 
+        <input type="checkbox" value="Part Time" name="need">
+        <label for="need">Part Time</label>
+        <input type="checkbox" value="both" name="need">
+        <label for="need">Any</label>
+         <br><br>
+         <label for="image">Upload your requirement:(Optional)</label>
+         <input type="file" name="image" id="image" > <br><br>
 
-        <label for="need">I need some</label> <br>
-        <select id="need" name="need">
-            <option value="part_time">Part time</option>
-            <option value="full_time">Full time</option>
-        </select> <br><br>
-
-        <label for="message">Message</label>
-        <input type="text" id="message" name="message" placeholder="ENTER MESSAGE" style="width: 90%;">
+        <label for="dyr">Details of your requirement</label>
+        <textarea id="dyr" name="dyr" style="width: 90%; height: 120px; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" placeholder="Example: I am looking for someone with experience in teaching IGCSE Maths online to young kids. My daughter is available from 4.30 pm EST to 8.30 pm EST on weekdays and flexible on Weekends. You should have a digital pen and good internet connection. My budget is a maximum of $35 per hour."></textarea> <br><br>
 
         <input type="submit" value="POST" class="btn">
     </form>
     <script>
-        window.onload = function() {
-    const study_subjects = [
-        "Mathematics", "Physics", "Chemistry", "Biology", "Computer Science",
-        "English", "History", "Geography", "Economics", "Political Science",
-        // Add more subjects here
+     function validation() {
+    // Required fields
+    const requiredFields = [
+        { id: "classes", message: "Class field is required." },
+        { id: "subject", message: "Subject field is required." },
+        { id: "i_want", message: "You must select what you are looking for." },
+        { id: "budget", message: "Budget field is required." },
+        { id: "gender", message: "You must select a gender preference." },
+        { id: "language", message: "Preferred language is required." },
+        { id: "dyr", message: "Details of your requirement are required." }
     ];
 
-    function attachAutoComplete(input_box_id, result_box_class) {
-        const input_box = document.getElementById(input_box_id);
-        const result_box = document.querySelector(result_box_class);
-
-        input_box.onkeyup = function() {
-            let result = [];
-            let input = input_box.value;
-            if (input.length) {
-                result = study_subjects.filter((keyword) => {
-                    return keyword.toLowerCase().includes(input.toLowerCase());
-                });
-            }
-            display(result, result_box);
-        };
-
-        function display(result, result_box) {
-            const content = result.map((list) => {
-                return `<li onclick="selectItem('${input_box_id}', '${result_box_class}', this)">${list}</li>`;
-            });
-            result_box.innerHTML = `<ul>${content.join('')}</ul>`;
+    // Check if all required fields are filled
+    for (const field of requiredFields) {
+        const element = document.getElementById(field.id);
+        if (!element.value.trim()) {
+            alert(field.message);
+            element.focus();
+            return false; // Prevent form submission
         }
     }
 
-    attachAutoComplete("box", ".res_box");
-    attachAutoComplete("two_box", ".two_res_box");
-    attachAutoComplete("three_box", ".three_res_box");
-};
+    // Checkboxes for mode of teaching
+    const meetingOptions = document.querySelectorAll('input[name="meeting_option"]');
+    const isMeetingOptionSelected = Array.from(meetingOptions).some(option => option.checked);
+    if (!isMeetingOptionSelected) {
+        alert("You must select at least one mode of teaching.");
+        return false; // Prevent form submission
+    }
 
-function selectItem(input_box_id, result_box_class, list) {
-    const input_box = document.getElementById(input_box_id);
-    input_box.value = list.innerHTML;
-    document.querySelector(result_box_class).innerHTML = '';
+    // Checkbox for need type
+    const needs = document.querySelectorAll('input[name="need"]');
+    const isNeedSelected = Array.from(needs).some(need => need.checked);
+    if (!isNeedSelected) {
+        alert("You must select at least one need type (Full Time, Part Time, or Any).");
+        return false; // Prevent form submission
+    }
+
+    // Validate short profile description (Details of your requirement)
+    const description = document.getElementById("dyr").value.trim();
+    const regex = /^[A-Za-z\s.,!?'"-]+$/; // Allows only letters, spaces, and some punctuation
+    if (!regex.test(description)) {
+        alert('Please enter only valid characters in the "Details of your requirement" field. Avoid using numbers or special symbols.');
+        return false; // Prevent form submission
+    }
+
+    // If all checks pass, allow form submission
+    return true;
 }
+
 
     </script>
 </body>

@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	
+
     <style>
 		.navbar{
 		background-color: rgb(241, 252, 241);
@@ -57,6 +57,8 @@
 			background-color: rgb(177, 212, 249);
 			padding-bottom:  10px;
 			border-radius: 5px;
+			 padding-top: 20px;
+
 		}
 
         /* Mobile styling for smaller screens */
@@ -100,7 +102,7 @@
 .schedule .schedule-inner {
 	position: relative;
 	transform: translateY(-50%);
-	
+
 }
 .schedule .single-schedule {
 	position: relative;
@@ -126,6 +128,10 @@
 }
 .schedule .single-schedule:hover{
 	transform: translateY(-5px);
+}
+.subject{
+     padding-top: 20px;
+
 }
 
 .schedule h4,a{
@@ -161,7 +167,7 @@ text-decoration: none;
     margin-left: 200px;
     margin-top: 30px;
 }
-	
+
 @media (max-width: 991px) {
         .navbar-collapse {
             text-align: center;
@@ -245,7 +251,7 @@ text-decoration: none;
         }
     }
 
-  
+
     .tx h2 {
         font-size: 22px;
         font-weight: bold;
@@ -289,8 +295,8 @@ text-decoration: none;
             padding: 0 15px;
             margin-top: 10px;
         }
-        
-       
+
+
 .subject ul {
     grid-template-columns: auto auto;
     margin-left: 0;
@@ -314,8 +320,8 @@ text-decoration: none;
     border-radius: 10px;
     opacity: 0.9;
     margin-bottom: 20px;
-  
-   
+
+
 }
 #ul a{
     color: #007BFF;
@@ -334,7 +340,7 @@ text-decoration: none;
     }
 
     /* Extra small screens (max-width: 400px) */
-    @media (max-width: 400px) {
+    @media (max-width: 576px) {
         #ul {
             grid-template-columns: auto;
             padding: 10px;
@@ -343,7 +349,7 @@ text-decoration: none;
     }
 </style>
 
-   
+
 
 </head>
 <body>
@@ -426,7 +432,7 @@ text-decoration: none;
 						<!-- single-schedule -->
 						<div class="single-schedule first">
 							<div class="inner">
-								
+
 								<div class="single-content">
 									<span></span>
 									<h4> Find Teacher</h4>
@@ -474,7 +480,7 @@ text-decoration: none;
 				</div>
 			</div>
 		</div>
-		
+
 	</section>
     <div class="skill reveal">
         <div class="ob"><p>9500+ <br>
@@ -577,7 +583,7 @@ text-decoration: none;
            ];
            const result_box = document.querySelector('.res_box');
            const input_box = document.getElementById("box");
-          
+
            input_box.onkeyup = function() {
                let result = [];
                let input = input_box.value;

@@ -4,11 +4,14 @@ from . import views
 urlpatterns = [
  path('',views.mains, name='mains'),
  path('tutor_request',views.tutor_request, name='tutor_request'),
+ path('otp_verify/<email>',views.otp_verify, name='otp_verify'),
  path('email_verify/<email>',views.email_verify, name='email_verify'),
  path('add_post/<email>',views.addpost, name='addpost'),
  path('myposts/<str:email>/', views.myposts, name='myposts'),
+ path('mypost/<str:email>/', views.mypost, name='mypost'),
  path('delete_post/<int:id>',views.delete_posst, name='delete_posst'),
  path('stu_login',views.stu_login, name='stu_login'),
+  path('delete_stu',views.delete_stu, name='delete'),
 
 path('search_teachers/<email>',views.search_teachers, name='search_teachers'),
 path('online_tutors/<email>',views.online_tutor, name='online_tutors'),
@@ -31,7 +34,7 @@ path('add_subject/<email>',views.addsubject, name='addsubject'),
        path('teacher_email_verifed/<email>',views.teacher_email_verifed, name='teacher_email_verified'),
          path('teacher_login',views.teach_login, name='teach_login'),
           path('myprofile/<email>',views.myprofile, name='myprofile'),
-           path('search_teacher',views.search_teacher, name='search_teacher'),
+           path('search_teacher/<email>',views.search_teacher, name='search_teacher'),
 
           path('fliter_location/<location>/',views.fliter_location, name='fliter_location'),
 
@@ -45,6 +48,7 @@ path('add_subject/<email>',views.addsubject, name='addsubject'),
                path('student_profile/<email>',views.student_profile, name='student_profile'),
               path('change_e/<email>',views.change_e, name='change_e'),
                path('change_ph/<email>',views.change_ph, name='change_ph'),
+              path('otp_verify_teacher/<email>',views.otp_verify_teacher, name='otp_verify_teacher'),
 
                # edit teacher
                path('t_basic/<email>',views.t_basic, name='t_basic'),
@@ -58,6 +62,7 @@ path('add_subject/<email>',views.addsubject, name='addsubject'),
                 #search job
 
                  path('search_job',views.search_job, name='search_job'),
+                  path('search_jobs/<email>',views.search_jobs, name='search_jobs'),
                   path('tutor_job/<email>',views.tutors_job, name='tutors_job'),
                    path('tutor_online_job/<email>',views.tutors_online_job, name='tutors_job'),
                     path('h_all_teachers',views.h_all_teachers, name='h_all_teachers'),
@@ -85,8 +90,15 @@ path('add_subject/<email>',views.addsubject, name='addsubject'),
  path('s_myprofile/<email>/<s_email>',views.s_myprofile, name='s_myprofile'),
  path('view_message_stu/<a_email>/<email>/<int:id>',views.view_message_stu, name='s_myprofile'),
  path('view_contact_stu/<a_email>/<email>/<int:id>',views.view_contant_stu, name='iew_contant_stu'),
+  path('use_coin_view_contant_stu/<a_email>/<email>/<int:id>',views.use_coin_view_contant_stu, name='use_coin_view_contant_stu'),
+
  path('home',views.home, name='home'),
-                     
+ path('delete_all',views.delete_all, name='delete_all'),
+ path('t_forget_password',views.t_forget_password, name='t_forget_password'),
+  path('s_forget_password',views.s_forget_password, name='s_forget_password'),  
+  path('change_password/<email>',views.change_password, name='change_password'),
+  path('s_change_password/<email>',views.s_change_password, name='s_change_password'),      
+  path('about',views.about, name='about'),              
         
                      
 

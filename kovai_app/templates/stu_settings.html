@@ -11,57 +11,40 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-        body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-
+ 
 /* Navbar styles */
-.navbar-brand {
-    font-size: 30px;
-    font-weight: bold;
-    color: #007bff;
-    transition: color 0.3s ease;
-}
+.navbar{
+		background-color: white;
+		}
+        .navbar-brand h2 {
+            font-weight: bold;
+            color: #007BFF;
+            font-size: 36px;
+        }
+		
 
-.navbar-brand:hover {
-    color: #0056b3;
-}
+        .navbar-nav .nav-item .nav-link {
+            font-weight: bold;
+            color: #555;
+        }
+       
+        .dropdown-menu .dropdown-item {
+            color: #0a0606;
+        }
 
-.nav-link {
-    font-size: 18px;
-    margin-right: 20px;
-    color: #333;
-    position: relative;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #f1f1f1;
+        }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    background: #007bff;
-    left: 0;
-    bottom: -5px;
-    transition: width 0.3s ease;
-}
+        .navbar-nav .btn {
+            font-weight: bold;
+            
+        }
 
-.nav-link:hover {
-    color: #007bff;
-    transform: translateY(-2px);
-}
-
-.nav-link:hover::after {
-    width: 100%;
-}
-
-.nav-link.active {
-    font-weight: bold;
-    color: #007bff;
-}
+        .btn-info {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
 
 /* Post button styles */
 .post-btn {
@@ -192,6 +175,7 @@ h2 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     margin-left: 100px;
+    margin-top: 50px;
 }
 
 .photo p, .mail p, .phnumber p, .imgs p {
@@ -321,50 +305,46 @@ input[type="submit"]:hover {
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #bdf1fb;">
+    <nav class="navbar navbar-expand-lg navbar-light  fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand " href="#">Learnersleaf</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand active" href="#">
+                <h2>Learnersleaf</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link  " href="/myposts/{{account.email}}/">My Post</a>
+                        <a class="nav-link active " href="/myposts/{{account.email}}/">My Post</a>
                     </li>
-                    
+
                     <li class="nav-item">
-                        <a class="nav-link " href="/s_wallet/{{account.email}}">Wallet</a>
+                        <a class="nav-link" href="/s_wallet/{{account.email}}">Wallet</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/stu_settings/{{account.email}}" >Settings</a>
-                    </li>
-                   
-                    <li class="nav-item">
-                        <a class="nav-link" href="/student_inbox/{{account.email}}">
-                            <span > <i class="fa-solid fa-envelope"  style="font-size: 18px;"> </i>
-                            Message</span>
-                        </a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                Find tutor
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
+
+
+                    <li class="nav-item dropdown">
+                        <button class="btn dropdown-toggle" style="color: #555" data-bs-toggle="dropdown">
+                            Find Tutor
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
                                 <li><a class="dropdown-item" href="/search_teachers/{{account.email}}">All Tutors</a></li>
                                 <li><a class="dropdown-item" href="/online_tutors/{{account.email}}">Online Tutors</a></li>
                                 <li><a class="dropdown-item" href="/home_tutors/{{account.email}}">Home Tutors</a></li>
-                            </ul>
-                        </div>
+                        </ul>
                     </li>
-                    &nbsp;&nbsp;&nbsp;
+
+                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stu_settings/{{account.email}}" >Settings</a>
+                    </li>
+
                     <li class="nav-item active">
-                        <div class="dropdown">
+                        <div class="dropdown" style="color: #555">
                             <div class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa-solid fa-id-badge" style="font-size: 20px;"></i> {{accounts.name|title}}
+                                <i class="fa-solid fa-user"></i> {{accounts.name|title}}
                             </div>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
@@ -375,7 +355,7 @@ input[type="submit"]:hover {
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> 
 
     {% if msg %}
     <div class="alert alert-success alert-dismissible">
@@ -386,7 +366,7 @@ input[type="submit"]:hover {
     
     <h2 class="section-heading">  <i class="fa-solid fa-gear"></i> Your Settings </h2>
 
-    <div class="photo">
+    <!-- <div class="photo">
         <p>{{account.name}} account with Learnersleaf</p>
        
         <div class="card" style="width:400px; display: none;">
@@ -397,7 +377,7 @@ input[type="submit"]:hover {
             </div>
         </div>
         <button class="btn-manage">View Profile</button>
-    </div>
+    </div> -->
 
     <div class="mail">
         <p>Email: Your email is {{account.email}}</p>
@@ -427,7 +407,7 @@ input[type="submit"]:hover {
         </div>
     </div>
 
-    <div class="imgs">
+    <!-- <div class="imgs">
      <p>Manage your profile photo</p>
      <button class="btn-imgs">Manage</button>
      <div class="upload">
@@ -442,15 +422,9 @@ input[type="submit"]:hover {
         </form>
         {{msg}}
      </div>
-    </div>
+    </div> -->
 
-    <div class="footer">
-        <p>&copy; 2023 All rights reserved | This website is made with <i
-            class="fa-solid fa-heart"></i> by <a href="https://www.linkedin.com
-            /in/krishnachandra-9a8a3a1a5/"> call me</a>
-            </p>
-    </div>
-
+    
   
     
 </body>

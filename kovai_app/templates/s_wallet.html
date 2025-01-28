@@ -17,51 +17,38 @@
     padding: 0;
 }
 
-/* Navbar styles */
-.navbar-brand {
-    font-size: 30px;
-    font-weight: bold;
-    color: #007bff;
-    transition: color 0.3s ease;
-}
+.navbar{
+		background-color: white;
+		}
+        .navbar-brand h2 {
+            font-weight: bold;
+            color: #007BFF;
+            font-size: 36px;
+        }
+		
 
-.navbar-brand:hover {
-    color: #0056b3;
-}
+        .navbar-nav .nav-item .nav-link {
+            font-weight: bold;
+            color: #555;
+        }
+       
+        .dropdown-menu .dropdown-item {
+            color: #0a0606;
+        }
 
-.nav-link {
-    font-size: 18px;
-    margin-right: 20px;
-    color: #333;
-    position: relative;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #f1f1f1;
+        }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    background: #007bff;
-    left: 0;
-    bottom: -5px;
-    transition: width 0.3s ease;
-}
+        .navbar-nav .btn {
+            font-weight: bold;
+            
+        }
 
-.nav-link:hover {
-    color: #007bff;
-    transform: translateY(-2px);
-}
-
-.nav-link:hover::after {
-    width: 100%;
-}
-
-.nav-link.active {
-    font-weight: bold;
-    color: #007bff;
-}
-
+        .btn-info {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
 /* Post button styles */
 .post-btn {
     position: fixed;
@@ -157,9 +144,6 @@ a{
     color: #f39c12; /* Icon color */
     font-size: 28px; /* Larger icon */
 }
-ul i{
-    font-size: 38px;
-}
 
 /* Buy Coin section styling */
 .buy_coin {
@@ -203,6 +187,82 @@ ul i{
     color: #fff;
 }
 
+.slider-container {
+      display: inline-block;
+      margin-top: 20px;
+      margin-left: 300px;
+    }
+    .value {
+      font-size: 30px;
+      font-weight: bold;
+      color: green;
+      margin-left: 10px;
+    }
+    input[type="range"]
+    {
+        width: 500px;
+    }
+    .coin{
+        margin-top: 50px;
+        margin-left: -100px;
+    }
+   
+
+    @media (max-width: 768px) {
+    /* Navbar */
+    .navbar-brand h2 {
+        font-size: 28px;
+        text-align: center;
+    }
+
+    
+
+
+    /* Section Heading */
+    .section-heading {
+        font-size: 22px;
+        margin: 20px 0;
+    }
+
+    /* Wallet */
+    .wallet {
+        max-width: 90%;
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    /* Slider */
+    .slider-container {
+        margin: 20px auto;
+        text-align: center;
+        margin-left: 100px;
+    }
+
+    .slider-container input[type="range"] {
+        width: 90%;
+    }
+
+    /* Buy Coin */
+    .buy_coin {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buy_coin a {
+        width: 80%;
+        text-align: center;
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        font-size: 14px;
+    }
+}
+
+
     </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -228,55 +288,70 @@ $(document).ready(function(){
  
   });
 });
+function updateValue(value) {
+      document.getElementById('sliderValue').textContent = value;
+    }
+
+    function updateValue(value) {
+      document.getElementById('sliderValue').textContent = value;
+    }
+    function updateValue(value) {
+      document.getElementById('sliderValue').textContent = value;
+      // Update the button text dynamically
+      document.getElementById('buyCoinBtn').textContent = `Buy ${value} Coins`;
+      document.getElementById('buyCoinBtn').dataset.value = value; // Store the value in the button
+  }
+
+  function buyCoins(email) {
+      const coinValue = document.getElementById('buyCoinBtn').dataset.value || 100; // Default to 100 if not set
+      // Redirect or make a fetch/POST request to update balance on the server
+      window.location.href = `/buy_coin_stu/${email}/${coinValue}`;
+  }
 
 </script>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #bdf1fb;">
+    <nav class="navbar navbar-expand-lg navbar-light  fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand " href="#">Learnersleaf</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand active" href="#">
+                <h2>LearnersLeaf</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link  " href="/myposts/{{account.email}}/">My Post</a>
+                        <a class="nav-link active " href="/myposts/{{account.email}}/">My Post</a>
                     </li>
-                    
+
                     <li class="nav-item">
-                        <a class="nav-link active" href="/s_wallet/{{account.email}}">Wallet</a>
+                        <a class="nav-link" href="/s_wallet/{{account.email}}">Wallet</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/stu_settings/{{account.email}}" >Settings</a>
-                    </li>
-                   
-                    <li class="nav-item">
-                        <a class="nav-link" href="/student_inbox/{{account.email}}">
-                            <span > <i class="fa-solid fa-envelope"  style="font-size: 18px;"> </i>
-                            Message</span>
-                        </a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                Find tutor
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
+
+
+                    <li class="nav-item dropdown">
+                        <button class="btn dropdown-toggle" style="color: #555" data-bs-toggle="dropdown">
+                            Find Tutor
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
                                 <li><a class="dropdown-item" href="/search_teachers/{{account.email}}">All Tutors</a></li>
                                 <li><a class="dropdown-item" href="/online_tutors/{{account.email}}">Online Tutors</a></li>
                                 <li><a class="dropdown-item" href="/home_tutors/{{account.email}}">Home Tutors</a></li>
-                            </ul>
-                        </div>
+                        </ul>
                     </li>
-                    &nbsp;&nbsp;&nbsp;
+
+                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stu_settings/{{account.email}}" >Settings</a>
+                    </li>
+
                     <li class="nav-item active">
-                        <div class="dropdown">
+                        <div class="dropdown" style="color: #555">
                             <div class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa-solid fa-id-badge" style="font-size: 20px;"></i> {{account.name|title}}
+                                <i class="fa-solid fa-user"></i> {{account.name|title}}
                             </div>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
@@ -287,8 +362,7 @@ $(document).ready(function(){
                 </ul>
             </div>
         </div>
-    </nav>
-
+    </nav> <br> <br>
     
 
     
@@ -302,33 +376,50 @@ $(document).ready(function(){
     {% endif %}
     <h2 class="section-heading">My Wallet</h2>
 
+    <div class="wallet">
+   
+        {% if account.coin %}
+        <h1> <i class="fa-solid fa-wallet" style="font-size: 40px;"></i>Balance Coin : <span style="font-weight: bold; font-size: 30px;">{{account.coin}}</span> </h1>
+        {% else %}
+        <h1> <i class="fa-solid fa-wallet" style="font-size: 40px;"></i>Balance Coin :000 </h1>
+        {% endif %}
+     </div>
+    
+   
+  <div class="slider-container">
+    <h1>Adjust the Range Coin</h1>
+    <input 
+      type="range" 
+      id="rangeSlider" 
+      min="100" 
+      max="3000" 
+      value="100" 
+      step="50" 
+      oninput="updateValue(this.value)">
+      <i class="fa-solid fa-coins" style="font-size: 48px;"></i> <span class="value" id="sliderValue">100</span>
+   
+  </div> 
+ 
+
   
 
- <div class="wallet">
-    <h3 style="text-align: center; border-bottom: 5px solid rgb(30, 131, 199); font-size: 30px; font-weight: bold;"> Details</h3>
-    <ul>
-        <li><i class="fa-solid fa-coins" style="font-size: 38px;"></i> <span> -   300  coin  for  3 "Enquirys."</span></li>
-        <li><i class="fa-solid fa-coins" style="font-size: 38px;"></i> <span> -   600  coin  for  8 "Enquirys."</span></li>
-        <li><i class="fa-solid fa-coins" style="font-size: 38px;"></i> <span> -   900  coin  for  13 "Enquirys."</span></li>
-    </ul>
-    {% if account.coin %}
-    <h1> <i class="fa-solid fa-wallet" style="font-size: 40px;"></i>Balance Coin : <span style="font-weight: bold; font-size: 30px;">{{account.coin}}</span> </h1>
-    {% else %}
-    <h1> <i class="fa-solid fa-wallet" style="font-size: 40px;"></i>Balance Coin :000 </h1>
-    {% endif %}
- </div>
+ 
+ <!-- <div class="buy_coin">
+  
+   <a href="/buy_coin_stu/{{account.email}}/600">Buy Coin</a>
+   
+
+ </div><br><br><br><br> -->
 
  <div class="buy_coin">
-   <a href="/buy_coin_stu/{{account.email}}/300">Buy 300 Coins</a>
-   <a href="/buy_coin_stu/{{account.email}}/600">Buy 600 Coins</a>
-   <a href="/buy_coin_stu/{{account.email}}/900">Buy 900 Coins</a>
-
- </div><br><br><br><br>
- <div class="footer">
-    <p>&copy; 2023 All rights reserved | This website is made with <i
-        class="fa-solid fa-heart"></i> by <a href="#"> NK TECH</a>
-        </p>
-</div>
+    <button 
+        id="buyCoinBtn" 
+        class="btn btn-primary" 
+        onclick="buyCoins('{{account.email}}')">
+        Buy 100 Coins
+    </button>
+</div><br><br>
+ 
 
     
       
