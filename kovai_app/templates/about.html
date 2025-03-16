@@ -3,236 +3,492 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	
+    <title>About Us - Learnsleaf</title>
     <style>
-        .navbar{
-		background-color: rgb(76, 73, 76);
-		}
-        .navbar-brand h2 {
-            font-weight: bold;
-            color: #007BFF;
-            font-size: 36px;
-        }
-		.section-heading {
-    margin: 40px 0 20px;
-    font-size: 24px;
-    text-align: center;
-    font-weight: bold;
-    color: #f7fafd;
-    animation: fadeInDown 1s ease;
-}
-a{
-    text-decoration: none;
-}
-        .navbar-nav .nav-item .nav-link {
-            font-weight: bold;
-            color: #f7f5f5;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .dropdown-menu .dropdown-item {
-            color: #0a0606;
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
 
-        .dropdown-menu .dropdown-item:hover {
-            background-color: #f1f1f1;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .navbar-nav .btn {
-            font-weight: bold;
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
             color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-info {
-            background-color: #007BFF;
-            border-color: #007BFF;
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .btn-info:hover {
-            background-color: #0056b3;
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
         }
-        h1{
-            border-bottom: 3px solid gray;
-            font-size: 30px;
-            color: #007BFF;
+
+        .logo-leaf {
+            margin-right: 8px;
+            transform-origin: center;
+            animation: float 3s ease-in-out infinite;
         }
-        .one,.two,.three{
-            margin-left: 50px;
-            padding-left: 30px;
-            padding-right: 30px;
-            padding-top: 10px;
+
+        .nav-links {
+            display: flex;
+            list-style: none;
         }
-        p,li{
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s forwards;
+        }
+
+        .hero p {
             font-size: 20px;
-            list-style-type: none;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s 0.2s forwards;
         }
-        i{
-            font-size: 30px;
+
+        .about-section {
+            padding: 80px 0;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s 0.4s forwards;
         }
-        .footer{
-    background-color: #373636;
-    color: white;
-    margin-bottom: 0;
-    display: flex; 
-    justify-content: space-around;
-    padding-top: 10px;
 
-
-
-}
-.footer  input[type=submit]
-{
-    background-color: #007BFF;
-    border: none;
-    padding: 5px 15px;
-    border-radius: 4px;
-    color: white;
-
-}
-
-.footer ul{
-    margin-left: 50px;
-    padding: 50px;
-    font-size: 20px;
-}
-.footer li {
-    list-style-type: none;
-
-}
-.footer a {
-    text-decoration: none;
-    color: white;
-
-}
-.d{
-    margin-top: 30px;
-}
-@media (max-width: 991px) {
-    .footer{
-            flex-direction: column;
-            
-           
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
         }
-        .footer div{
-            padding-left: 35px;
+
+        .about-text {
+            flex: 1;
+            padding: 0 30px;
+            min-width: 300px;
+        }
+
+        .about-text h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .about-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease;
+        }
+
+        .about-image img:hover {
+            transform: translateY(-10px);
+        }
+
+        .why-us {
+            padding: 80px 0;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s 0.6s forwards;
+        }
+
+        .why-us h2 {
+            font-size: 36px;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: 250px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            font-size: 24px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .cta {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(110, 142, 251, 0.1), rgba(167, 119, 227, 0.1));
+            border-radius: 10px;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s 0.8s forwards;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta p {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(110, 142, 251, 0.6);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            text-align: left;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
-    }
+
+        .footer-section a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-text, .about-image {
+                padding: 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light  fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand active" href="#">
-                <h2>Learnersleaf</h2>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-       
-                    <li class="nav-item">
-                        <a class="nav-link " href="/">Home</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/">About</a>
-                    </li>
-
-
-                    <li class="nav-item dropdown">
-                        <button class="btn dropdown-toggle" style="color: #f6f4f4;" data-bs-toggle="dropdown">
-                            Find Tutor
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/tutor_request">Tutor Request</a></li>
-                            <li><a class="dropdown-item" href="/h_all_teachers">All Tutors</a></li>
-                            <li><a class="dropdown-item" href="/h_online_tutor">Online Tutors</a></li>
-                            <li><a class="dropdown-item" href="/h_home_tutor">Home Tutors</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <button class="btn dropdown-toggle" style="color: #fcf9f9;" data-bs-toggle="dropdown">
-                            Find Job
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/h_tutors_job">All Jobs</a></li>
-                            <li><a class="dropdown-item" href="/h_online_job">Online Jobs</a></li>
-                            <li><a class="dropdown-item" href="/h_home_job">Home Jobs</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="btn btn-info" href="/stu_login">Login</a>
-                    </li>
+    <!-- <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <svg class="logo-leaf" width="30" height="30" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+                    </svg>
+                    Learnsleaf
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Tutors</a></li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
-            </div>
+            </nav>
         </div>
-    </nav> <br><br><br><br>
-    <div class="two">
-        <h1>Overview:</h1>
-        <p>Welcome to Learnsleaf, your one-stop solution for both online and in-person learning! We offer
-            personalized tutoring services from primary classes to degree level, across all streams,
-            Academic Writing, Engineering, Arts, and more. We cater to every learner’s needs, whether
-            you’re a student seeking academic guidance or someone looking to acquire a new skill, our
-            platform connects you with top-notch tutors across 1000+ languages.</p></div>
-    <div class="one">
-    <h1>About Learnsleaf:</h1>
-    <p>At Learnsleaf, we’re dedicated to transforming education. Our mission is to connect students
-        with the best tutors for academic and professional skill-building. Our expert tutors are rigorously
-        selected to ensure only top-quality educators work with our students. Whether you&#39;re preparing
-        for exams, improving your communication skills, or learning advanced programming, we have a
-        tutor for every need.</p></div>
+    </header> -->
 
-        
-        <div class="three">
-    <h1>Why Choose Us:</h1><br>
-    <ul>
-        <li> <i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp;&nbsp; &nbsp;Easy tutor search: Find tutors with one click</li> <br>
-        <li><i class="fa-solid fa-chalkboard-user"></i> &nbsp;&nbsp;&nbsp;Customizable learning: Choose how you learn, online or offline</li><br>
-        <li><i class="fa-solid fa-star"></i> &nbsp;&nbsp;&nbsp;Quality assurance: Only 55% of applicants are selected</li><br>
-        <li><i class="fa-solid fa-headset"></i> &nbsp;&nbsp;&nbsp; &nbsp;24/7 support and learning resources</li><br>
-    </ul>
+    <section class="hero">
+        <div class="container">
+            <h1>Transforming Education Together</h1>
+            <p>Connecting learners with exceptional tutors for personalized education across disciplines and languages.</p>
         </div>
+    </section>
 
-    <div class="footer">
-        <div class="d">
-                <h3 style="color: #0056b3;">Contact us Today</h3>
-                <li><i class="fa-solid fa-phone-volume"></i> 8428856284</li>
-                <li><i class="fa-solid fa-envelope"></i> learnersleaf.developer@gmail.com</li>
-                <li><i class="fa-brands fa-whatsapp"></i><a href="https://wa.me/918428856284?text=Hello%20Nandha%2C%20I%20would%20like%20to%20connect%20with%20you!" target="_blank">
-                    Chat on WhatsApp
-                </a>
-                </li>
-            </ul>
-            <p>&copy; 2023 All rights reserved | Design by <a href="#"></a>
-                </p>
+    <div class="container">
+        <section class="about-section">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Learnsleaf</h2>
+                    <p>Welcome to Learnsleaf, your one-stop solution for both online and in-person learning! We offer personalized tutoring services from primary classes to degree level, across all streams, Academic Writing, Engineering, Arts, and more.</p>
+                    <p>At Learnsleaf, we're dedicated to transforming education. Our mission is to connect students with the best tutors for academic and professional skill-building. Our expert tutors are rigorously selected to ensure only top-quality educators work with our students.</p>
+                    <p>Whether you're preparing for exams, improving your communication skills, or learning advanced programming, we have a tutor for every need. With tutors available in over 1000+ languages, we truly cater to every learner's needs.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://media.istockphoto.com/id/187244393/photo/we-will-get-to-the-right-answer-eventually.jpg?s=612x612&w=0&k=20&c=sv85YclfSvJwBzxHipFN5YSNIDSU6YXe8skqZb6QVjw=" alt="Students learning with tutors">
+                </div>
             </div>
-    
-            <div class="contact">
-                <h3 style="color: #0056b3;">Contact Form</h3>
-                <form action="contact" method="POST" >
-                    {% csrf_token %}
-                <label >Name</label> <br>
-                <input type="text" name="name" placeholder="Enter your name" required> <br>
-                <label >Email</label> <br>
-                <input type="email" name="email" placeholder="Enter your email" required> <br><br>
-                <label >Message</label> <br>
-                <textarea name="message" placeholder="Enter your message" required></textarea> <br><br>
-                <input type="submit" value="Send">
-            </form>
-    
-    
+        </section>
+
+        <section class="why-us">
+            <h2>Why Choose Us</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">✓</div>
+                    <h3>Easy Tutor Search</h3>
+                    <p>Find your perfect tutor with just one click through our intuitive platform.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Customizable Learning</h3>
+                    <p>Choose how you learn, online or offline, based on your comfort and convenience.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Quality Assurance</h3>
+                    <p>Only 55% of applicants are selected to ensure the highest teaching standards.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📞</div>
+                    <h3>24/7 Support</h3>
+                    <p>Access to round-the-clock support and comprehensive learning resources.</p>
+                </div>
             </div>
+        </section>
+
+        <section class="cta">
+            <h2>Ready to Start Learning?</h2>
+            <p>Join thousands of students who have transformed their learning journey with Learnsleaf.</p>
+            <a href="#" class="cta-btn">Find a Tutor Now</a>
+        </section>
     </div>
 
+    <!-- <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About</h3>
+                    <p>Learnsleaf is dedicated to connecting students with top-quality tutors for personalized learning experiences.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#">Home</a>
+                    <a href="#">About Us</a>
+                    <a href="#">Services</a>
+                    <a href="#">Find a Tutor</a>
+                    <a href="#">Become a Tutor</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: info@learnsleaf.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                    <p>Address: 123 Education Street, Learning City</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Learnsleaf. All rights reserved.</p>
+            </div>
+        </div>
+    </footer> -->
+
+    <script>
+        // Add additional animations on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Observe feature cards for staggered animation
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 </html>

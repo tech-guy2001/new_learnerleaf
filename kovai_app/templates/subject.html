@@ -526,14 +526,16 @@ function selectItem(input_box_id, result_box_class, list) {
      </style>
      <script>
 
+let a = [];
+let v = [];
 
     function validateForm() {
         // Get the input values
         const subjects = document.getElementById("subjects").value.trim();
         const level = document.getElementById("level").value.trim();
-
+           console.log(a.length)
         // Check if the inputs are empty
-        if (!subjects ) {
+        if (!subjects && a.length==0) {
             alert("you want to add subject");
             return false; // Prevent form submission
         }
@@ -545,9 +547,7 @@ function selectItem(input_box_id, result_box_class, list) {
         console.log("Level function called");
     }
 
-         let a = [];
-         let v = [];
-
+       
          document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
     checkbox.addEventListener("change", handleCheckboxChange);
 });

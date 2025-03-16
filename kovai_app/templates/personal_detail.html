@@ -97,14 +97,7 @@
 
     <form action="/personal_detail/{{email}}" method="POST" enctype="multipart/form-data" onsubmit="return validateProfileDescription()">
         {% csrf_token %}
-        <label for="profile_description">Short Profile Description About you</label>
-        <textarea
-        id="profile_description"
-        name="s_profile_description"
-        rows="3"
-        cols="50"
-        placeholder="Shot Profile Description must with in 77 charaters I have not shared any contact details (Email, Phone, Skype, Website, etc)"
-    ></textarea><br>
+      
 
 
         <label for="profile_description">Profile Description</label>

@@ -1,7 +1,7 @@
 from django.db import models
 import os
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 
 def upload_to(instance, filename):
     return os.path.join('kovai_app/static/images/', filename)
@@ -11,6 +11,7 @@ def upload_to_stu(instance, filename):
 
 # Create your models here.
 class TutorRequest(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100,null=True,blank=True)
     email = models.EmailField()
@@ -149,7 +150,7 @@ class TutorRegistration(models.Model):
         ('part_time', 'Part Time'),
         ('both', 'Both'),
     ]
-
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     password = models.CharField(max_length=255)

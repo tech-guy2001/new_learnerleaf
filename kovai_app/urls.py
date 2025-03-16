@@ -1,13 +1,18 @@
 from django.urls import path,include
 from . import views
-
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LogoutView
+from .views import (
+   
+    CustomPasswordResetView, CustomPasswordResetDoneView,
+    CustomPasswordResetConfirmView, CustomPasswordResetCompleteView)
 urlpatterns = [
  path('',views.mains, name='mains'),
  path('tutor_request',views.tutor_request, name='tutor_request'),
  path('otp_verify/<email>',views.otp_verify, name='otp_verify'),
  path('email_verify/<email>',views.email_verify, name='email_verify'),
  path('add_post/<email>',views.addpost, name='addpost'),
- path('myposts/<str:email>/', views.myposts, name='myposts'),
+ path('myposts/', views.myposts, name='myposts'),
  path('mypost/<str:email>/', views.mypost, name='mypost'),
  path('delete_post/<int:id>',views.delete_posst, name='delete_posst'),
  path('stu_login',views.stu_login, name='stu_login'),
@@ -20,7 +25,7 @@ path('home_tutors/<email>',views.home_tutor, name='home_tutor'),
 path('student_inbox/<email>',views.student_inbox, name='student_inbox'),
 path('student_post/<email>/<int:id>',views.student_post, name='student_post'),
  #teacher_________________________________________________________
-  path('teacher_dashboard/<email>',views.teacher_dashboard, name='teacher_dashboard'),
+  path('teacher_dashboard/',views.teacher_dashboard, name='teacher_dashboard'),
 
   path('teacher_reg',views.teacher_reg, name='teachet_reg'),
   path('details/<email>',views.details, name='details'),
@@ -76,7 +81,7 @@ path('add_subject/<email>',views.addsubject, name='addsubject'),
                 path('h_home_job', views.h_home_job, name='h_home_job'),
                  path('h_search_teacher',views.h_search_teacher, name='h_search_teacher'),
                  path('t_wallet/<email>',views.t_wallet, name='t_wallet'),
-                 path('buy_coin_teach/<email>/<int:coins>',views.buy_coin_teach, name='t_wallet'),
+                 path('buy_coin_teach/<email>/<int:coins>',views.buy_coin_teach, name='buy_coin_teach'),
                  path('view_post_teach/<a_email>/<email>/<int:id>',views.view_post_teach, name='view_post_teach'),
                  path('use_coin_teach/<a_email>/<email>/<int:id>',views.use_coin_teach, name='use_coin_teach'),
 
@@ -99,12 +104,21 @@ path('add_subject/<email>',views.addsubject, name='addsubject'),
   path('change_password/<email>',views.change_password, name='change_password'),
   path('s_change_password/<email>',views.s_change_password, name='s_change_password'),      
   path('about',views.about, name='about'),              
+
+
+
+  #new api show teacher
+
+   path('show_teacher/<email>',views.show_teacher, name='show_teacher'), 
         
                      
 
+path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
+    path('password_reset_done/', CustomPasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', CustomPasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
-
-                
+    path('logout/', LogoutView.as_view(next_page='stu_login'), name='logout'),            
 
 
 

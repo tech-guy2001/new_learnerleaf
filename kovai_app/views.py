@@ -10,6 +10,12 @@ from urllib.parse import parse_qs
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def mains(request):
     return render(request,"new_home.html")
@@ -22,18 +28,19 @@ def tutor_request(request):
         password=request.POST.get("password")
         gender=request.POST.get("gender")
         
+
         if TutorRequest.objects.filter(email=email).exists():
             return HttpResponse("Email already exists")
         else:
     
-
+             
 # Generate a random 6-digit OTP
             otp = random.randint(100000, 999999)
 
 
-            login={"otp":otp}
+            logins={"otp":otp}
             html_template="otp.html"
-            html_message=render_to_string(html_template,login)
+            html_message=render_to_string(html_template,logins)
         
             email_from=settings.EMAIL_HOST_USER
             r_list=[email]
@@ -41,9 +48,20 @@ def tutor_request(request):
             message=EmailMessage(subject,html_message,email_from,r_list)
             message.content_subtype='html'
             message.send()
-
+            cote= random.randint(100000, 999999)
+            uname=f'{name}{cote}'
+            
+            
+            if User.objects.filter(email=email).exists():
+                return render(request, 'request_tutor.html')
+            user = User.objects.create_user(username=uname, email=email, password=password)
+            user = authenticate(request, username=email , password=password)  # Authenticate using email
+            if user is not None:
+                login(request, user)
+            
 
             TutorRequest.objects.create(
+                user=user,
                 name=name,
                 email=email,
                 location=location,
@@ -53,7 +71,7 @@ def tutor_request(request):
                 password=password,
                 gender=gender
             )
-            login={"name":name,"email":email,"password":password,"msg":"Otp sented to your Register Mobile Number to verify your Account"}
+            logins={"name":name,"email":email,"password":password,"msg":"Otp sented to your Register Mobile Number to verify your Account"}
             # html_template="a_email_verify.html"
             # html_message=render_to_string(html_template,login)
         
@@ -66,7 +84,7 @@ def tutor_request(request):
 
 
             
-            return render(request, 'otp_verfication_student.html',login)
+            return render(request, 'otp_verfication_student.html',logins)
         
 
 
@@ -184,29 +202,36 @@ def addpost(request,email):
         tutor=TutorRegistration.objects.all()
         need_subject="none"
         for i in tutor:
-            if i.subject and subject.capitalize() in i.subject:
+            if i.subject and subject in i.subject:
+                tutor_list.append(i.email)
                 need_subject=subject
-            elif i.subject and two_subject.capitalize() in i.subject:
-                tutor_list.append(i.email)
-                need_subject=two_subject
+            elif two_subject:
+                if i.subject and two_subject.capitalize() in i.subject:
+                    tutor_list.append(i.email)
+                    need_subject=two_subject
+            elif three_subject:
+                if i.subject and three_subject.capitalize() in i.subject:
+                    tutor_list.append(i.email)
+                    need_subject=three_subject
+            
     
-            elif i.subject and three_subject.capitalize() in i.subject:
-                need_subject=three_subject
-                tutor_list.append(i.email)
-            elif i.subject and four_subject.capitalize() in i.subject:
-                need_subject=four_subject
-                tutor_list.append(i.email)
-            elif i.subject and five_subject.capitalize() in i.subject:
-                need_subject=five_subject
-                tutor_list.append(i.email)
+            elif four_subject:
+
+                if i.subject and four_subject.capitalize() in i.subject:
+                    eed_subject=four_subject
+                    tutor_list.append(i.email)
+            elif five_subject:
+                if i.subject and five_subject.capitalize() in i.subject:
+                    need_subject=five_subject
+                    tutor_list.append(i.email)
             print(i.email)
             print(subject)
             print(meeting_option)
           
         
 
-       
-        return render(request,"mypost.html",{"all":post,"post":student})
+        messages.success(request, f"Welcome !! {student.name}")
+        return redirect("myposts")
 
     return render(request,"addpost.html",{"name":student.name,"email":email})
 
@@ -218,9 +243,12 @@ def email_verify(request,email):
 
 
 #-----------------------my post-------------------------------------------------
-def myposts(request,email):
-      post = Requestpost.objects.filter(email=email).values
-      student = TutorRequest.objects.filter(email=email).first()
+@login_required
+def myposts(request):
+      user = request.user  # Get the logged-in user
+      post = Requestpost.objects.filter(email=user.email).values
+      print(post)
+      student = TutorRequest.objects.filter(email=user.email).first()
       return render(request,"mypost.html",{"all":post,"post":student})
 
 
@@ -229,7 +257,8 @@ def delete_posst(request,id):
     post= Requestpost.objects.get(id=id)
     email=post.email
     post.delete()
-    return redirect(myposts, email=email)
+    messages.success(request, f"deleted...")
+    return redirect("myposts")
    
 
 def mypost(request,email):
@@ -267,17 +296,28 @@ def stu_login(request):
     if request.method == "POST":
         identifier = request.POST.get('email')  # Could be email or phone number
         password = request.POST.get('password')
+        login_type= request.POST.get('login_type')
 
-        # Check if identifier is an email or a phone number
-        if re.match(r'^\S+@\S+\.\S+$', identifier):  # Simple regex for email validation
-            # Login with email
-            student = TutorRequest.objects.filter(email=identifier, password=password).first()
-        else:
-            # Login with phone number
-            student = TutorRequest.objects.filter(phone=identifier, password=password).first()
+       
+        user = authenticate(request, username=identifier , password=password)  # Authenticate using email
+        
+        if user is not None:
+           
+            if login_type=="learner":
+                if TutorRequest.objects.filter(email=identifier).exists():
+                    login(request, user)
+                    request.session.set_expiry(60 * 60 * 24 * 7)  # 7 days
+                    return redirect("myposts")  # Redirect using the student's email
+                else:
+                    return render(request, "login.html", {"msg": "plase login with As tutor"})
 
-        if student:
-            return redirect("mypost", email=student.email)  # Redirect using the student's email
+            elif login_type=="tutor":
+                if TutorRegistration.objects.filter(email=identifier).exists():
+                    login(request, user)
+                    request.session.set_expiry(60 * 60 * 24 * 7)  # 7 days
+                    return redirect('teacher_dashboard')  # Redirect using the tutor's email
+                else:
+                    return render(request, "login.html", {"msg": "plase login with As learner"})
         else:
             return render(request, "login.html", {"msg": "Your login details are incorrect."})
 
@@ -293,13 +333,26 @@ def teacher_reg(request):
        if TutorRegistration.objects.filter(email=email,password=password).exists():
            
           return render(request,"teacher_regs.html",{"msg":"your account  is already exist"})
+       elif User.objects.filter(email=email).exists():
+            return render(request,"teacher_regs.html",{"msg":"your account  is already exist"})
+           
        else:
+           cote= random.randint(100000, 999999)
+           uname=f'{name}{cote}'
+           print(password)
+           user = User.objects.create_user(username=name, email=email, password=password)
+          
            TutorRegistration.objects.create(
+               user=user,
                 name=name,
                 email=email,
                 password=password,
                 confirm_password=confirm_password,
             )
+           user = authenticate(request, username=email , password=password)  # Authenticate using email
+           login(request, user)
+            
+           
            ds={"name":name,"email":email,"msg":"Account created! Just a few more details to finalize your tutor profile."}
 
            return render(request, 'details.html', ds)
@@ -597,7 +650,7 @@ def teaching_detail(request, email):
 
 def personal_detail(request,email):
     if request.method == "POST":
-        s_profile_description=request.POST.get('s_profile_description')
+   
         profile_description = request.POST.get('profile_description')
         
         
@@ -619,7 +672,7 @@ def personal_detail(request,email):
             message=EmailMessage(subject,html_message,email_from,r_list)
             message.content_subtype='html'
             message.send()
-            tutor.s_profile_description=s_profile_description
+            
             tutor.profile_description = profile_description
             tutor.id_proof=id_proof
             tutor.profile_photo=profile_photo
@@ -630,6 +683,7 @@ def personal_detail(request,email):
             tutor.save()
             ds={"name":tutor.name,"email":tutor.email,"password":tutor.password,"number":tutor.phone,}
             
+
 
 
 
@@ -682,7 +736,7 @@ def teach_login(request):
     if request.method == "POST":
         identifier = request.POST.get('email')  # Can be email or phone number
         password = request.POST.get('password')
-
+        
         # Determine if the identifier is an email or a phone number
         if re.match(r'^\S+@\S+\.\S+$', identifier):  # Regex to validate email
             # Login with email
@@ -690,34 +744,54 @@ def teach_login(request):
         else:
             # Login with phone number
             teacher = TutorRegistration.objects.filter(phone=identifier, password=password).first()
-
-        if teacher:
-            return render(
-                request,
-                "teacher_dasboad.html",
-                {
-                    "all": TutorRegistration.objects.filter(email=teacher.email).values(),
-                    "name": teacher.name,
-                    "email": teacher.email,
-                },
-            )
+        user = authenticate(request, username=identifier , password=password)  # Authenticate using email
+        
+        if user is not None:
+            login(request, user)
+            request.session.set_expiry(60 * 60 * 24 * 7)  # 7 days
+            if teacher:
+                return redirect('teacher_dashboard')
+            #     return render(
+            #     request,
+            #     "teacher_dasboad.html",
+            #     {
+            #         "all": TutorRegistration.objects.filter(email=teacher.email).values(),
+            #         "name": teacher.name,
+            #         "email": teacher.email,
+            #     },
+            # )
         else:
             return render(request, "login.html", {"msg": "Your login details are incorrect."})
 
     return render(request, "login.html")
 
 
-def teacher_dashboard(request,email):
-    tutor = TutorRegistration.objects.filter(email=email).values()
-    tutors = TutorRegistration.objects.filter(email=email).first()
 
-    return render(request,"teacher_dasboad.html",{"all":tutor,"name":tutors.name,"email":tutors.email})
+@login_required
+def teacher_dashboard(request):
+    user = request.user  # Get the logged-in user
 
+    # Fetch the tutor details
+    tutors = TutorRegistration.objects.filter(email=user.email).first()
+
+    if tutors:
+        tutor_data = TutorRegistration.objects.filter(email=user.email).values()
+        return render(request, "teacher_dasboad.html", {
+            "all": tutor_data,
+            "name": tutors.name,
+            "email": tutors.email,
+            "tutor":tutors
+        })
+    else:
+        return render(request, "teacher_dasboad.html", {
+            "msg": "Tutor details not found."
+        })
 
 def myprofile(request,email):
     tutor = TutorRegistration.objects.filter(email=email).values()
     first=TutorRegistration.objects.filter(email=email).first()
     p={"all":tutor,"name":first.name,"roll":first.job_roll,"first":first}
+    
     return render(request,"h_myprofile.html",p)
 
 def search_teacher(request,email):
@@ -1144,10 +1218,11 @@ def t_photo(request,email):
     if request.method=="POST":
         profile_photo = request.FILES['profile']
         filename=f'images/{profile_photo}'
-        TutorRegistration.objects.filter(email=email).update(profile_photo=profile_photo)
+        a.profile_photo=profile_photo
         TutorRegistration.objects.filter(email=email).update(filename=filename)
         a=TutorRegistration.objects.filter(email=email).first()
-        return render(request,"t_photo_change.html",{"account":a,"msg":"updated ! your photo"})
+        messages.success(request, f"photos are updated")
+        return redirect('teacher_dashboard')
 
     return render(request,"t_photo_change.html",{"account":a})
 
@@ -1569,9 +1644,13 @@ def h_fliter_location(request,location):
  
 
 def h_tutors_job(request):
-  
-    all=Requestpost.objects.all()
-    return render(request,"h_job.html",{"all":all,"t":"All Job"})
+    if request.user.is_authenticated:
+        a = TutorRegistration.objects.filter(email=request.user.email).first()
+        all=Requestpost.objects.all()
+        return render(request,"tutors_job.html",{"all":all,"account":a,"t":"All Job"})
+    else:
+        all=Requestpost.objects.all()
+        return render(request,"tutors_job.html",{"all":all,"t":"All Job"})
 
 def h_online_job(request):
     
@@ -1701,10 +1780,12 @@ def h_search_teacher(request):
         if TutorRegistration.objects.filter(Q(subject__icontains=subject) & Q(location__icontains=location)).exists():
 
             tutors = TutorRegistration.objects.filter(Q(subject__icontains=subject)& Q(location__icontains=location)).values()
+           
             d={"tutors":tutors,"locations":l}
 
         elif TutorRegistration.objects.filter(Q(subject__icontains=subject)).exists():
             tutors=TutorRegistration.objects.filter(Q(subject__icontains=subject)).values()
+        
             d={"tutors":tutors,"locations":l}
         elif TutorRegistration.objects.filter(Q(location__icontains=location)).exists():
             tutors=TutorRegistration.objects.filter(Q(location__icontains=location)).values()
@@ -1726,7 +1807,8 @@ def  buy_coin_stu(request,email,coins):
     else:
         c.coin=coins
         c.save()
-    return render(request,"s_wallet.html",{"account":c,"msg":"coins where add"})
+    messages.success(request, f"coin are updated")
+    return redirect("myposts")
    
 def  s_wallet(request,email):
     c=TutorRequest.objects.filter(email=email).first()
@@ -1748,8 +1830,8 @@ def  buy_coin_teach(request,email,coins):
         c.coin=coins
         c.save()
 
-    
-    return render(request,"t_wallet.html",{"account":c,"msg":"coins where add"})
+    messages.success(request, f" coins are added")
+    return redirect("teacher_dashboard")
 
 def view_post_teach(request,a_email,email,id):
     print(email)
@@ -1782,11 +1864,13 @@ def use_coin_teach(request,a_email,email,id):
             return render(request,"v_full_student_post.html",d)
         else:
             c=TutorRegistration.objects.filter(email=a_email).first()
-            return render(request,"t_wallet.html",{"account":c,"msg":"your as Insufficient Balance coin  so! buy coin "})
-        
+            messages.success(request, f"your as Insufficient Balance coin  so! buy coin")
+            return redirect("teacher_dashboard")
+            
     else:
       c=TutorRegistration.objects.filter(email=a_email).first()
-      return render(request,"t_wallet.html",{"account":c,"msg":"your as Insufficient Balance coin  so! buy coin "})
+      messages.success(request, f"your as Insufficient Balance coin  so! buy coin")
+      return redirect("teacher_dashboard")
     
 def t_message_to(request,s_email,r_email):
     teacher=TutorRegistration.objects.filter(email=s_email).first()
@@ -1865,12 +1949,13 @@ def student_update(request,email,id):
  
         post = Requestpost.objects.filter(email=email).values
         student = TutorRequest.objects.filter(email=email).first()
-        return render(request,"mypost.html",{"all":post,"post":student,"msg":"updated values"})
-
+        messages.success(request, f"Welcome !! {student.name}")  # Add success message
+        return redirect("myposts")
     return render(request,"stu_edit.html",{"all":post,"post":student})
 
 
 def s_myprofile(request,email,s_email):
+    
     tutor = TutorRegistration.objects.filter(email=email).values()
     first=TutorRegistration.objects.filter(email=email).first()
     p={"all":tutor,"name":first.name,"roll":first.job_roll,"first":first,"s_email":s_email}
@@ -2021,6 +2106,38 @@ def s_change_password(request,email):
 
 
     return render(request,"s_c_p.html",{"email":email})
+
+
+
+
+#new api
+
+
+#show detail of teacher
+
+def show_teacher(request,email):
+    teacher=TutorRequest.objects.filter(email=email).first()
+    all_tutor=TutorRegistration.objects.all()
+    return render(request,"h_all_teacher.html",{"teacher":teacher,"tutors":all_tutor})
+
+
+
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'password_reset_form.html'
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'password_reset_done.html'
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'password_reset_confirm.html'
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'password_reset_complete.html'
+
+
+
 
     
 

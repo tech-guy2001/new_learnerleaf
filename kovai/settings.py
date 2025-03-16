@@ -80,6 +80,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kovai.wsgi.application'
 
+AUTHENTICATION_BACKENDS = [
+    'kovai_app.backends.EmailAuthBackend',  # Replace "your_app" with your Django app name
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+# Keep users logged in even after closing the browser
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Set to True if you want the session to expire on browser close
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # Session expires after 7 days (in seconds)
+SESSION_SAVE_EVERY_REQUEST = True  # Refresh session expiration time on each request
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
