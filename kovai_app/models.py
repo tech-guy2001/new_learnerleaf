@@ -100,6 +100,7 @@ class Requestpost(models.Model):
     profile_photo = models.ImageField(upload_to=upload_to_stu,null=True)
     filename=models.CharField(max_length=200,  null=True, blank=True)
     coin=models.IntegerField(null=True, blank=True)
+    count=models.IntegerField(null=True, blank=True)
     
 
    

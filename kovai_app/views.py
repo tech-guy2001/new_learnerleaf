@@ -53,6 +53,7 @@ def tutor_request(request):
             
             
             if User.objects.filter(email=email).exists():
+                
                 return render(request, 'request_tutor.html')
             user = User.objects.create_user(username=uname, email=email, password=password)
             user = authenticate(request, username=email , password=password)  # Authenticate using email
@@ -82,7 +83,7 @@ def tutor_request(request):
             # message.content_subtype='html'
             # message.send()
 
-
+            print(otp)
             
             return render(request, 'otp_verfication_student.html',logins)
         
@@ -158,7 +159,8 @@ def addpost(request,email):
 
             imagess=image,
            
-            location=l.location
+            location=l.location,
+            count=0
             )
         else:
              Requestpost.objects.create( 
@@ -324,23 +326,26 @@ def stu_login(request):
     return render(request, "login.html")
 
 
+
+
 def teacher_reg(request):
     if request.method == "POST":
        name = request.POST.get('name')
        email = request.POST.get('email')
        password = request.POST.get('password')
        confirm_password = request.POST.get('confirm_password')
+       phone=request.POST.get("number")
        if TutorRegistration.objects.filter(email=email,password=password).exists():
            
-          return render(request,"teacher_regs.html",{"msg":"your account  is already exist"})
+          return render(request,"teacher_regs.html",{"msg":"your account  already exist"})
        elif User.objects.filter(email=email).exists():
-            return render(request,"teacher_regs.html",{"msg":"your account  is already exist"})
+            return render(request,"teacher_regs.html",{"msg":"your account   already exist"})
            
        else:
            cote= random.randint(100000, 999999)
            uname=f'{name}{cote}'
            print(password)
-           user = User.objects.create_user(username=name, email=email, password=password)
+           user = User.objects.create_user(username=uname, email=email, password=password)
           
            TutorRegistration.objects.create(
                user=user,
@@ -348,6 +353,7 @@ def teacher_reg(request):
                 email=email,
                 password=password,
                 confirm_password=confirm_password,
+                phone=phone
             )
            user = authenticate(request, username=email , password=password)  # Authenticate using email
            login(request, user)
@@ -358,45 +364,147 @@ def teacher_reg(request):
            return render(request, 'details.html', ds)
     
     return render(request, 'teacher_regs.html')
-def details(request,email):
-    print(email)
+
+def  details(request,email):
     if request.method == "POST":
-        types = request.POST.get('types')
-        strength = request.POST.get('strength')
-        gender = request.POST.get('gender')
-        date_of_birth = request.POST.get('dates')
-        location = request.POST.get('location')
-        language = request.POST.get('lanquage')
-        language_two = request.POST.get('lanquage_2')
-        language_three = request.POST.get('lanquage_3')
-        language_four = request.POST.get('lanquage_4')
-        language_five = request.POST.get('lanquage_5')
-
-        post_code = request.POST.get('post_code')
-
-        #  # Example: using session to get the tutor id
+        # Fetch user details
+        
+      
         tutor = TutorRegistration.objects.filter(email=email).first()
 
-        # Update the tutor details
-        tutor.types = types
-        tutor.strength = strength
-        tutor.gender = gender
-        tutor.date_of_birth = date_of_birth
-        tutor.location = location
-        tutor.language=language
-        if language_two:
-            tutor.language_two=language_two
-        if language_three:
-            tutor.language_three=language_three
-        if language_four:
-            tutor.language_four=language_four
-        if language_five:
-            tutor.language_five=language_five
-        tutor.post_code = post_code
+        # Generate OTP for email verification
+        otp = random.randint(100000, 999999)
+        email_data = {"otp": otp}
+        html_template = "otp.html"
+        html_message = render_to_string(html_template, email_data)
+
+        # Send OTP email
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [email]
+        subject = "Verification OTP"
+        message = EmailMessage(subject, html_message, email_from, recipient_list)
+        message.content_subtype = 'html'
+        message.send()
+        
+        # Create tutor record in one go
+        
+            
+        tutor.profile_description=request.POST.get('profile_description')
+        
+        tutor.id_proof=request.FILES.get('id_proof')
+        tutor.profile_photo=request.FILES.get('profile')
+        tutor.filename=f'images/{request.FILES.get("profile")}' if 'profile' in request.FILES else None
+        tutor.email_otp=otp
+        tutor.company_name=request.POST.get('company_name')
+        tutor.job_roll=request.POST.get('job_roll')
+        tutor.year_of_experience=request.POST.get('year_of_experience')
+        tutor.company_name_two=request.POST.get('company_name_two')
+        tutor.job_roll_two=request.POST.get('job_roll_two')
+        tutor.year_of_experience_two=request.POST.get('year_of_experience_two')
+        tutor.company_name_three=request.POST.get('company_name_three')
+        tutor.job_roll_three=request.POST.get('job_roll_three')
+        tutor.year_of_experience_three=request.POST.get('year_of_experience_three')
+        tutor.company_name_four=request.POST.get('company_name_four')
+        tutor.job_roll_four=request.POST.get('job_roll_four')
+        tutor.year_of_experience_four=request.POST.get('year_of_experience_four')
+        tutor.company_name_five=request.POST.get('company_name_five')
+        tutor.job_roll_five=request.POST.get('job_roll_five')
+        tutor.year_of_experience_five=request.POST.get('year_of_experience_five')
+        tutor.institution_name=request.POST.get('institution_name')
+        tutor.degree_type=request.POST.get('degree_type')
+        tutor.degree_name=request.POST.get('degree_name')
+        tutor.specialisation=request.POST.get('specialisation')
+        tutor.institution_name_two=request.POST.get('institution_name_two')
+        tutor.degree_type_two=request.POST.get('degree_type_two')
+        tutor.degree_name_two=request.POST.get('degree_name_two')
+        tutor.specialisation_two=request.POST.get('specialisation_two')
+        tutor.institution_name_three=request.POST.get('institution_name_three')
+        tutor.degree_type_three=request.POST.get('degree_type_three')
+        tutor.degree_name_three=request.POST.get('degree_name_three')
+        tutor.specialisation_three=request.POST.get('specialisation_three')
+        tutor.institution_name_four=request.POST.get('institution_name_four')
+        tutor.degree_type_four=request.POST.get('degree_type_four')
+        tutor.degree_name_four=request.POST.get('degree_name_four')
+        tutor.specialisation_four=request.POST.get('specialisation_four')
+        tutor.institution_name_five=request.POST.get('institution_name_five')
+        tutor.degree_type_five=request.POST.get('degree_type_five')
+        tutor.degree_name_five=request.POST.get('degree_name_five')
+        tutor.specialisation_five=request.POST.get('specialisation_five')
+         
+        tutor.from_level=request.POST.get('level')
+           
+        tutor.min_fee=request.POST.get('min_fee')
+        tutor.max_fee=request.POST.get('max_fee')
+        tutor.classes=request.POST.get('classes')
+        tutor.curriculum=request.POST.get('curriculum')
+        tutor.language_subject=request.POST.get('language_subject')
+        tutor.other_subject=request.POST.get('other_subject')
+        tutor.willing_to_travel=request.POST.get('travel')
+        tutor.available_for_online_teaching=request.POST.get('online_teach')
+        tutor.help_with_homework=request.POST.get('homework')
+        tutor.full_time_teacher=request.POST.get('full_time')
+        tutor.interested_in=request.POST.get('interested_in')
+        #tutor.types = request.POST.get('types')
+        tutor.strength = request.POST.get('strength')
+        tutor.gender = request.POST.get('gender')
+        tutor.date_of_birth = request.POST.get('dates')
+        tutor.location = request.POST.get('location')
+        tutor.language = request.POST.get('lanquage')
+        if request.POST.get('subject'):
+            tutor.subject = request.POST.get('subject').split(",")
+
+        tutor.i_charge = request.POST.get('i_charge')
         tutor.save()
-        msg="you personal detail has saved"
-        ds={"name":tutor.name,"email":tutor.email,"msg":msg}
-        return render(request, 'subject.html',ds)
+
+        print(request.POST.get('subject').split(","))
+        print(tutor.subject)
+       
+        # Success message
+        ds = {"name": tutor.name, "email": tutor.email, "msg": "Tutor registration completed successfully"}
+        return render(request,"otp_verfication_teachet.html",ds)
+
+    return render(request, 'teacher_regs.html')
+
+
+# def details(request,email):
+#     print(email)
+#     if request.method == "POST":
+#         types = request.POST.get('types')
+#         strength = request.POST.get('strength')
+#         gender = request.POST.get('gender')
+#         date_of_birth = request.POST.get('dates')
+#         location = request.POST.get('location')
+#         language = request.POST.get('lanquage')
+#         language_two = request.POST.get('lanquage_2')
+#         language_three = request.POST.get('lanquage_3')
+#         language_four = request.POST.get('lanquage_4')
+#         language_five = request.POST.get('lanquage_5')
+
+#         post_code = request.POST.get('post_code')
+
+#         #  # Example: using session to get the tutor id
+#         tutor = TutorRegistration.objects.filter(email=email).first()
+
+#         # Update the tutor details
+#         tutor.types = types
+#         tutor.strength = strength
+#         tutor.gender = gender
+#         tutor.date_of_birth = date_of_birth
+#         tutor.location = location
+#         tutor.language=language
+#         if language_two:
+#             tutor.language_two=language_two
+#         if language_three:
+#             tutor.language_three=language_three
+#         if language_four:
+#             tutor.language_four=language_four
+#         if language_five:
+#             tutor.language_five=language_five
+#         tutor.post_code = post_code
+#         tutor.save()
+#         msg="you personal detail has saved"
+#         ds={"name":tutor.name,"email":tutor.email,"msg":msg}
+#         return render(request, 'subject.html',ds)
 
   
   
@@ -1180,17 +1288,18 @@ def change_e(request,email):
         account=Requestpost.objects.filter(email=emails).first()
         accounts=TutorRequest.objects.filter(email=emails).first()
         return render(request,"stu_settings.html",{"msg":" update your mail","account":account,"accounts":accounts})
-def change_ph(request,email):
-    if request.method=="POST":
-        phone=request.POST.get('phone')
+def change_ph(request, email):
+    if request.method == "POST":
+        phone = request.POST.get('phone')
 
-        
         TutorRequest.objects.filter(email=email).update(phone=phone)
-        account=Requestpost.objects.filter(email=email).first()
-        accounts=TutorRequest.objects.filter(email=email).first()
-        return render(request,"stu_settings.html",{"msg":" update your Contact Number","account":account,"accounts":accounts})
+        account = Requestpost.objects.filter(email=email).first()
+        accounts = TutorRequest.objects.filter(email=email).first()
+        messages.success(request, "Phone Number is updated")
+        
+        return redirect("myposts")  # ✅ Return the redirect
 
-
+    return redirect("myposts") 
 
 
 #basci detail edit
@@ -1850,15 +1959,23 @@ def view_post_teach(request,a_email,email,id):
         return render(request,"v_student_post.html",d)
 def use_coin_teach(request,a_email,email,id):
     c=TutorRegistration.objects.filter(email=a_email).first()
+    
     print(c.coin)
     if c.coin:
         print(c.coin)
         if c.coin>=100:
             c.coin=c.coin-100
             c.save()
+            sp=Requestpost.objects.get(id=id)
+            cp=sp.count
+            cp=cp+1
+            
+            
+            print(cp)
+            Requestpost.objects.filter(id=id).update(count=cp)
             teacher_addcard.objects.create(email=a_email,cid=id)
             s=TutorRequest.objects.filter(email=email).first()
-            sp=Requestpost.objects.get(id=id)
+            
             c=TutorRegistration.objects.filter(email=a_email).first()
             d={"s":s,"sp":sp,"account":c}
             return render(request,"v_full_student_post.html",d)
@@ -1955,11 +2072,13 @@ def student_update(request,email,id):
 
 
 def s_myprofile(request,email,s_email):
+    if TutorRequest.objects.filter(email=s_email).exists():
     
-    tutor = TutorRegistration.objects.filter(email=email).values()
-    first=TutorRegistration.objects.filter(email=email).first()
-    p={"all":tutor,"name":first.name,"roll":first.job_roll,"first":first,"s_email":s_email}
-    return render(request,"myprofile.html",p)
+        tutor = TutorRegistration.objects.filter(email=email).values()
+        first=TutorRegistration.objects.filter(email=email).first()
+        p={"all":tutor,"name":first.name,"roll":first.job_roll,"first":first,"s_email":s_email}
+        return render(request,"myprofile.html",p)
+    return render(request,"h_all_teacher.html",{"msg":"Tutor cannot view Another Tutor Profile"})
 
 def view_message_stu(request,a_email,email,id):
     print(email)

@@ -1456,6 +1456,10 @@ input:focus, select:focus {
     flex-direction: column;
     height: calc(100% - 90px); /* Adjust this value based on your profile section height */
 }
+
+a{
+    text-decoration: none;
+}
     </style>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -1560,16 +1564,13 @@ function updateValue(value) {
                     
                     <!-- Find Job Menu -->
                     <li class="menu-item">
-                        <a href="/tutor_job/{{email}}"><button class="menu-button" data-menu="find-job">Find Job</button></a>
+                        <a  style="text-decoration: none;"  href="/tutor_job/{{email}}"><button class="menu-button" data-menu="find-job">Find Job</button></a>
                     </li>
                     
-                    <!-- Find Tutor Menu -->
-                    <li class="menu-item">
-                        <button class="menu-button" data-menu="find-tutor">Find Tutor</button>
-                    </li>
+                   
 
                       <li class="menu-item">
-                       <a href="/logout/"> <button class="menu-button">Logout</button></a>
+                       <a  style="text-decoration: none;" href="/logout/"> <button class="menu-button">Logout</button></a>
                     </li>
                 </ul>
                 <div class="teacher-dashboard-logo-bottom" style="margin-top: auto; padding: 20px; text-align: center; color: rgba(255, 255, 255, 0.8); font-weight: 600; font-size: 16px; border-top: 1px solid rgba(255, 255, 255, 0.2);">

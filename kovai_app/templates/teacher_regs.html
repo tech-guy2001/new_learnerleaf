@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -104,7 +104,7 @@
 </head>
 
 <body>
-    <!-- Alert message -->
+    Alert message 
     {% if msg %}
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -119,23 +119,21 @@
         <form action="teacher_reg" method="POST" onsubmit="return validateForm()">
             {% csrf_token %}
 
-            <!-- Name field -->
+            
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" placeholder="Enter your name">
 
-            <!-- Email field -->
+          
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Enter your email">
 
-            <!-- Password field -->
+        
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter your password">
 
-            <!-- Confirm Password field -->
             <label for="confirm_password">Confirm Password:</label>
             <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password">
 
-            <!-- Submit button -->
             <input type="submit" value="Join">
         </form>
     </div>
@@ -191,4 +189,177 @@
     </script>
 </body>
 
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join with Learnersleaf</title>
+    <style>
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+            color: #333;
+        }
+
+        .modal {
+            width: 90%;
+            max-width: 400px;
+            background: #fff;
+            padding: 20px;
+            padding-right:20px ;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.8em;
+        }
+        h2 {
+      text-align: center;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 25px;
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+    }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal">
+        <h2>Join with Learnersleaf</h2>
+        <form     action="teacher_reg" method="POST"  id="registration-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="form-control">
+                <span class="error" id="nameError"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control">
+                <span class="error" id="emailError"></span>
+            </div>
+            <div class="form-group">
+                <label for="phone">Contact</label>
+                <input type="tel" id="phone" name="number" class="form-control">
+                <span class="error" id="phoneError"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control">
+                <span class="error" id="passwordError"></span>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm_password" class="form-control">
+                <span class="error" id="confirmPasswordError"></span>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById("registration-form").addEventListener("submit", function(event) {
+    let isValid = true;
+
+    // Name Validation
+    const name = document.getElementById("name").value.trim();
+    if (name.length < 3) {
+        document.getElementById("nameError").innerText = "Name must be at least 3 characters";
+        isValid = false;
+    } else {
+        document.getElementById("nameError").innerText = "";
+    }
+
+    // Email Validation
+    const email = document.getElementById("email").value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        document.getElementById("emailError").innerText = "Invalid email format";
+        isValid = false;
+    } else {
+        document.getElementById("emailError").innerText = "";
+    }
+
+    // Phone Validation
+    const phone = document.getElementById("phone").value.trim();
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phone)) {
+        document.getElementById("phoneError").innerText = "Enter a valid 10-digit phone number";
+        isValid = false;
+    } else {
+        document.getElementById("phoneError").innerText = "";
+    }
+
+    // Password Validation
+    const password = document.getElementById("password").value;
+    if (password.length < 6) {
+        document.getElementById("passwordError").innerText = "Password must be at least 6 characters";
+        isValid = false;
+    } else {
+        document.getElementById("passwordError").innerText = "";
+    }
+
+    // Confirm Password Validation
+    const confirmPassword = document.getElementById("confirm-password").value;
+    if (confirmPassword !== password) {
+        document.getElementById("confirmPasswordError").innerText = "Passwords do not match";
+        isValid = false;
+    } else {
+        document.getElementById("confirmPasswordError").innerText = "";
+    }
+
+    // If validation fails, prevent submission
+    if (!isValid) {
+        event.preventDefault();
+    }
+});
+
+    </script>
+</body>
 </html>

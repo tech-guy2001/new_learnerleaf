@@ -1136,6 +1136,10 @@ requirements-list a{
             padding: 20px;
             border-bottom: 1px solid #eee;
         }
+
+        a{
+            text-decoration: none;
+        }
         
         .modal-title {
             font-size: 20px;
@@ -1522,6 +1526,10 @@ requirements-list a{
                 padding: 20px;
             }
         }
+
+        a{
+            text-decoration: none;
+        }
     </style>
     <script>
         $(document).ready(function(){
@@ -1615,7 +1623,7 @@ function updateValue(value) {
                         <button class="teacher-dashboard-menu-button teacher-dashboard-active-menu" data-menu="create-post">My Post</button>
                     </li>
                     <li class="teacher-dashboard-menu-item">
-                        <a href="/h_all_teachers">  <button class="teacher-dashboard-menu-button" data-menu="logout"> Find Tutors</button></a>
+                        <a   style="text-decoration: none;" href="/h_all_teachers">  <button class="teacher-dashboard-menu-button" data-menu="logout"> Find Tutors</button></a>
                     </li>
                     <!-- Wallet Menu -->
                     <li class="teacher-dashboard-menu-item">
@@ -1702,9 +1710,9 @@ function updateValue(value) {
  </div><br><br><br><br> -->
 
  <div class="buy_coin">
-    <button 
+    <button class="create-post-button"
         id="buyCoinBtn" 
-        class="btn btn-primary" 
+    
         onclick="buyCoins('{{post.email}}')">
         Buy 100 Coins
     </button>
@@ -1717,13 +1725,10 @@ function updateValue(value) {
                 <h2 class="teacher-dashboard-content-title">My Posts</h2>
                 
                 <!-- Create Post Button -->
-                <button class="create-post-button" id="create-post-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    Create New Post
-                </button>
+                <a  style="text-decoration: none;" href="/add_post/{{post.email}}">  <button class="create-post-button" id="create-post-btn">
+                   
+                   Create New Post
+                </button></a>
                
                 <div class="posts-container" id="posts-container">
                     <!-- Sample Post Cards -->
@@ -1814,15 +1819,19 @@ function updateValue(value) {
                         
                         <div class="settings-form-group">
                             <label class="settings-label">Current Phone Number</label>
-                            <span class="settings-current-value">+1 (555) 123-4567</span>
+                            <span class="settings-current-value">{{post.phone}}</span>
                         </div>
-                        
+                        <form action="/change_ph/{{post.email}}" method="POST">
+                            {% csrf_token %}
                         <div class="settings-form-group">
                             <label class="settings-label" for="new-phone">New Phone Number</label>
-                            <input type="tel" id="new-phone" class="settings-input" placeholder="Enter new phone number">
+                            <input type="tel" id="new-phone"   name="phone" class="settings-input" placeholder="Enter new phone number" required>
+                           
                         </div>
+                        <input type="submit" class="settings-button" value="Update">
+                    </form>
                         
-                        <button class="settings-button" id="change-phone-btn">Send Verification Code</button>
+                        
                         
                         <div class="settings-verification-section" id="phone-verification">
                             <div class="settings-verification-title">Enter the verification code sent to your new phone number</div>
@@ -1897,138 +1906,10 @@ function updateValue(value) {
      <div class="modal-overlay" id="post-modal">
         <div class="modal-container">
             <div class="modal-header">
-                <h3 class="modal-title" id="post-modal-title">Create New Post</h3>
+                <h3 class="modal-title" id="post-modal-title"><a href=""></a>Create New Post</h3>
                 <button class="modal-close" id="post-modal-close">&times;</button>
             </div>
-            <div class="modal-body">
-                <form id="post-form"  action="/add_post/{{post.email}}" method="POST"  enctype="multipart/form-data" >
-                   {% csrf_token %}
-                    <div class="form-group">
-                        <label class="form-label" for="curriculum">Curriculum</label>
-                        <input type="text" class="form-control"  name="curriculum" id="curriculum"
-                            placeholder="State board, CBSE, ICSE, IGCSE, IB...">
-                    </div>
-                    <div class="form-group">
-                        <label for="subject" class="form-label">Subject</label>
-                        <input type="text" class="form-control" id="subject" name="subject"
-                            placeholder="e.g., Maths, Python" required>
-                        <div class="autocomplete-results res_box"></div>
-                    </div>
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label class="form-label" for="post-class">Class/Grade</label>
-                                <select class="form-select" id="post-class" name="classes">
-                                    <option value="">Select Class/Grade</option>
-                                    <option value="1st Grade">1st Grade</option>
-                                    <option value="2nd Grade">2nd Grade</option>
-                                    <option value="3rd Grade">3rd Grade</option>
-                                    <option value="4th Grade">4th Grade</option>
-                                    <option value="5th Grade">5th Grade</option>
-                                    <option value="6th Grade">6th Grade</option>
-                                    <option value="7th Grade">7th Grade</option>
-                                    <option value="8th Grade">8th Grade</option>
-                                    <option value="9th Grade">9th Grade</option>
-                                    <option value="10th Grade">10th Grade</option>
-                                    <option value="11th Grade">11th Grade</option>
-                                    <option value="12th Grade">12th Grade</option>
-                                    <option value="College">College</option>
-                                    <option value="Adult">Adult</option>
-                                </select>
-                            </div>
-                        </div>
-                    
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="post-subject">I'm looking for</label>
-                        <select class="form-select" id="post-subject" name="i_want">
-                            <option value="Tution">Tution</option>
-                            <option value="Project support">Project support</option>
-                            <option value="Assignment support">Assignment support</option>
-                            <option value="Others">Others</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Teaching Mode</label>
-                        <div class="form-check">
-                            <input type="checkbox"  name="meeting_option" value="Online" class="form-check-input" id="mode-online">
-                            <label class="form-check-label" for="mode-online">Online</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="meeting_option" value="Home" id="mode-home">
-                            <label class="form-check-label" for="mode-home">Student's Home</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input"  value="At Tutor's Place" name="meeting_option" id="mode-place">
-                            <label class="form-check-label" for="mode-place">At Tutor's Place</label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label class="form-label" for="post-subject">Budget</label>
-                                <input type="text" name="budget"  class="form-control" id="post-title" placeholder="INR">
-                            </div>
-                        </div>
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label class="form-label" for="post-class">Duration</label>
-                                <select class="form-select" id="post-class" name="budget_need">
-                                    <option value="per Hour">per Hour</option>
-                                    <option value="per Day">per Day</option>
-                                    <option value="per Week">per Week</option>
-                                    <option value="per Month">per Month</option>
-
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="post-class">Gender preferance</label>
-                        <select class="form-select" id="post-class"   name="gender">
-                            <option value="">Select your preferred tutor gender:</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="both">Any</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="language" class="form-label">Preferred Language</label>
-                        <input type="text" id="language" class="form-control" name="language"
-                            placeholder="I can communicate with the tutor in (languages)" style="width: 100%;" required>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="need" class="form-label">I need some:</label>
-                        <input type="checkbox" value="Full Time" name="need">
-                        <label for="need">Full Time</label>
-                        <input type="checkbox" value="Part Time" name="need">
-                        <label for="need">Part Time</label>
-                        <input type="checkbox" value="both" name="need">
-                        <label for="need">Any</label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="image">Upload your requirement:(Optional)</label>
-                        <input class="form-control" type="file" name="image" id="image" >
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="post-description">Description</label>
-                        <textarea class="form-control" id="post-description" rows="4"
-                            placeholder="Describe your tutoring offer"  name="dyr" ></textarea>
-                    </div>
-                    <input type="hidden" id="post-id">
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" id="post-modal-cancel">Cancel</button>
-                       
-                        <input type="submit" class="btn btn-primary" id="post-submit" >
-                    </div>
-               
-                </form>
-            </div>
+           
             </div>
            
      

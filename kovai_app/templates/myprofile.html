@@ -1281,7 +1281,8 @@
         
 </style>
 
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -1332,6 +1333,18 @@ function updateValue(value) {
             <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
     </button>
+    {% if option %}
+   
+    
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>you want use coin <a href="/use_coin_view_contant_stu/{{s_email}}/{{first.email}}/{{first.id}}"> <span class="skill-tag">
+          Use Coin</span></a></strong> 
+      </div>
+
+
+
+ {% endif %}
   
     
     
@@ -1358,18 +1371,7 @@ function updateValue(value) {
                             <h3 class="profile-name">{{name|title}}</h3>
                             <span class="profile-role">Student</span>
                         </div>
-                        {% if option %}
-   
-    
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            <strong>you want use coin <a href="/use_coin_view_contant_stu/{{s_email}}/{{first.email}}/{{first.id}}"> <span class="skill-tag">
-                              Use Coin</span></a></strong> 
-                          </div>
-                
-                
                     
-                     {% endif %}
                     </div>
 
         
@@ -1676,7 +1678,7 @@ function updateValue(value) {
                         </div>
 
                         {% for i  in all %}
-                        {% if i.willing_to_travel %}
+                     
                          <!-- Education Information -->
                          <div class="profile-card">
                             <div class="card-header">
@@ -1713,7 +1715,7 @@ function updateValue(value) {
                                 </div>
                             </div>
                         </div>
-                        {% endif %}
+                      
                             {% endfor %}
                     </div>
                 </div>
