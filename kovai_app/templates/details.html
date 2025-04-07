@@ -1383,7 +1383,7 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
         </div>
       </div>
 
-      <form    action="details/{{email}}" id="experienceForm"  enctype="multipart/form-data"   method="POST">
+      <form    action="details" id="experienceForm"  enctype="multipart/form-data"   method="POST">
         <!-- Step 1: Personal Information -->
         <div class="exp-form-step active" id="step-1">
           <div class="exp-header">
@@ -1874,7 +1874,7 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
                 <label for="charge" class="exp-label">I charge (INR)</label>
                 <div class="exp-input-wrapper" style="display: flex; gap: 10px">
                   <select
-                    name="charge_type"
+                    name="i_charge"
                     id="charge_type"
                     class="exp-input"
                     style="width: 30%"
@@ -1886,7 +1886,7 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
                   </select>
                   <input
                     type="number"
-                    name="charge"
+                    name="min_fee"
                     id="charge"
                     class="exp-input"
                     placeholder="Min fee"
@@ -1894,7 +1894,7 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
                   />
                   <input
                     type="number"
-                    name="max_charge"
+                    name="max_fee"
                     id="max_charge"
                     class="exp-input"
                     placeholder="Max fee"
@@ -1948,7 +1948,7 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
                   <div class="exp-input-wrapper">
                     <input
                       type="text"
-                      name="prefer_to_teach_others"
+                      name="other_subject"
                       id="prefer_to_teach_others"
                       class="exp-input"
                       placeholder="e.g., UG, PG, ENG, NEET, JEE, JAM..."
@@ -1989,12 +1989,12 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
                 >
                 <div class="exp-input-wrapper">
                   <label class="exp-checkbox-wrapper">
-                    <input type="radio" name="travel_to_student" value="Yes" />
+                    <input type="radio" name="willing_to_travel" value="Yes" />
                     <span class="exp-checkmark"></span>
                     Yes
                   </label>
                   <label class="exp-checkbox-wrapper">
-                    <input type="radio" name="travel_to_student" value="No" />
+                    <input type="radio" name="willing_to_travel" value="No" />
                     <span class="exp-checkmark"></span>
                     No
                   </label>
@@ -2005,12 +2005,12 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
                 <label class="exp-label">Available for online teaching?</label>
                 <div class="exp-input-wrapper">
                   <label class="exp-checkbox-wrapper">
-                    <input type="radio" name="online_teaching" value="Yes" />
+                    <input type="radio" name="available_for_online_teaching" value="Yes" />
                     <span class="exp-checkmark"></span>
                     Yes
                   </label>
                   <label class="exp-checkbox-wrapper">
-                    <input type="radio" name="online_teaching" value="No" />
+                    <input type="radio" name="available_for_online_teaching" value="No" />
                     <span class="exp-checkmark"></span>
                     No
                   </label>
@@ -2122,10 +2122,7 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
       <div class="exp-summary-section">
         <h3 class="exp-summary-section-title">Personal Information</h3>
         <table class="exp-summary-table">
-          <tr>
-            <td>Type</td>
-            <td id="summary_types">-</td>
-          </tr>
+          
           <tr>
             <td>Strength</td>
             <td id="summary_strength">-</td>
@@ -2224,14 +2221,8 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
           Teaching Preferences & Availability
         </h3>
         <table class="exp-summary-table">
-          <tr>
-            <td>Charge Type</td>
-            <td id="summary_charge_type">-</td>
-          </tr>
-          <tr>
-            <td>Charge (INR)</td>
-            <td id="summary_charge">-</td>
-          </tr>
+          
+          
           <tr>
             <td>Prefer to Teach</td>
             <td id="summary_prefer_to_teach">-</td>
@@ -2584,10 +2575,10 @@ let v = [];
     } else if (!$("#language").val()) {
       alert("Please select a language");
       isValid = false;
-    } else if (!$("input[name='travel_to_student']:checked").val()) {
+    } else if (!$("input[name='willing_to_travel']:checked").val()) {
       alert("Please specify if you are willing to travel to the student place");
       isValid = false;
-    } else if (!$("input[name='online_teaching']:checked").val()) {
+    } else if (!$("input[name='available_for_online_teaching']:checked").val()) {
       alert("Please specify if you are available for online teaching");
       isValid = false;
     } else if (!$("input[name='help_with_homework']:checked").val()) {
@@ -2600,6 +2591,30 @@ let v = [];
       alert("Please select your availability");
       isValid = false;
     }
+   
+      else if (!$("#sprofile_description").val()) {
+            alert("Profile Description cannot be empty");
+            isValid = false;
+        } else if (/\d/.test($("#sprofile_description").val())) {
+            alert("Profile Description should not contain numbers");
+            isValid = false;
+        }
+
+        // Validate ID Proof Upload
+       
+       else if (!$("input[name='id_proof']").val()) {
+            alert("Please upload your ID Proof");
+            isValid = false;
+        }
+
+        // Validate Profile Photo Upload
+       
+       else if (!$("input[name='profile']").val()) {
+            alert("Please upload your Profile Photo");
+            isValid = false;
+        }
+
+
   } else if (stepId === "6") {
     // Validation for Step 6 (Summary)
     if (!$("#terms_checkbox").is(":checked")) {
@@ -2744,11 +2759,11 @@ let v = [];
   }
 
   // Step 5: Teaching Preferences & Availability
-  $("#summary_charge_type").text($("#charge_type").val() || "-");
+  $("#summary_charge_type").text($("#i_charge").val() || "-");
   $("#summary_charge").text(
-    $("#charge").val() && $("#max_charge").val()
-      ? `${$("#charge").val()} - ${$("#max_charge").val()}`
-      : $("#charge").val() || $("#max_charge").val() || "-"
+    $("#charge").val() && $("#max_fee").val()
+      ? `${$("#charge").val()} - ${$("#max_fee").val()}`
+      : $("#charge").val() || $("#max_fee").val() || "-"
   );
   $("#summary_prefer_to_teach").text(
     $("input[name='prefer_to_teach']:checked")
@@ -2764,8 +2779,8 @@ let v = [];
   $("#summary_travel_to_student").text(
     $("input[name='travel_to_student']:checked").val() || "-"
   );
-  $("#summary_online_teaching").text(
-    $("input[name='online_teaching']:checked").val() || "-"
+  $("#summary_available_for_online_teaching").text(
+    $("input[name='available_for_online_teaching']:checked").val() || "-"
   );
   $("#summary_help_with_homework").text(
     $("input[name='help_with_homework']:checked").val() || "-"

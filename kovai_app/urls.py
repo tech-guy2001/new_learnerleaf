@@ -28,7 +28,7 @@ path('student_post/<email>/<int:id>',views.student_post, name='student_post'),
   path('teacher_dashboard/',views.teacher_dashboard, name='teacher_dashboard'),
 
   path('teacher_reg',views.teacher_reg, name='teachet_reg'),
-  path('details/<email>',views.details, name='details'),
+  path('details',views.details, name='details'),
   path('subject/<email>',views.subject, name='subject'),
 path('add_subject/<email>',views.addsubject, name='addsubject'),
   path('certificate/<email>',views.certificate, name='certificate'),

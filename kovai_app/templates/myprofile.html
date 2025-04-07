@@ -1333,19 +1333,7 @@ function updateValue(value) {
             <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
     </button>
-    {% if option %}
-   
     
-    <div class="alert alert-success alert-dismissible">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong>you want use coin <a href="/use_coin_view_contant_stu/{{s_email}}/{{first.email}}/{{first.id}}"> <span class="skill-tag">
-          Use Coin</span></a></strong> 
-      </div>
-
-
-
- {% endif %}
-  
     
     
             <!-- My Profile Section -->
@@ -1373,6 +1361,19 @@ function updateValue(value) {
                         </div>
                     
                     </div>
+                    {% if option %}
+   
+    
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>You want to use coins to contact the tutor. <a href="/use_coin_view_contant_stu/{{s_email}}/{{first.email}}/{{first.id}}"> <span class="skill-tag">
+          Use Coin</span></a></strong> 
+      </div>
+
+
+
+ {% endif %}
+  
 
         
                     
