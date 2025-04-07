@@ -137,19 +137,37 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+
 import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
-STATIC_URL = '/static/'  # This URL serves static files in development
-STATICFILES_DIRS = [BASE_DIR / "static"]  # These are your source directories
 
+# Media settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Correct relative path
+
+# Static files settings
+STATIC_URL = '/static/'  # This URL serves static files in development
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Source directory for static files
+]
 # Define STATIC_ROOT for collected files in production
 STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# import os
+# from pathlib import Path
+
+# BASE_DIR = Path(__file__).resolve().parent.parent
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+# ]
+# STATIC_URL = '/static/'  # This URL serves static files in development
+# STATICFILES_DIRS = [BASE_DIR / "static"]  # These are your source directories
+
+# # Define STATIC_ROOT for collected files in production
+# STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 
