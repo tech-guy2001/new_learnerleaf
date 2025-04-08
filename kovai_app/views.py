@@ -461,8 +461,8 @@ def  details(request):
             tutor.i_charge = request.POST.get('i_charge')
             tutor.save()
 
-            print(request.POST.get('subject').split(","))
-            print(tutor.subject)
+            # print(request.POST.get('subject').split(","))
+            # print(tutor.subject)
         
             # Success message
             ds = {"name": tutor.name, "email": tutor.email, "msg": "Tutor registration completed successfully"}
