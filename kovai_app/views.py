@@ -345,7 +345,7 @@ def teacher_reg(request):
        else:
            cote= random.randint(100000, 999999)
            uname=f'{name}{cote}'
-           print(password)
+          
            user = User.objects.create_user(username=uname, email=email, password=password)
           
            TutorRegistration.objects.create(
@@ -378,7 +378,7 @@ def  details(request):
 
             # Generate OTP for email verification
             otp = random.randint(100000, 999999)
-            print(otp)
+            #print(otp)
             email_data = {"otp": otp}
             html_template = "otp.html"
             html_message = render_to_string(html_template, email_data)
