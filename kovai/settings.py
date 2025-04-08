@@ -153,7 +153,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",  # Source directory for static files
 ]
 # Define STATIC_ROOT for collected files in production
-STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # import os
 # from pathlib import Path
