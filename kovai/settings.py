@@ -85,6 +85,9 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Keep users logged in even after closing the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Set to True if you want the session to expire on browser close
