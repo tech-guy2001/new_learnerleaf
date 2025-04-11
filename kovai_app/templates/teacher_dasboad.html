@@ -1547,6 +1547,12 @@ window.addEventListener('popstate', function(event) {
         }
 
     </script>
+<script type="text/javascript">
+    function disableBack() { window.history.forward(); }
+    setTimeout("disableBack()", 0);
+    window.onunload = function () { null };
+    </script>
+
 </head>
 
 <body>
@@ -1644,11 +1650,9 @@ window.addEventListener('popstate', function(event) {
                     <div class="profile-header">
                         <div class="profile-cover"></div>
                         <div class="profile-avatar">
-                            {% for i in all %}
-                            {% if i.filename %}
-                            <img src="{% static i.filename %}" alt="Profile Image">
-                            {% endif %}
-                            {% endfor %}
+                        
+                            <img src="{{ tutor.profile_photo.url }}" alt="Profile Image">
+                           
 
                             <button class="edit-avatar-btn">
                                 <i class="edit-icon">✏️</i>
@@ -2001,11 +2005,9 @@ window.addEventListener('popstate', function(event) {
                     <div class="current-photo-container">
                         <h3 class="current-photo-h3">Current Photo</h3>
                         <div class="current-photo">
-                            {% for i in all %}
-                            {% if i.filename %}
-                            <img src="{% static i.filename %}" alt="Profile Image" id="current-profile-photo">
-                            {% endif %}
-                            {% endfor %}
+                          
+                            <img src="{{ tutor.profile_photo.url }}" alt="Profile Image" id="current-profile-photo">
+                         
 
                         </div>
                     </div>
