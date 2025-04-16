@@ -1,396 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Details</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-   
-
-
-
-<script>
-    function validateForm() {
-        // Get form elements
-        const type = document.getElementById("types").value;
-        const strength = document.getElementById("strength").value.trim();
-        const gender = document.getElementById("gender").value;
-        const language = document.getElementById("language-box").value.trim();
-        const location = document.getElementById("location-box").value.trim();
-        const dateOfBirth = document.getElementById("dates").value;
-        const postalCode = document.getElementById("post_code").value.trim();
-
-        // Define validation patterns
-        const postalCodePattern = /^[0-9]{5,6}$/;  // e.g., 5 or 6-digit postal code
-
-        // Check if each field is filled
-        if (type === "") {
-            alert("Please select your type (Individual Teaching or Teaching Company).");
-            return false;
-        }
-       
-        if (gender === "") {
-            alert("Please select your gender.");
-            return false;
-        }
-        if (language === "") {
-            alert("Please enter your preferred language.");
-            return false;
-        }
-        if (location === "") {
-            alert("Please enter your location.");
-            return false;
-        }
-        if (dateOfBirth === "") {
-            alert("Please enter your date of birth.");
-            return false;
-        }
-        if (postalCode === "") {
-            alert("Please enter your postal code.");
-            return false;
-        }
-        if (!postalCodePattern.test(postalCode)) {
-            alert("Please enter a valid postal code (5 or 6 digits).");
-            return false;
-        }
-
-        // If all validations pass
-        return true;
-    }
-</script>
- 
-</head>
-
-<body>
-   
-     <h3 style="margin-left: 200px;">Profile 1 of 6</h3>
-    <div class="container">
-       
-        <div class="alert alert-info alert-dismissible fade show">
-            
-            <strong>{{msg}}</strong> !!!!!!!
-        </div>
-        <h2 class="section-heading ">Personal Details</h2>
-        <a href="/subject/{{email}}" class="skip-button">Skip</a>
-
-        <form action="details/{{email}}" method="POST" onsubmit="return validateForm()">
-            {% csrf_token %}
-            <label>I am</label>
-            <select name="types" id="types">
-                <option value="">Select Type</option>
-                <option value="individual_teaching">Individual Teaching</option>
-                <option value="teaching_company">Teaching Company</option>
-            </select>
-
-            <label>Strength(Optional)</label>
-            <input type="text" name="strength" id="strength" placeholder="e.g., Strength, Current role, or other relevant information">
-
-            <label>Gender</label>
-            <select name="gender" id="gender">
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-            </select>
-            <label for="language-box">Languages</label>
-<div id="languages-container">
-  
-    <div class="language-entry">
-        <div class="form-group">
-                  
-            <input type="text" placeholder="e.g., Tamil or English or Hindi" id="language-box" autocomplete="off" name="language">
-            <div class="language-res-box"></div>
-        </div>
-        
-        <div class="check">
-        <div class="c">
-            <input type="checkbox" id="speak" name="speak">
-            <label for="speak">Speak</label>
-        </div >
-        <div class="c">
-            <input type="checkbox" id="read" name="read">
-            <label for="read">Read</label>
-        </div>
-        <div class="c">
-            <input type="checkbox" id="write" name="write">
-            <label for="write">Write</label>
-        </div>
-        </div>
-    </div>
-</div>
-
-            <button type="button" id="add-language-btn">Add Language</button>
-            
-            
-
-            <label>Location</label>
-            <input type="text" placeholder="Enter the location" id="location-box" autocomplete="off" name="location">
-            <div class="res_box"></div>
-            
-            <label>Date of Birth</label>
-            <input type="date" name="dates" id="dates"  >
-
-         
-
-            <label>Postal code</label>
-            <input type="text" name="post_code" id="post_code">
-
-            <input type="submit" value="Save">
-        </form>
-        
-    </div>
-
-
-    <script>
-// JavaScript to dynamically add/remove language entries
-let languageCount = 1;
-
-document.getElementById('add-language-btn').addEventListener('click', () => {
-    languageCount++;
-
-    const container = document.getElementById('languages-container');
-
-    // Create a new language entry
-    const newLanguageEntry = document.createElement('div');
-    newLanguageEntry.classList.add('language-entry');
-    newLanguageEntry.innerHTML = `
-        <div class="form-group">
-            <input type="text" placeholder="e.g., Tamil or English or Hindi" id="language-box"  name="language_${languageCount}">
-            <div class="language-res-box"></div>
-        </div>
-           <div class="check">
-        <div>
-            <input type="checkbox" id="speak-${languageCount}" name="speak[]">
-            <label for="speak-${languageCount}">Speak</label>
-        </div>
-        <div>
-            <input type="checkbox" id="read-${languageCount}" name="read[]">
-            <label for="read-${languageCount}">Read</label>
-        </div>
-        <div>
-            <input type="checkbox" id="write-${languageCount}" name="write[]">
-            <label for="write-${languageCount}">Write</label>
-        </div>
-         </div>
-    `;
-
-    container.appendChild(newLanguageEntry);
-});
-
-
-        window.onload = function () {
-            // Location auto-suggestion logic
-            const locations = [
-    // Andhra Pradesh
-    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
-    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
-    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
-    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
-
-    // Arunachal Pradesh
-    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
-    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
-
-    // Assam
-    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
-    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
-    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
-
-    // Bihar
-    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
-    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
-    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
-
-    // Chhattisgarh
-    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
-    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
-
-    // Goa
-    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
-    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
-
-    // Gujarat
-    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
-    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
-    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
-
-    // Haryana
-    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
-    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
-    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
-
-    // Himachal Pradesh
-    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
-    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
-
-    // Jharkhand
-    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
-    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
-
-    // Karnataka
-    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
-    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
-
-    // Kerala
-    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
-
-    // Madhya Pradesh
-    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
-    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
-
-    // Maharashtra
-    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
-    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
-
-    // Manipur
-    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
-
-    // Meghalaya
-    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
-
-    // Mizoram
-    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
-
-    // Nagaland
-    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
-
-    // Odisha
-    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
-
-    // Punjab
-    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
-
-    // Rajasthan
-    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
-
-    // Sikkim
-    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
-
-    // Tamil Nadu
-   
-    "Chennai, Tamil Nadu", "Madurai, Tamil Nadu", "Thanjavur, Tamil Nadu", "Kanchipuram, Tamil Nadu",
-    "Rameswaram, Tamil Nadu", "Chidambaram, Tamil Nadu", "Tiruvannamalai, Tamil Nadu",
-    "Velankanni, Tamil Nadu", "Mahabalipuram, Tamil Nadu",
-
-  
-    "Coimbatore, Tamil Nadu", "Tiruppur, Tamil Nadu", "Salem, Tamil Nadu", "Hosur, Tamil Nadu", "Erode, Tamil Nadu",
-
- 
-    "Ooty (Udhagamandalam), Tamil Nadu", "Kodaikanal, Tamil Nadu", "Yercaud, Tamil Nadu",
-
-  
-    "Marina Beach, Chennai, Tamil Nadu", "Kanyakumari, Tamil Nadu", "Pondicherry (Puducherry)", 
-    "Tuticorin, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-
-  
-    "The Nilgiris, Tamil Nadu", "Mudumalai National Park, Tamil Nadu", "Hogenakkal, Tamil Nadu",
-    "Kalakkad Mundanthurai Tiger Reserve, Tamil Nadu",
-
-   
-    "Palani, Tamil Nadu", "Tiruvarur, Tamil Nadu", "Srirangam, Tamil Nadu",
-
-    "Cuddalore, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Kumbakonam, Tamil Nadu", "Vellore, Tamil Nadu",
-    "Pollachi, Tamil Nadu", "Dindigul, Tamil Nadu",
-
-    // Telangana
-    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
-
-    // Tripura
-    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
-
-    // Uttar Pradesh
-    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
-
-    // Uttarakhand
-    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
-
-    // West Bengal
-    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
-]
-
-          
-            const locationResultBox = document.querySelector('.res_box');
-            const locationInputBox = document.getElementById("location-box");
-
-            locationInputBox.onkeyup = function () {
-                let result = [];
-                let input = locationInputBox.value.trim();
-                if (input.length > 0) {
-                    result = locations.filter((location) => location.toLowerCase().includes(input.toLowerCase()));
-                }
-                displayLocations(result);
-            };
-
-            function displayLocations(result) {
-                locationResultBox.innerHTML = result.length ? `<ul>${result.map(location => `<li onclick="selectLocation(this)">${location}</li>`).join('')}</ul>` : '';
-            }
-
-            window.selectLocation = function (listItem) {
-                locationInputBox.value = listItem.textContent;
-                locationResultBox.innerHTML = '';
-            };
-
-            // Language auto-suggestion logic
-            const languages = [
-    "English", "Mandarin Chinese", "Spanish", "Hindi", "Arabic", "Portuguese", "Bengali", 
-    "Russian", "Japanese", "Punjabi", "German", "Javanese", "Korean", "French", "Telugu", 
-    "Vietnamese", "Marathi", "Tamil", "Urdu", "Turkish", "Italian", "Persian", "Gujarati", 
-    "Polish", "Ukrainian", "Malay/Indonesian", "Kannada", "Odia", "Bhojpuri", "Maithili", 
-    "Hausa", "Swahili", "Yoruba", "Tagalog", "Romanian", "Dutch", "Greek", "Hungarian", 
-    "Czech", "Serbo-Croatian", "Finnish", "Slovak", "Hebrew", "Amharic", "Nepali", "Sinhala", 
-    "Zulu", "Xhosa", "Igbo", "Pashto", "Farsi", "Kurdish", "Azerbaijani", "Bulgarian", 
-    "Croatian", "Albanian", "Armenian", "Georgian", "Lithuanian", "Latvian", "Estonian", 
-    "Bosnian", "Mongolian", "Kazakh", "Uzbek", "Turkmen", "Tajik", "Kyrgyz", "Khmer", 
-    "Lao", "Burmese", "Thai", "Filipino", "Malayalam", "Sinhala", "Assamese", "Sundanese", 
-    "Madurese", "Acehnese", "Hokkien", "Hakka", "Wu (Shanghainese)", "Min Nan", "Cantonese", 
-    "Mandinka", "Wolof", "Tswana", "Sesotho", "Shona", "Sango", "Chichewa", "Luganda", 
-    "Tigrinya", "Somali", "Danish", "Swedish", "Norwegian", "Icelandic", "Latvian", "Finnish", 
-    "Slovenian", "Macedonian", "Belarusian", "Luxembourgish", "Galician", "Basque", "Catalan", 
-    "Breton", "Welsh", "Scottish Gaelic", "Irish", "Cornish", "Manx", "Esperanto"
-];
-
-            const languageResultBox = document.querySelector('.language-res-box');
-            const languageInputBox = document.getElementById("language-box");
-
-            languageInputBox.onkeyup = function () {
-                let result = [];
-                let input = languageInputBox.value.trim();
-                if (input.length > 0) {
-                    result = languages.filter((language) => language.toLowerCase().includes(input.toLowerCase()));
-                    displayLanguages(result);
-                } else {
-                    languageResultBox.style.display = 'none';
-                }
-            };
-
-            function displayLanguages(result) {
-                if (result.length > 0) {
-                    const content = result.map(language => `<li onclick="selectLanguage(this)">${language}</li>`).join('');
-                    languageResultBox.innerHTML = `<ul>${content}</ul>`;
-                    languageResultBox.style.display = 'block';
-                } else {
-                    languageResultBox.style.display = 'none';
-                }
-            }
-
-            window.selectLanguage = function (languageItem) {
-                languageInputBox.value = languageItem.textContent;
-                languageResultBox.innerHTML = '';
-                languageResultBox.style.display = 'none';
-            };
-        };
-    </script>
-    
-
-    
-</body>
-
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -697,6 +304,27 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
           animation: fadeIn 0.5s ease;
         }
   
+
+        /* location css */
+        #search {
+      width: 100%;
+      padding: 10px;
+    }
+
+    #results {
+      margin-top: 10px;
+    }
+
+    .result-item {
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    .result-item:hover {
+      background-color: #f0f0f0;
+    }
+
         .exp-form-step.active {
           display: block;
         }
@@ -994,7 +622,7 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
               box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
           }
   
-          .res_box, .language-res-box {
+          .language-res-box {
               position: absolute;
               width: 100%;
               background: white;
@@ -1005,19 +633,19 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
               overflow-y: auto;
           }
   
-          .res_box ul, .language-res-box ul {
+         .language-res-box ul {
               list-style: none;
               padding: 0;
               margin: 0;
           }
   
-          .res_box li, .language-res-box li {
+         .language-res-box li {
               padding: 10px 15px;
               cursor: pointer;
               transition: background-color var(--transition-speed);
           }
   
-          .res_box li:hover, .language-res-box li:hover {
+          .language-res-box li:hover {
               background-color: #f0f0f0;
               color: var(--primary-color);
           }
@@ -1394,8 +1022,6 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
           <div class="exp-card">
           
               {% csrf_token %}
-            
-             
 
               <div class="exp-form-group">
                 <label for="strength" class="exp-label"
@@ -1419,8 +1045,6 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
                   <option value="other">Other</option>
                 </select>
               </div>
-
-             
 
               <div class="exp-form-group">
                 <label for="language-box" class="exp-label">Languages</label>
@@ -1471,12 +1095,12 @@ document.getElementById('add-language-btn').addEventListener('click', () => {
                 <input
                   type="text"
                   placeholder="Enter the location"
-                  id="location-box"
+                  id="search"
                   autocomplete="off"
                   name="location"
-                  class="exp-input"
+                  class="exp-input form-control"
                 />
-                <div class="res_box"></div>
+                <div id="results" class="res_box"></div>
               </div>
 
               <div class="exp-form-group">
@@ -2815,288 +2439,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let languageCount = 1;
 
     // Location suggestions - using the predefined locations array
-    const locations = [
-         // Andhra Pradesh
-         "Visakhapatnam, Andhra Pradesh",
-                "Vijayawada, Andhra Pradesh",
-                "Guntur, Andhra Pradesh",
-                "Tirupati, Andhra Pradesh",
-                "Kurnool, Andhra Pradesh",
-                "Nellore, Andhra Pradesh",
-                "Rajahmundry, Andhra Pradesh",
-                "Kakinada, Andhra Pradesh",
-                "Anantapur, Andhra Pradesh",
-                "Kadapa, Andhra Pradesh",
-                "Chittoor, Andhra Pradesh",
-                "Eluru, Andhra Pradesh",
-                "Machilipatnam, Andhra Pradesh",
-                "Srikakulam, Andhra Pradesh",
-                "Vizianagaram, Andhra Pradesh",
-
-                // Arunachal Pradesh
-                "Itanagar, Arunachal Pradesh",
-                "Pasighat, Arunachal Pradesh",
-                "Tawang, Arunachal Pradesh",
-                "Ziro, Arunachal Pradesh",
-                "Naharlagun, Arunachal Pradesh",
-                "Bomdila, Arunachal Pradesh",
-                "Tezu, Arunachal Pradesh",
-                "Roing, Arunachal Pradesh",
-
-                // Assam
-                "Guwahati, Assam",
-                "Dibrugarh, Assam",
-                "Silchar, Assam",
-                "Jorhat, Assam",
-                "Tinsukia, Assam",
-                "Nagaon, Assam",
-                "Tezpur, Assam",
-                "Diphu, Assam",
-                "Sibsagar, Assam",
-                "Goalpara, Assam",
-                "Barpeta, Assam",
-                "Dhubri, Assam",
-
-                // Bihar
-                "Patna, Bihar",
-                "Gaya, Bihar",
-                "Bhagalpur, Bihar",
-                "Muzaffarpur, Bihar",
-                "Darbhanga, Bihar",
-                "Purnia, Bihar",
-                "Ara, Bihar",
-                "Begusarai, Bihar",
-                "Katihar, Bihar",
-                "Munger, Bihar",
-                "Chapra, Bihar",
-                "Hajipur, Bihar",
-
-                // Chhattisgarh
-                "Raipur, Chhattisgarh",
-                "Bilaspur, Chhattisgarh",
-                "Durg, Chhattisgarh",
-                "Korba, Chhattisgarh",
-                "Raigarh, Chhattisgarh",
-                "Jagdalpur, Chhattisgarh",
-                "Ambikapur, Chhattisgarh",
-                "Bhilai, Chhattisgarh",
-
-                // Goa
-                "Panaji, Goa",
-                "Margao, Goa",
-                "Vasco da Gama, Goa",
-                "Mapusa, Goa",
-                "Ponda, Goa",
-                "Bicholim, Goa",
-                "Canacona, Goa",
-                "Curchorem, Goa",
-
-                // Gujarat
-                "Ahmedabad, Gujarat",
-                "Surat, Gujarat",
-                "Vadodara, Gujarat",
-                "Rajkot, Gujarat",
-                "Bhavnagar, Gujarat",
-                "Jamnagar, Gujarat",
-                "Junagadh, Gujarat",
-                "Gandhinagar, Gujarat",
-                "Nadiad, Gujarat",
-                "Porbandar, Gujarat",
-                "Vapi, Gujarat",
-                "Morbi, Gujarat",
-
-                // Haryana
-                "Chandigarh, Haryana",
-                "Gurugram, Haryana",
-                "Faridabad, Haryana",
-                "Hisar, Haryana",
-                "Panipat, Haryana",
-                "Ambala, Haryana",
-                "Yamunanagar, Haryana",
-                "Rohtak, Haryana",
-                "Karnal, Haryana",
-                "Panchkula, Haryana",
-                "Sonipat, Haryana",
-                "Kurukshetra, Haryana",
-
-                // Himachal Pradesh
-                "Shimla, Himachal Pradesh",
-                "Dharamshala, Himachal Pradesh",
-                "Mandi, Himachal Pradesh",
-                "Kullu, Himachal Pradesh",
-                "Manali, Himachal Pradesh",
-                "Solan, Himachal Pradesh",
-                "Una, Himachal Pradesh",
-                "Bilaspur, Himachal Pradesh",
-
-                // Jharkhand
-                "Ranchi, Jharkhand",
-                "Jamshedpur, Jharkhand",
-                "Dhanbad, Jharkhand",
-                "Bokaro, Jharkhand",
-                "Deoghar, Jharkhand",
-                "Hazaribagh, Jharkhand",
-                "Giridih, Jharkhand",
-                "Ramgarh, Jharkhand",
-
-                // Karnataka
-                "Bengaluru, Karnataka",
-                "Mysuru, Karnataka",
-                "Mangaluru, Karnataka",
-                "Hubballi, Karnataka",
-                "Belagavi, Karnataka",
-                "Davangere, Karnataka",
-                "Ballari, Karnataka",
-                "Shivamogga, Karnataka",
-
-                // Kerala
-                "Thiruvananthapuram, Kerala",
-                "Kochi, Kerala",
-                "Kozhikode, Kerala",
-                "Kollam, Kerala",
-
-                // Madhya Pradesh
-                "Bhopal, Madhya Pradesh",
-                "Indore, Madhya Pradesh",
-                "Gwalior, Madhya Pradesh",
-                "Jabalpur, Madhya Pradesh",
-                "Ujjain, Madhya Pradesh",
-                "Sagar, Madhya Pradesh",
-                "Rewa, Madhya Pradesh",
-                "Satna, Madhya Pradesh",
-
-                // Maharashtra
-                "Mumbai, Maharashtra",
-                "Pune, Maharashtra",
-                "Nagpur, Maharashtra",
-                "Nashik, Maharashtra",
-                "Aurangabad, Maharashtra",
-                "Thane, Maharashtra",
-                "Kolhapur, Maharashtra",
-                "Solapur, Maharashtra",
-
-                // Manipur
-                "Imphal, Manipur",
-                "Thoubal, Manipur",
-                "Kakching, Manipur",
-                "Churachandpur, Manipur",
-
-                // Meghalaya
-                "Shillong, Meghalaya",
-                "Tura, Meghalaya",
-                "Nongpoh, Meghalaya",
-                "Jowai, Meghalaya",
-
-                // Mizoram
-                "Aizawl, Mizoram",
-                "Lunglei, Mizoram",
-                "Champhai, Mizoram",
-                "Serchhip, Mizoram",
-
-                // Nagaland
-                "Kohima, Nagaland",
-                "Dimapur, Nagaland",
-                "Mokokchung, Nagaland",
-                "Tuensang, Nagaland",
-
-                // Odisha
-                "Bhubaneswar, Odisha",
-                "Cuttack, Odisha",
-                "Rourkela, Odisha",
-                "Berhampur, Odisha",
-
-                // Punjab
-                "Amritsar, Punjab",
-                "Ludhiana, Punjab",
-                "Chandigarh, Punjab",
-                "Jalandhar, Punjab",
-
-                // Rajasthan
-                "Jaipur, Rajasthan",
-                "Jodhpur, Rajasthan",
-                "Udaipur, Rajasthan",
-                "Kota, Rajasthan",
-
-                // Sikkim
-                "Gangtok, Sikkim",
-                "Namchi, Sikkim",
-                "Mangan, Sikkim",
-                "Pelling, Sikkim",
-
-                // Tamil Nadu
-
-                "Chennai, Tamil Nadu",
-                "Madurai, Tamil Nadu",
-                "Thanjavur, Tamil Nadu",
-                "Kanchipuram, Tamil Nadu",
-                "Rameswaram, Tamil Nadu",
-                "Chidambaram, Tamil Nadu",
-                "Tiruvannamalai, Tamil Nadu",
-                "Velankanni, Tamil Nadu",
-                "Mahabalipuram, Tamil Nadu",
-
-                "Coimbatore, Tamil Nadu",
-                "Tiruppur, Tamil Nadu",
-                "Salem, Tamil Nadu",
-                "Hosur, Tamil Nadu",
-                "Erode, Tamil Nadu",
-
-                "Ooty (Udhagamandalam), Tamil Nadu",
-                "Kodaikanal, Tamil Nadu",
-                "Yercaud, Tamil Nadu",
-
-                "Marina Beach, Chennai, Tamil Nadu",
-                "Kanyakumari, Tamil Nadu",
-                "Pondicherry (Puducherry)",
-                "Tuticorin, Tamil Nadu",
-                "Nagapattinam, Tamil Nadu",
-
-                "The Nilgiris, Tamil Nadu",
-                "Mudumalai National Park, Tamil Nadu",
-                "Hogenakkal, Tamil Nadu",
-                "Kalakkad Mundanthurai Tiger Reserve, Tamil Nadu",
-
-                "Palani, Tamil Nadu",
-                "Tiruvarur, Tamil Nadu",
-                "Srirangam, Tamil Nadu",
-
-                "Cuddalore, Tamil Nadu",
-                "Tirunelveli, Tamil Nadu",
-                "Kumbakonam, Tamil Nadu",
-                "Vellore, Tamil Nadu",
-                "Pollachi, Tamil Nadu",
-                "Dindigul, Tamil Nadu",
-
-                // Telangana
-                "Hyderabad, Telangana",
-                "Warangal, Telangana",
-                "Nizamabad, Telangana",
-                "Khammam, Telangana",
-
-                // Tripura
-                "Agartala, Tripura",
-                "Dharmanagar, Tripura",
-                "Kailashahar, Tripura",
-                "Udaipur, Tripura",
-
-                // Uttar Pradesh
-                "Lucknow, Uttar Pradesh",
-                "Kanpur, Uttar Pradesh",
-                "Varanasi, Uttar Pradesh",
-                "Agra, Uttar Pradesh",
-
-                // Uttarakhand
-                "Dehradun, Uttarakhand",
-                "Haridwar, Uttarakhand",
-                "Nainital, Uttarakhand",
-                "Rishikesh, Uttarakhand",
-
-                // West Bengal
-                "Kolkata, West Bengal",
-                "Asansol, West Bengal",
-                "Durgapur, West Bengal",
-                "Siliguri, West Bengal",
-    ];
+  
 
     // Language suggestions - using the predefined languages array
     const languages = [
@@ -3117,30 +2460,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "Breton", "Welsh", "Scottish Gaelic", "Irish", "Cornish", "Manx", "Esperanto"
     ];
 
-    // Location auto-suggestion
-    locationBox.addEventListener('input', function() {
-        const query = this.value.trim();
-        if (query.length > 0) {
-            // Filter locations that match the input
-            const result = locations.filter(location => 
-                location.toLowerCase().includes(query.toLowerCase())
-            );
-            
-            // Display results
-            if (result.length > 0) {
-                const content = result.map(location => 
-                    `<li onclick="selectLocation(this)">${location}</li>`
-                ).join('');
-                resBox.innerHTML = `<ul>${content}</ul>`;
-                resBox.style.display = 'block';
-            } else {
-                resBox.style.display = 'none';
-            }
-        } else {
-            resBox.style.display = 'none';
-        }
-    });
-    
+  
     // Language auto-suggestion
     languageBox.addEventListener('input', function() {
         const query = this.value.trim();
@@ -3425,29 +2745,51 @@ function add() {
             input_box.value = list.innerHTML;
             document.querySelector(result_box_class).classList.remove('visible');
         }
-
-    //   // Form submission
-    //   function validateForm(event) {
-    //     event.preventDefault();
-
-    //     if (!$("#terms_checkbox").is(":checked")) {
-    //       alert(
-    //         "Please confirm that your information is accurate and complete"
-    //       );
-    //       return false;
-    //     }
-
-    //     // Hide form and show success message
-    //     $("#experienceForm > div.exp-form-step").hide();
-    //     $("#success-message").show();
-    //     $(".exp-steps-wrapper").hide();
-
-    //     // Here you would normally submit the form data to the server
-    //     console.log("Form submitted successfully");
-
-    //     return false;
-    //   }
     </script>
+<!-- location api  -->
+<script>
+  $(document).ready(function () {
+    $('#search').on('input', function () {
+      const query = $(this).val();
+      if (query.length < 2) {
+        $('#results').empty();
+        return;
+      }
+
+      $.get('https://photon.komoot.io/api/', {
+        q: query,
+        limit: 5,
+        lang: 'en'
+      }, function (data) {
+        $('#results').empty();
+
+        data.features.forEach(function (place) {
+          const props = place.properties;
+          if (props.country !== 'India') return;
+
+          const location = props.name || '';
+          const state = props.state || '';
+          const country = props.country || 'India';
+          const formatted = `${location}, ${state}, ${country}`;
+
+          const item = $('<div class="result-item"></div>').text(formatted);
+          item.on('click', function () {
+            $('#search').val(formatted);
+            $('#results').empty();
+          });
+
+          $('#results').append(item);
+        });
+      });
+    });
+
+    $(document).on('click', function (e) {
+      if (!$(e.target).closest('#search, #results').length) {
+        $('#results').empty();
+      }
+    });
+  });
+</script>
   </body>
 </html>
 

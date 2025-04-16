@@ -30,7 +30,7 @@ def tutor_request(request):
         
 
         if TutorRequest.objects.filter(email=email).exists():
-            return HttpResponse("Email already exists")
+           return render(request, 'request_tutor.html',{"msg":"An account with this email already exists."})
         else:
     
              
@@ -54,7 +54,7 @@ def tutor_request(request):
             
             if User.objects.filter(email=email).exists():
                 
-                return render(request, 'request_tutor.html')
+                return render(request, 'request_tutor.html',{"msg":"An account with this email already exists."})
             user = User.objects.create_user(username=uname, email=email, password=password)
             user = authenticate(request, username=email , password=password)  # Authenticate using email
             if user is not None:
@@ -72,7 +72,7 @@ def tutor_request(request):
                 password=password,
                 gender=gender
             )
-            logins={"name":name,"email":email,"password":password,"msg":"Otp sented to your Register Mobile Number to verify your Account"}
+            logins={"name":name,"email":email,"password":password,"msg":"Otp sented to your Register Email Number to verify your Account"}
             # html_template="a_email_verify.html"
             # html_message=render_to_string(html_template,login)
         
@@ -378,7 +378,7 @@ def  details(request):
 
             # Generate OTP for email verification
             otp = random.randint(100000, 999999)
-            #print(otp)
+            print(otp)
             email_data = {"otp": otp}
             html_template = "otp.html"
             html_message = render_to_string(html_template, email_data)
@@ -1584,181 +1584,67 @@ def tutors_online_job(request,email):
     all=Requestpost.objects.all()
     return render(request,"tutors_job.html",{"all":all,"account":a,"t":"Online Job"})
 
-def h_all_teachers(request ):
-    l=[
-                "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
-                "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
-                "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-                "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
-                "Dindigul, Tamil Nadu", "Ramanathapuram, Tamil Nadu", "Tuticorin, Tamil Nadu", "Cuddalore, Tamil Nadu",
-                "Vellore, Tamil Nadu", "Ariyalur, Tamil Nadu", "Perambalur, Tamil Nadu", "Nagercoil, Tamil Nadu",
-                "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
-                "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
-                "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu"
-            ]
-    
-    
-    all_tutor=TutorRegistration.objects.all()
-    
-    return render(request,"h_all_teacher.html",{"tutors":all_tutor,"locations":l,"heading":"All Tutors"})
 
-def h_online_tutor(request):
-    l=[
-                "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
-                "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
-                "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-                "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
-                "Dindigul, Tamil Nadu", "Ramanathapuram, Tamil Nadu", "Tuticorin, Tamil Nadu", "Cuddalore, Tamil Nadu",
-                "Vellore, Tamil Nadu", "Ariyalur, Tamil Nadu", "Perambalur, Tamil Nadu", "Nagercoil, Tamil Nadu",
-                "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
-                "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
-                "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu"
-            ]
-    all_tutor=TutorRegistration.objects.filter(available_for_online_teaching="yes")
-    
-    return render(request,"h_all_teacher.html",{"tutors":all_tutor,"locations":l,"heading":"Online Tutors"})
-
-def h_home_tutor(request):
-    l=[
-                "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
-                "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
-                "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-                "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
-                "Dindigul, Tamil Nadu", "Ramanathapuram, Tamil Nadu", "Tuticorin, Tamil Nadu", "Cuddalore, Tamil Nadu",
-                "Vellore, Tamil Nadu", "Ariyalur, Tamil Nadu", "Perambalur, Tamil Nadu", "Nagercoil, Tamil Nadu",
-                "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
-                "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
-                "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu"
-            ]
-   
-    all_tutor=TutorRegistration.objects.filter(willing_to_travel="yes")
-    return render(request,"h_all_teacher.html",{"tutors":all_tutor,"locations":l,"heading":"Home Tutors"})
 
 
 def h_fliter_location(request,location):
-    l=[
-             # Andhra Pradesh
-    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
-    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
-    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
-    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
+  
+    return render(request,"h_all_teacher.html")
 
-    # Arunachal Pradesh
-    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
-    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
+#job---
 
-    # Assam
-    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
-    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
-    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
+from django.db.models import Q
 
-    # Bihar
-    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
-    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
-    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
+def search_jobs(request):
+    if request.method == "POST":
+        subject = request.POST.get('subject', '').strip()
+        location = request.POST.get('location', '').strip()
 
-    # Chhattisgarh
-    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
-    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
+        # Base query
+        query = Q()
+        if subject:
+            query &= (
+                Q(subject__icontains=subject) |
+                Q(two_subject__icontains=subject) |
+                Q(three_subject__icontains=subject) |
+                Q(four_subject__icontains=subject) |
+                Q(five_subject__icontains=subject)
+            )
+        if location:
+            query &= Q(location__icontains=location)
 
-    # Goa
-    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
-    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
+        tutors = Requestpost.objects.filter(query).values()
 
-    # Gujarat
-    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
-    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
-    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
+        if tutors:
+             if request.user.is_authenticated:
+                if TutorRegistration.objects.filter(email=request.user.email).exists():
+                    a = TutorRegistration.objects.filter(email=request.user.email).first()
+                    all=Requestpost.objects.all()
+                    return render(request,"tutors_job.html",{"all":tutors,"account":a,"h":"all"})
+                else:
+                    all=Requestpost.objects.all()
+                    return render(request,"tutors_job.html",{"t":"You are not a tutor","all":all,"h":"all"})
+             else:
+                all=Requestpost.objects.all()
+                return render(request,"tutors_job.html",{"all":tutors,"h":"all"})
+            
+        else:
+            if request.user.is_authenticated:
+                if TutorRegistration.objects.filter(email=request.user.email).exists():
+                    a = TutorRegistration.objects.filter(email=request.user.email).first()
+                    all=Requestpost.objects.all()
+                    return render(request,"tutors_job.html",{"t": "There is no Data Found","account":a,"h":"all"})
+                else:
+                    all=Requestpost.objects.all()
+                    return render(request,"tutors_job.html",{"t":"You are not a tutor","all":all,"h":"all"})
+            else:
+                all=Requestpost.objects.all()
+                return render(request,"tutors_job.html",{"t":"You are not a tutor","h":"all"})
+            
 
-    # Haryana
-    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
-    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
-    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
+    # For GET requests or other cases
+    return render(request, "tutors_job.html")
 
-    # Himachal Pradesh
-    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
-    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
-
-    # Jharkhand
-    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
-    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
-
-    # Karnataka
-    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
-    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
-
-    # Kerala
-    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
-
-    # Madhya Pradesh
-    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
-    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
-
-    # Maharashtra
-    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
-    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
-
-    # Manipur
-    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
-
-    # Meghalaya
-    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
-
-    # Mizoram
-    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
-
-    # Nagaland
-    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
-
-    # Odisha
-    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
-
-    # Punjab
-    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
-
-    # Rajasthan
-    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
-
-    #Sikkim
-    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
-
-    # Tamil Nadu
-    "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
-                "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
-                "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-                "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
-                "Dindigul, Tamil Nadu", "Ramanathapuram, Tamil Nadu", "Tuticorin, Tamil Nadu", "Cuddalore, Tamil Nadu",
-                "Vellore, Tamil Nadu", "Ariyalur, Tamil Nadu", "Perambalur, Tamil Nadu", "Nagercoil, Tamil Nadu",
-                "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
-                "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
-                "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu",
-    #Telangana
-    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
-
-    # Tripura
-    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
-
-    # Uttar Pradesh
-    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
-
-    # Uttarakhand
-    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
-
-    #West Bengal
-    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
-            ]
-    decoded_once = unquote(location)  # First level of decoding
-    decoded_twice = unquote(decoded_once)   # Second level of decoding
-    
-    print(decoded_twice)
-    if TutorRegistration.objects.filter(location=decoded_twice).exists():
-        tutors=TutorRegistration.objects.filter(location=decoded_twice).values()
-        return render(request,"h_all_teacher.html",{"tutors":tutors,"locations":l,"heading":decoded_twice})
-    return render(request,"h_all_teacher.html",{"locations":l,"heading":decoded_twice})
  
 
 def h_tutors_job(request):
@@ -1766,159 +1652,102 @@ def h_tutors_job(request):
         if TutorRegistration.objects.filter(email=request.user.email).exists():
             a = TutorRegistration.objects.filter(email=request.user.email).first()
             all=Requestpost.objects.all()
-            return render(request,"tutors_job.html",{"all":all,"account":a,"t":"All Job"})
+            return render(request,"tutors_job.html",{"all":all,"account":a,"h":"all"})
         else:
             all=Requestpost.objects.all()
-            return render(request,"tutors_job.html",{"t":"You are not a tutor","all":all})
+            return render(request,"tutors_job.html",{"t":"You are not a tutor","all":all,"h":"all"})
     else:
         all=Requestpost.objects.all()
-        return render(request,"tutors_job.html",{"all":all,"t":"All Job"})
+        return render(request,"tutors_job.html",{"all":all,"t":"All Job","h":"all"})
 
 def h_online_job(request):
+    if request.user.is_authenticated:
+        if TutorRegistration.objects.filter(email=request.user.email).exists():
+            a = TutorRegistration.objects.filter(email=request.user.email).first()
+            all=Requestpost.objects.filter(meeting_option="Online").values
+            return render(request,"tutors_job.html",{"all":all,"account":a,"h":"online"})
+        else:
+            all=Requestpost.objects.all()
+            return render(request,"tutors_job.html",{"t":"You are not a tutor","all":all,"h":"online"})
+    else:
+        all=Requestpost.objects.all()
+        return render(request,"tutors_job.html",{"all":all,"t":"All Job","h":"online"})
     
-    all=Requestpost.objects.filter(meeting_option="online").values
-    return render(request,"h_job.html",{"all":all,"t":"Online Job"})
 
 def h_home_job(request):
-    
-    all=Requestpost.objects.filter(meeting_option="my_place").values
-    return render(request,"h_job.html",{"all":all,"t":"Home Teaching"})
-def h_search_teacher(request):
-    l=[
-                  # Andhra Pradesh
-    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
-    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
-    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
-    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
-
-    # Arunachal Pradesh
-    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
-    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
-
-    # Assam
-    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
-    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
-    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
-
-    # Bihar
-    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
-    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
-    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
-
-    # Chhattisgarh
-    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
-    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
-
-    # Goa
-    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
-    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
-
-    # Gujarat
-    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
-    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
-    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
-
-    # Haryana
-    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
-    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
-    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
-
-    # Himachal Pradesh
-    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
-    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
-
-    # Jharkhand
-    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
-    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
-
-    # Karnataka
-    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
-    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
-
-    # Kerala
-    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
-
-    # Madhya Pradesh
-    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
-    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
-
-    # Maharashtra
-    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
-    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
-
-    # Manipur
-    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
-
-    # Meghalaya
-    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
-
-    # Mizoram
-    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
-
-    # Nagaland
-    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
-
-    # Odisha
-    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
-
-    # Punjab
-    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
-
-    # Rajasthan
-    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
-
-    #Sikkim
-    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
-
-    # Tamil Nadu
-    "Chennai, Tamil Nadu", "Coimbatore, Tamil Nadu", "Madurai, Tamil Nadu", "Salem, Tamil Nadu",
-                "Tiruchirappalli, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Vellore, Tamil Nadu", "Erode, Tamil Nadu",
-                "Kanchipuram, Tamil Nadu", "Thanjavur, Tamil Nadu", "Tiruppur, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-                "Kumbakonam, Tamil Nadu", "Dharmapuri, Tamil Nadu", "Karur, Tamil Nadu", "Sivakasi, Tamil Nadu",
-                "Dindigul, Tamil Nadu", "Ramanathapuram, Tamil Nadu", "Tuticorin, Tamil Nadu", "Cuddalore, Tamil Nadu",
-                "Vellore, Tamil Nadu", "Ariyalur, Tamil Nadu", "Perambalur, Tamil Nadu", "Nagercoil, Tamil Nadu",
-                "Theni, Tamil Nadu", "Kodaikanal, Tamil Nadu", "Pollachi, Tamil Nadu", "Pudukkottai, Tamil Nadu",
-                "Tiruvallur, Tamil Nadu", "Tiruvannamalai, Tamil Nadu", "Chengalpattu, Tamil Nadu", "Tirupathur, Tamil Nadu",
-                "Sankarankovil, Tamil Nadu", "Kovilpatti, Tamil Nadu", "Manapparai, Tamil Nadu", "Thiruthuraipoondi, Tamil Nadu",
-                "Ramanathapuram, Tamil Nadu",
-    #Telangana
-    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
-
-    # Tripura
-    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
-
-    # Uttar Pradesh
-    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
-
-    # Uttarakhand
-    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
-
-    #West Bengal
-    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
-            ]
-    if request.method=="POST":
-        subject=request.POST.get('subject')
-        location=request.POST.get('location')
-        if TutorRegistration.objects.filter(Q(subject__icontains=subject) & Q(location__icontains=location)).exists():
-
-            tutors = TutorRegistration.objects.filter(Q(subject__icontains=subject)& Q(location__icontains=location)).values()
-           
-            d={"tutors":tutors,"locations":l}
-
-        elif TutorRegistration.objects.filter(Q(subject__icontains=subject)).exists():
-            tutors=TutorRegistration.objects.filter(Q(subject__icontains=subject)).values()
-        
-            d={"tutors":tutors,"locations":l}
-        elif TutorRegistration.objects.filter(Q(location__icontains=location)).exists():
-            tutors=TutorRegistration.objects.filter(Q(location__icontains=location)).values()
-            d={"tutors":tutors,"locations":l}
+    if request.user.is_authenticated:
+        if TutorRegistration.objects.filter(email=request.user.email).exists():
+            a = TutorRegistration.objects.filter(email=request.user.email).first()
+            all=Requestpost.objects.filter(meeting_option="Offline").values
+            return render(request,"tutors_job.html",{"all":all,"account":a,"h":"home"})
         else:
-            tutors=TutorRegistration.objects.all()
-            d={"locations":l}
-        
-        return render(request,"h_all_teacher.html",d)
+            all=Requestpost.objects.all()
+            return render(request,"tutors_job.html",{"t":"You are not a tutor","all":all,"h":"home"})
+    else:
+        all=Requestpost.objects.all()
+        return render(request,"tutors_job.html",{"all":all,"t":"All Job","h":"home"})
+
+
+# tutors
+def h_all_teachers(request ):
+    
     all_tutor=TutorRegistration.objects.all()
-    return render(request,"h_all_teacher.html",{"tutors":all_tutor,"locations":l})
+    print("all :",all_tutor)
+    for i in all_tutor:
+        print(i.available_for_online_teaching)
+        print(i.willing_to_travel)
+    return render(request,"h_all_teacher.html",{"tutors":all_tutor,"h":"all"})
+
+
+
+
+from django.db.models import Q
+
+def h_search_teacher(request):
+    if request.method == "POST":
+        subject_input = request.POST.get('subject', '').strip().lower()
+        location_input = request.POST.get('location', '').strip().lower()
+
+        print("User input - subject:", subject_input)
+        print("User input - location:", location_input)
+
+        query = Q()
+
+        if subject_input:
+            query &= Q(subject__icontains=subject_input)
+
+        if location_input:
+            query &= Q(location__icontains=location_input)
+
+        tutors = TutorRegistration.objects.filter(query)
+
+        print("Found tutors:", tutors)
+
+        if tutors:
+            return render(request, "h_all_teacher.html", {"tutors": tutors})
+        else:
+            return render(request, "h_all_teacher.html", {"t": "There is no Data Found"})
+
+    return render(request, "h_all_teacher.html")
+
+
+
+def h_online_tutor(request):
+    
+    all_tutor=TutorRegistration.objects.filter(available_for_online_teaching="Yes")
+    print("online",all_tutor)
+    return render(request,"h_all_teacher.html",{"tutors":all_tutor,"h":"online"})
+
+def h_home_tutor(request):
+   
+   
+    all_tutor=TutorRegistration.objects.filter(willing_to_travel="Yes")
+    print("home",all_tutor)
+    return render(request,"h_all_teacher.html",{"tutors":all_tutor,"h":"home"})
+
+
+
+
 
 def  buy_coin_stu(request,email,coins):
     c=TutorRequest.objects.filter(email=email).first()

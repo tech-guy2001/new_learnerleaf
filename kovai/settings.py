@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*@8=l0x)_j)yvxy8%vwkb#1#wz6rl1b(-oq+eyo5zyp8#86%$i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 EMAIL_HOST='smtp.gmail.com'
@@ -149,9 +149,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Correct relative path
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Static files settings
 STATIC_URL = '/static/'  # This URL serves static files in development
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",  # Source directory for static files
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Source directory for static files
+]
 
 # Define STATIC_ROOT for collected files in production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

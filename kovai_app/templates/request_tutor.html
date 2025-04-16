@@ -14,6 +14,12 @@
     const password = form["password"].value.trim();
     const c_password = form["c_password"].value.trim();
 
+    console.log(password!==c_password)
+         // Confirm Password Validation
+    if (password !== c_password) {
+        alert("Password and Confirm Password must match.");
+        return false;
+    }
     // Name Validation
     if (name === "") {
         alert("Please enter your name.");
@@ -50,11 +56,7 @@
         return false;
     }
 
-    // Confirm Password Validation
-    if (password !== c_password) {
-        alert("Password and Confirm Password must match.");
-        return false;
-    }
+
 
     return true;
 }
@@ -78,6 +80,7 @@ function validatePhone(phone) {
     margin: 0;
     padding: 0;
 }
+
 
 form {
     max-width: 60%; /* Ensures full width on mobile */
@@ -141,33 +144,29 @@ input[type=submit]:hover {
    
 }
 
-.res_box ul {
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    list-style-type: none;
-    padding: 0;
-    max-height: 150px;
-    overflow-y: auto;
-    margin-top: 5px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
+#search {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+    }
 
-.res_box ul li {
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-bottom: 1px solid #eee;
-}
+    #results {
+      margin-top: 20px;
+      max-width: 400px;
+    }
 
-.res_box ul li:last-child {
-    border-bottom: none;
-}
+    .result-item {
+      padding: 10px;
+      background: white;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
 
-.res_box ul li:hover {
-    background-color: #f0f0f0;
-}
-
+    .result-item:hover {
+      background-color: #eef;
+    }
 /* Responsive Design */
 /* Responsive Design */
 @media screen and (max-width: 600px) {
@@ -232,7 +231,9 @@ li{
 </head>
 <body>
     <h2 class="section-heading ">Join with Learnersleaf</h2>
-    <form name="tutorForm" action="tutor_request" method="POST" onsubmit="return validateForm()">
+    
+    <form name="tutorForm"  action="tutor_request"  method="POST" onsubmit="return validateForm()">
+    
         {% csrf_token %}
         <label >Name</label>
         <input type="text" name="name" id="name">
@@ -240,10 +241,8 @@ li{
         <input type="email" name="email" placeholder="ENTER EMAIL"><br><br>
         <div class="location">
             <label>Location</label>
-            <input type="text" placeholder="Enter the location" id="box" autocomplete="off" name="location">
-            <div class="res_box">
-                <!-- Results will appear here -->
-            </div>
+            <input type="text" name="location" id="search" placeholder="ENTER LOCATION" />
+            <div id="results"></div>
         </div>
         <label>Contact</label>
         <input type="text" name="phone" placeholder="ENTER PHONE"><br><br>
@@ -256,168 +255,62 @@ li{
        <label for="password">Password</label><br>
        <input type="password" name="password"> <br>
        <label for="c_password">Confim Password</label> <br>
-       <input type="text" name="c_password">
+       <input type="password" name="c_password">
        
         <input type="submit" value="submit">
     </form>
 
-    <script>
-        window.onload = function() {
-            const key = [
-              // Andhra Pradesh
-    "Visakhapatnam, Andhra Pradesh", "Vijayawada, Andhra Pradesh", "Guntur, Andhra Pradesh", "Tirupati, Andhra Pradesh",
-    "Kurnool, Andhra Pradesh", "Nellore, Andhra Pradesh", "Rajahmundry, Andhra Pradesh", "Kakinada, Andhra Pradesh",
-    "Anantapur, Andhra Pradesh", "Kadapa, Andhra Pradesh", "Chittoor, Andhra Pradesh", "Eluru, Andhra Pradesh",
-    "Machilipatnam, Andhra Pradesh", "Srikakulam, Andhra Pradesh", "Vizianagaram, Andhra Pradesh",
-
-    // Arunachal Pradesh
-    "Itanagar, Arunachal Pradesh", "Pasighat, Arunachal Pradesh", "Tawang, Arunachal Pradesh", "Ziro, Arunachal Pradesh",
-    "Naharlagun, Arunachal Pradesh", "Bomdila, Arunachal Pradesh", "Tezu, Arunachal Pradesh", "Roing, Arunachal Pradesh",
-
-    // Assam
-    "Guwahati, Assam", "Dibrugarh, Assam", "Silchar, Assam", "Jorhat, Assam", 
-    "Tinsukia, Assam", "Nagaon, Assam", "Tezpur, Assam", "Diphu, Assam",
-    "Sibsagar, Assam", "Goalpara, Assam", "Barpeta, Assam", "Dhubri, Assam",
-
-    // Bihar
-    "Patna, Bihar", "Gaya, Bihar", "Bhagalpur, Bihar", "Muzaffarpur, Bihar",
-    "Darbhanga, Bihar", "Purnia, Bihar", "Ara, Bihar", "Begusarai, Bihar",
-    "Katihar, Bihar", "Munger, Bihar", "Chapra, Bihar", "Hajipur, Bihar",
-
-    // Chhattisgarh
-    "Raipur, Chhattisgarh", "Bilaspur, Chhattisgarh", "Durg, Chhattisgarh", "Korba, Chhattisgarh",
-    "Raigarh, Chhattisgarh", "Jagdalpur, Chhattisgarh", "Ambikapur, Chhattisgarh", "Bhilai, Chhattisgarh",
-
-    // Goa
-    "Panaji, Goa", "Margao, Goa", "Vasco da Gama, Goa", "Mapusa, Goa",
-    "Ponda, Goa", "Bicholim, Goa", "Canacona, Goa", "Curchorem, Goa",
-
-    // Gujarat
-    "Ahmedabad, Gujarat", "Surat, Gujarat", "Vadodara, Gujarat", "Rajkot, Gujarat",
-    "Bhavnagar, Gujarat", "Jamnagar, Gujarat", "Junagadh, Gujarat", "Gandhinagar, Gujarat",
-    "Nadiad, Gujarat", "Porbandar, Gujarat", "Vapi, Gujarat", "Morbi, Gujarat",
-
-    // Haryana
-    "Chandigarh, Haryana", "Gurugram, Haryana", "Faridabad, Haryana", "Hisar, Haryana",
-    "Panipat, Haryana", "Ambala, Haryana", "Yamunanagar, Haryana", "Rohtak, Haryana",
-    "Karnal, Haryana", "Panchkula, Haryana", "Sonipat, Haryana", "Kurukshetra, Haryana",
-
-    // Himachal Pradesh
-    "Shimla, Himachal Pradesh", "Dharamshala, Himachal Pradesh", "Mandi, Himachal Pradesh", "Kullu, Himachal Pradesh",
-    "Manali, Himachal Pradesh", "Solan, Himachal Pradesh", "Una, Himachal Pradesh", "Bilaspur, Himachal Pradesh",
-
-    // Jharkhand
-    "Ranchi, Jharkhand", "Jamshedpur, Jharkhand", "Dhanbad, Jharkhand", "Bokaro, Jharkhand",
-    "Deoghar, Jharkhand", "Hazaribagh, Jharkhand", "Giridih, Jharkhand", "Ramgarh, Jharkhand",
-
-    // Karnataka
-    "Bengaluru, Karnataka", "Mysuru, Karnataka", "Mangaluru, Karnataka", "Hubballi, Karnataka",
-    "Belagavi, Karnataka", "Davangere, Karnataka", "Ballari, Karnataka", "Shivamogga, Karnataka",
-
-    // Kerala
-    "Thiruvananthapuram, Kerala", "Kochi, Kerala", "Kozhikode, Kerala", "Kollam, Kerala",
-
-    // Madhya Pradesh
-    "Bhopal, Madhya Pradesh", "Indore, Madhya Pradesh", "Gwalior, Madhya Pradesh", "Jabalpur, Madhya Pradesh",
-    "Ujjain, Madhya Pradesh", "Sagar, Madhya Pradesh", "Rewa, Madhya Pradesh", "Satna, Madhya Pradesh",
-
-    // Maharashtra
-    "Mumbai, Maharashtra", "Pune, Maharashtra", "Nagpur, Maharashtra", "Nashik, Maharashtra",
-    "Aurangabad, Maharashtra", "Thane, Maharashtra", "Kolhapur, Maharashtra", "Solapur, Maharashtra",
-
-    // Manipur
-    "Imphal, Manipur", "Thoubal, Manipur", "Kakching, Manipur", "Churachandpur, Manipur",
-
-    // Meghalaya
-    "Shillong, Meghalaya", "Tura, Meghalaya", "Nongpoh, Meghalaya", "Jowai, Meghalaya",
-
-    // Mizoram
-    "Aizawl, Mizoram", "Lunglei, Mizoram", "Champhai, Mizoram", "Serchhip, Mizoram",
-
-    // Nagaland
-    "Kohima, Nagaland", "Dimapur, Nagaland", "Mokokchung, Nagaland", "Tuensang, Nagaland",
-
-    // Odisha
-    "Bhubaneswar, Odisha", "Cuttack, Odisha", "Rourkela, Odisha", "Berhampur, Odisha",
-
-    // Punjab
-    "Amritsar, Punjab", "Ludhiana, Punjab", "Chandigarh, Punjab", "Jalandhar, Punjab",
-
-    // Rajasthan
-    "Jaipur, Rajasthan", "Jodhpur, Rajasthan", "Udaipur, Rajasthan", "Kota, Rajasthan",
-
-    // Sikkim
-    "Gangtok, Sikkim", "Namchi, Sikkim", "Mangan, Sikkim", "Pelling, Sikkim",
-
-    // Tamil Nadu
-   
-    "Chennai, Tamil Nadu", "Madurai, Tamil Nadu", "Thanjavur, Tamil Nadu", "Kanchipuram, Tamil Nadu",
-    "Rameswaram, Tamil Nadu", "Chidambaram, Tamil Nadu", "Tiruvannamalai, Tamil Nadu",
-    "Velankanni, Tamil Nadu", "Mahabalipuram, Tamil Nadu",
-
-  
-    "Coimbatore, Tamil Nadu", "Tiruppur, Tamil Nadu", "Salem, Tamil Nadu", "Hosur, Tamil Nadu", "Erode, Tamil Nadu",
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  
-    "Ooty (Udhagamandalam), Tamil Nadu", "Kodaikanal, Tamil Nadu", "Yercaud, Tamil Nadu",
-
-  
-    "Marina Beach, Chennai, Tamil Nadu", "Kanyakumari, Tamil Nadu", "Pondicherry (Puducherry)", 
-    "Tuticorin, Tamil Nadu", "Nagapattinam, Tamil Nadu",
-
-  
-    "The Nilgiris, Tamil Nadu", "Mudumalai National Park, Tamil Nadu", "Hogenakkal, Tamil Nadu",
-    "Kalakkad Mundanthurai Tiger Reserve, Tamil Nadu",
-
-   
-    "Palani, Tamil Nadu", "Tiruvarur, Tamil Nadu", "Srirangam, Tamil Nadu",
-
-    "Cuddalore, Tamil Nadu", "Tirunelveli, Tamil Nadu", "Kumbakonam, Tamil Nadu", "Vellore, Tamil Nadu",
-    "Pollachi, Tamil Nadu", "Dindigul, Tamil Nadu",
-
-    // Telangana
-    "Hyderabad, Telangana", "Warangal, Telangana", "Nizamabad, Telangana", "Khammam, Telangana",
-
-    // Tripura
-    "Agartala, Tripura", "Dharmanagar, Tripura", "Kailashahar, Tripura", "Udaipur, Tripura",
-
-    // Uttar Pradesh
-    "Lucknow, Uttar Pradesh", "Kanpur, Uttar Pradesh", "Varanasi, Uttar Pradesh", "Agra, Uttar Pradesh",
-
-    // Uttarakhand
-    "Dehradun, Uttarakhand", "Haridwar, Uttarakhand", "Nainital, Uttarakhand", "Rishikesh, Uttarakhand",
-
-    // West Bengal
-    "Kolkata, West Bengal", "Asansol, West Bengal", "Durgapur, West Bengal", "Siliguri, West Bengal"
-
-            ];
-            const result_box = document.querySelector('.res_box');
-            const input_box = document.getElementById("box");
-           
-            input_box.onkeyup = function() {
-                let result = [];
-                let input = input_box.value;
-                if (input.length) {
-                    result = key.filter((keyword) => {
-                        return keyword.toLowerCase().includes(input.toLowerCase());
-                    });
-                }
-                display(result);
-            };
-
-            function display(result) {
-                const content = result.map((list) => {
-                    return `<li onclick="selectLocation(this)">${list}</li>`;
-                });
-                result_box.innerHTML = `<ul>${content.join('')}</ul>`;
+    <script>
+        $(document).ready(function () {
+          $('#search').on('input', function () {
+            const query = $(this).val();
+            if (query.length < 2) {
+              $('#results').empty();
+              return;
             }
-        };
-
-        function selectLocation(list) {
-            const input_box = document.getElementById("box");
-            input_box.value = list.innerHTML;
-            document.querySelector('.res_box').innerHTML = '';
-        }
-    </script>
-</body>
+    
+            $.get('https://photon.komoot.io/api/', {
+              q: query,
+              limit: 5,
+              lang: 'en'
+            }, function (data) {
+              $('#results').empty();
+    
+              data.features.forEach(function (place) {
+                const props = place.properties;
+    
+                // Filter for India
+                if (props.country !== 'India') return;
+    
+                const location = props.name || '';
+                const state = props.state || '';
+                const country = props.country || 'India';
+                const formatted = `${location}, ${state}`;
+    
+                const item = $(`
+                  <div class="result-item">${formatted}</div>
+                `);
+    
+                // On click: put it into input box and hide results
+                item.on('click', function () {
+                  $('#search').val(formatted);
+                  $('#results').empty();
+                });
+    
+                $('#results').append(item);
+              });
+            });
+          });
+    
+          // Optional: hide suggestions if clicked outside
+          $(document).on('click', function (e) {
+            if (!$(e.target).closest('#search, #results').length) {
+              $('#results').empty();
+            }
+          });
+        });
+      </script>
+       </body>
 </html>

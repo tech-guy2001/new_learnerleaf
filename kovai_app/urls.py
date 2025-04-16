@@ -66,8 +66,9 @@ path('add_subject/<email>',views.addsubject, name='addsubject'),
 
                 #search job
 
-                 path('search_job',views.search_job, name='search_job'),
-                  path('search_jobs/<email>',views.search_jobs, name='search_jobs'),
+                #  path('search_job',views.search_job, name='search_job'),
+                #   path('search_jobs/<email>',views.search_jobs, name='search_jobs'),
+                 path('search_jobs',views.search_jobs, name='search_jobs'),
                   path('tutor_job/<email>',views.tutors_job, name='tutors_job'),
                    path('tutor_online_job/<email>',views.tutors_online_job, name='tutors_job'),
                     path('h_all_teachers',views.h_all_teachers, name='h_all_teachers'),
